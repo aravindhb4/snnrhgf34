@@ -133,6 +133,14 @@ const ROOMS={};
     West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
  A(R,'W','open',2750,450,1200,1200,300,{shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
  A(R,'N','open',300,2020,1200,1200,300,{shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
+ /* Books on the bookshelf, for representation only (21 Nov): seeded random spines per compartment, about 75% full, upright, muted colours.
+    Each book: [u, width, y, height, depth, colour index]. Renderers draw it.books in the elevation and 3D. */
+ R.items.filter(it=>it.kind==='open'&&/book/.test(it.lab||'')).forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const n=it.shelves||3,step=(it.h-18)/n,B=[];
+  for(let i=0;i<n;i++){const y=it.y0+i*step+18,ch=step-18;let u=it.u0+(it.noL?0:18)+15;const end=it.u0+it.uw-(it.noR?0:18)-15;
+   while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
+    const w=18+rnd()*30;if(u+w>end)break;const bh=Math.min(ch-30,ch*(0.55+rnd()*0.35));B.push([u,w,y,bh,150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}}
+  it.books=B});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
  L(R,'chair',3080-325,2100,650,650,0,1300,{on:['S'],face:'S',lab:'chair'});
@@ -166,6 +174,8 @@ const ROOMS={};
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
 
+/* book spine colours: muted, few hues */
+const BOOKC=['#8a6f5a','#5f6b6d','#a89a82','#6f7d68','#b7a58a','#4f4b47','#9a6b5b','#c9bfae'];
 /* ---------- elevation ---------- */
 const ORDER={frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
@@ -216,7 +226,8 @@ function drawElev(R,wall,letter,title){
         }
         break}
       case 'open': rrect(u0,y0,uw,h,c('panel'),4,S,it.rc);
-        for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);break;
+        for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);
+        (it.books||[]).forEach(([bu,bw,by,bh,,ci])=>rect(bu,by,bw,bh,BOOKC[ci],1.5,{stroke:c('muted')}));break;
       case 'door':
         rect(u0,y0,uw,h,c('door'),4,S);
         el('circle',{cx:it.swing==='L'?u0+uw-80:u0+80,cy:Y(1000),r:16,fill:c('fg')});
@@ -350,6 +361,7 @@ let build3D=()=>{};
     mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),
     wall:new THREE.MeshStandardMaterial({color:0xf1efea,roughness:.9,side:THREE.FrontSide}),floor:M(0xe4e0d8)};
   const lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+  const BOOKM=[0x8a6f5a,0x5f6b6d,0xa89a82,0x6f7d68,0xb7a58a,0x4f4b47,0x9a6b5b,0xc9bfae].map(col=>M(col,{roughness:.8}));
   const mm=v=>v/1000;
   let G=null;
   /* Soft furnishings: rounded box (radius r, metres-free mm input), optional puff (0..1) that thins the edges like a pillow. Smooth normals, no outlines. */
@@ -457,7 +469,8 @@ let build3D=()=>{};
           break}
         case 'open': rbox(R,it,u0,uw,y0,h,0,20,MAT.panel,it.rc||0);
           if(!it.noL)wbox(R,it,u0,18,y0,h,0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood); /* noL/noR: open end that runs on into the next unit (L corner) */
-          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
+          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);
+          (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
         case 'door': wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
         case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); break;

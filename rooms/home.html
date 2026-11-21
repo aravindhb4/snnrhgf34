@@ -234,6 +234,14 @@ const ROOMS={};
     West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
  A(R,'W','open',2750,450,1200,1200,300,{shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
  A(R,'N','open',300,2020,1200,1200,300,{shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
+ /* Books on the bookshelf, for representation only (21 Nov): seeded random spines per compartment, about 75% full, upright, muted colours.
+    Each book: [u, width, y, height, depth, colour index]. Renderers draw it.books in the elevation and 3D. */
+ R.items.filter(it=>it.kind==='open'&&/book/.test(it.lab||'')).forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const n=it.shelves||3,step=(it.h-18)/n,B=[];
+  for(let i=0;i<n;i++){const y=it.y0+i*step+18,ch=step-18;let u=it.u0+(it.noL?0:18)+15;const end=it.u0+it.uw-(it.noR?0:18)-15;
+   while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
+    const w=18+rnd()*30;if(u+w>end)break;const bh=Math.min(ch-30,ch*(0.55+rnd()*0.35));B.push([u,w,y,bh,150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}}
+  it.books=B});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
  L(R,'chair',3080-325,2100,650,650,0,1300,{on:['S'],face:'S',lab:'chair'});
@@ -668,6 +676,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.55); sun.position.set(12,14,16); sun.castShadow=true; sun.shadow.mapSize.set(4096,4096);
   Object.assign(sun.shadow.camera,{left:-12,right:12,top:12,bottom:-12,far:60}); sun.target.position.set(7.4,0,6.4); scene.add(sun,sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
+  const BOOKM=[0x8a6f5a,0x5f6b6d,0xa89a82,0x6f7d68,0xb7a58a,0x4f4b47,0x9a6b5b,0xc9bfae].map(col=>M(col,{roughness:.8}));
   const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),sofaF:M(0x5c301c,{roughness:.95}),
     quilt:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d');x.fillStyle='#6b3820';x.fillRect(0,0,128,128);
       x.strokeStyle='#b8876a';x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(0,0);x.lineTo(128,128);x.moveTo(128,0);x.lineTo(0,128);x.moveTo(64,0);x.lineTo(128,64);x.lineTo(64,128);x.lineTo(0,64);x.closePath();x.stroke();
@@ -778,7 +787,8 @@ let focusRoom=()=>{}, setWalls=()=>{};
           break}
         case 'open': wbox(R,it,u0,uw,y0,h,t0,20,MAT.panel);
           if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,MAT.wood);
-          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,MAT.wood);break;
+          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,MAT.wood);
+          (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,t0+20,bd,BOOKM[ci],false));break;
         case 'wicker': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
         case 'flap': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
         case 'hoodslant': case 'hood': wbox(R,it,u0+uw/2-450,900,y0,300,t0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+300,Math.max(100,h-300),t0,300,MAT.metal); break;
