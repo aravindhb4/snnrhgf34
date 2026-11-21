@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Guest Bedroom Small</title>
+<title>Guest Bedroom Large</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
@@ -48,27 +48,16 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
 .tab{font-variant-numeric:tabular-nums}
 @media (max-width:520px){dl{grid-template-columns:1fr} dd{margin-bottom:8px}}
 </style>
-<style>
-main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-width:0}.plan,.sheet{overflow-x:auto}
-.site{display:flex;align-items:flex-start}.content{flex:1;min-width:0}
-.side{position:sticky;top:0;flex:none;width:210px;height:100vh;overflow-y:auto;padding:32px 12px 24px 20px;border-right:1px solid #d9d7d2;box-sizing:border-box}
-.side b{display:block;font-size:15px;font-weight:600;margin:0 0 16px 8px;color:#1d1d1b}
-.side a{display:block;padding:7px 8px;border-radius:6px;color:#76746f;text-decoration:none;font-size:14px;white-space:nowrap}
-.side a:hover{color:#1d1d1b}.side a[aria-current]{background:#1d1d1b;color:#f7f7f5}
-@media (max-width:800px){.site{display:block}
-.side{z-index:20;width:auto;height:auto;display:flex;gap:4px;overflow-x:auto;padding:10px 16px;border-right:0;border-bottom:1px solid #d9d7d2;background:#f7f7f5}
-.side b{display:none}.side a{flex:none}}
-</style>
+<style>main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-width:0}.plan,.sheet{overflow-x:auto}</style>
 </head>
 <body>
-<div class="site"><nav class="side" aria-label="Rooms"><b>F34 Interiors</b><a href="index.html">Whole home</a><a href="living.html">Living</a><a href="dining.html">Dining wall</a><a href="kitchen.html">Kitchen</a><a href="master-bedroom.html">Master bedroom</a><a href="guest-bedroom-large.html">Guest bedroom large</a><a href="guest-bedroom-small.html" aria-current="page">Guest bedroom small</a></nav><script>(function(){var n=document.querySelector(".side"),a=n.querySelector("[aria-current]");if(a)n.scrollLeft=a.offsetLeft-16})()</script><div class="content">
 
 
 <main>
   <header style="display:grid;gap:10px">
-    <h1>F34 · Guest Bedroom Small</h1>
-    <p>From DesignCafe render IMG_3075 and the sale-agreement plan. Sizes in mm are estimates until site measurement.</p>
-  </header>
+    <h1>F34 · Guest Bedroom Large</h1>
+    <p>The 10×15 room (earlier called Bedroom 2) with attached bath. Layout from site photo IMG_3053 and the sale-agreement plan (updated 19 Nov). Sizes in mm, estimates until site measurement.</p>
+      </header>
   <section>
     <h2>3D view</h2>
     <div id="three"></div>
@@ -76,7 +65,7 @@ main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-w
   </section>
 
   <section>
-    <h2 id="rtitle">Brief</h2>
+    <h2 id="rtitle"></h2>
     <p id="rnote"></p>
   </section>
 
@@ -97,8 +86,8 @@ main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-w
   </section>
 </main>
 
-<script src="js/three.min.js"></script>
-<script src="js/OrbitControls.js"></script>
+<script src="../js/three.min.js"></script>
+<script src="../js/OrbitControls.js"></script>
 <script>
 const CEIL=2900, DH=2100;
 
@@ -114,80 +103,66 @@ function R2W(R,w,b){switch(w){
   case'S':return{u0:R.W-b.x-b.w,uw:b.w,t:R.D-b.z-b.d};
   case'W':return{u0:R.D-b.z-b.d,uw:b.d,t:b.x}}}
 function room(o){o.items=[];return o}
+/* corner radii: number = all corners, or {bl,br,tr,tl}; clamped to size */
+function RC(r,w,h){const o=typeof r==='number'?{bl:r,br:r,tr:r,tl:r}:{bl:0,br:0,tr:0,tl:0,...(r||{})},m=Math.min(w,h)/2-1;for(const k in o)o[k]=Math.max(0,Math.min(o[k],m));return o}
+/* shutter radii: only corners that sit on a rounded outer corner of the unit */
+function SRC(rc,j,i,cols,rows,inset){const o={};if(!rc)return 0;
+  if(j===0&&i===0&&rc.bl)o.bl=Math.max(rc.bl-inset,0); if(j===cols-1&&i===0&&rc.br)o.br=Math.max(rc.br-inset,0);
+  if(j===cols-1&&i===rows-1&&rc.tr)o.tr=Math.max(rc.tr-inset,0); if(j===0&&i===rows-1&&rc.tl)o.tl=Math.max(rc.tl-inset,0); return o}
 function A(R,wall,kind,u0,uw,y0,h,td,o={}){const t0=o.t0||0;R.items.push({kind,wall,u0,uw,y0,h,td,t0,b:W2R(R,wall,u0,uw,t0,td),...o})}
 function L(R,kind,x,z,w,d,y0,h,o={}){R.items.push({kind,loose:true,b:{x,z,w,d},y0,h,on:o.on||[],...o})}
 
 /* ---------- rooms ---------- */
 const ROOMS={};
 
-/* Guest Bedroom Small (was Bedroom 3) 13'2" x 10'6" */
-{const R=room({id:'bedroom-3',name:'Guest Bedroom Small',W:4010,D:3200,
-  note:'Render IMG_3075, revised 19 Nov per Aravindh: the switch beside the room door (photo) stays clear. Next to the door a 2-drawer base unit runs up to the door frame, with clear wall above it for the switch and a narrower 3-compartment open shelf higher up, then a 3-door wardrobe with a mirror on the door nearest the room door.',
-  elevs:[['W','A','Wardrobe and room door'],['E','B','Bed wall'],['S','C','Window wall'],['N','D','Study wall']]});
- A(R,'W','door',200,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
- A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
- A(R,'W','unit',1150,550,0,750,600,{mat:'wood',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
- A(R,'W','open',1300,400,1350,1050,400,{shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
- A(R,'W','unit',1300,900,2400,500,600,{mat:'wood',cols:1});
- A(R,'W','unit',1700,1500,0,2400,600,{mat:'wood',cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
- A(R,'W','unit',2200,1000,2400,500,600,{mat:'wood',cols:2});
- A(R,'E','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
- /* Two large framed photos above the headboard (Aravindh 20 Nov): 600 × 800 each, 100 apart, 1350–2150, thin black frames, white mats. */
- [950,1650].forEach(u=>A(R,'E','frame',u,600,1350,800,30,{}));
- L(R,'bed',1980,840,2030,1520,0,500,{on:['E'],lab:'queen bed 1520 × 2030',head:'E'});
- L(R,'loose',3610,390,400,450,0,500,{mat:'wood',on:['E']});
- L(R,'loose',3610,2360,400,450,0,500,{mat:'wood',on:['E']});
- A(R,'S','window',110,1550,750,1350,40,{dim:true});
- A(R,'S','pelmet',10,1750,2100,CEIL-2100,180,{}); // pelmet from the window head to the ceiling (20 Nov)
- A(R,'S','ac',385,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
- A(R,'N','unit',2000,1000,725,25,450,{mat:'wood',rows:1,noHandle:true,rc:{tl:40,tr:40,bl:40,br:40},lab:'fold-down table',dim:true});
- L(R,'loose',2000,0,1000,20,300,450,{on:['N'],ghost:true,lab:'folded'});
- A(R,'E','board',300,90,400,90,10,{lab:'socket'});
- A(R,'E','board',2450,260,400,90,10,{lab:'switch + socket'});
- R.vd={W:[[0,750,'750'],[750,1350,'600'],[1350,2400,'1050'],[2400,CEIL,'500'],[0,DH,'2100']],S:[[0,750,'750'],[750,2100,'1350']],N:[[0,750,'750'],[300,750,'450 folded']],E:[[0,400,'400'],[0,1200,'1200']]};
+/* Bedroom 2 15'0" x 10'6" (the 10x15 room) */
+{const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
+  note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
+  elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
+ A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2670,1900,0,2400,600,{mat:'wood',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'wood',cols:1});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'wood',cols:3,flip:true});
+ A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
+ A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
+ A(R,'S','window',2470,1800,0,DH,40,{rail:true,dim:true});
+ A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
+ A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
+ A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
+ L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
+ /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
+ L(R,'chair',3080-325,2100,650,650,0,1300,{on:['S'],face:'S',lab:'chair'});
+ A(R,'S','board',1420,200,950,90,10,{lab:'new point'});
+ A(R,'W','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true}); // centred on the bed (Aravindh 20 Nov)
+ /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
+ [770,1350,1930].forEach(u=>A(R,'W','frame',u,500,1400,700,30,{}));
+ L(R,'bed',60,685,2030,1830,0,500,{on:['W'],lab:'king bed 1830 × 2030'});
+ L(R,'loose',60,235,400,450,0,500,{mat:'wood',on:['W']});
+ L(R,'loose',60,2515,400,450,0,500,{mat:'wood',on:['W']});
+ R.vd={E:[[0,1000,'1000'],[0,DH,'2100']],S:[[0,750,'750'],[0,DH,'2100']],N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']]};
  R.spec=[
-  ['Photos','Two large framed photos above the headboard, 600 × 800 each, 100 apart, 1350–2150, thin black frames with white mats.'],
-  ['Pelmet','Wooden pelmet 1750 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
-  ['Room','13′2″ × 10′6″ (4010 × 3200).'],
-  ['Wardrobe','3 doors, 1500 (500 each) at the far end of the door wall, 600 deep, loft to the ceiling. Full-length mirror 420 × 1800 (250–2050) on the first door, nearest the room door.'],
-  ['Loft','To the ceiling. One wide single-door unit (900) spans the open shelf and the first wardrobe door; two single units over the other doors.'],
-  ['Open shelf','400 wide × 400 deep, 1350–2400, 3 compartments of 350, loft above. Starts above the switch board and 150 from the door frame.'],
-  ['Open wall','600 of clear wall between the drawer top (750) and the shelf (1350), so the 2-way switch can later be extended with plug points.'],
-  ['Base unit','550 wide × 600 deep × 750 high, 2 pull-out drawers, under the open shelf and running to the door frame. Top doubles as a ledge.'],
-  ['Switch','Existing board just right of the door frame at about 1200 (photo 19 Nov). Sits between the door frame and the open shelf.'],
-  ['Edges','Units on the door wall read as one block: only its outer exposed corners are rounded (drawer unit top corner by the door, open shelf bottom corner). Where units touch, or meet the floor, ceiling or a wall, they join square. Side tables rounded all round.'],
-  ['Handles','Slim brushed-aluminium bar handles: 300 vertical on wardrobe doors (about 1050 high, at the opening edge), 160 at the bottom of each loft door, 200 horizontal on each drawer and side-table drawer.'],
-  ['Bed','Queen 1520 × 2030 on the east wall, headboard panel 2200 × 1200, two side tables.'],
-  ['Window','On the south wall towards the bed side. Sill taken as 750.'],
-  ['Study','Wall-mounted fold-down table on the wall beside the bed, its left end almost in line with the foot of the bed (Aravindh, 20 Nov): 1000 × 450, top at 750 when open, folds flat to the wall (300–750). No chair: sit on the bed edge, which is about 390 from the open table. Clear of the side table and the wardrobe.'],
-  ['Power','Existing sockets on the bed wall at about 400, one each side of the bed (photo IMG_3056). No new point at the table (Aravindh, 20 Nov); use the socket on the left of the bed, about 1 m from the table’s right end.'],
-  ['Light','Window is behind the desk. Add a wall or task light above it to avoid shadow on the table.'],
-  ['Open points','Measure the gap from the door frame to the switch and its height; open shelf and wardrobe widths shift to suit.']];
- ROOMS['bedroom-3']=R}
+  ['Room','15′0″ × 10′6″ (4570 × 3200), attached bathroom. Bed on one 10′6″ wall, bathroom door on the opposite one.'],
+  ['Bed','King 1830 × 2030, head on the west wall, centred, two 400 × 450 side tables, headboard panel 2200 × 1200.'],
+  ['Open shelves','350 wide × 400 deep, 3 open compartments from 1200 to 2400, floor below clear. Right after the bed foot, for quick-access items.'],
+  ['Wardrobe','4 doors of about 475, total 1900, running to the bathroom wall, 600 deep. Same overall run as before (shelves + wardrobe = 2250). Mirror covers almost the full first door (about 395 × 1800), next to the open shelves.'],
+  ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
+  ['Handles','Slim vertical bar handles, brushed aluminium, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
+  ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
+  ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
+  ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
+  ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
+  ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
+  ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
+  ['TV','None.'],
+  ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
+ ROOMS['bedroom-2']=R}
 
-/* Handle for shutter j,i of a unit: [u-centre, y-centre, length, 'v'|'h'] (mm). Bar handles, 30 from the opening edge. */
-function handle(it,j,i){
-  const cols=it.cols||1, rows=it.rows||1, cw=it.uw/cols, rh=it.h/rows, x=it.u0+j*cw, y=it.y0+i*rh;
-  if(rows>1||it.flap) return [x+cw/2, y+rh-70, 200, 'h'];
-  const right=(cols===1)||(j%2===0), hx=right?x+cw-30:x+30;
-  if(it.y0>=2300) return [hx, y+150, 160, 'v'];
-  return [hx, Math.min(y+rh/2,1050), 300, 'v'];
-}
-/* Corner radii. rc on an item = rounded corners of its front face {tl,tr,bl,br}; corners where units touch,
-   or that meet the floor, ceiling or a wall, stay square so a run reads as one block. */
-const RC=it=>it.rc||{};
-function subRC(it,x,y,w,h,inset){const r=RC(it),o={},e=2;
-  if(r.tl&&Math.abs(x-it.u0)<e+inset&&Math.abs(y+h-(it.y0+it.h))<e+inset)o.tl=r.tl-inset;
-  if(r.tr&&Math.abs(x+w-(it.u0+it.uw))<e+inset&&Math.abs(y+h-(it.y0+it.h))<e+inset)o.tr=r.tr-inset;
-  if(r.bl&&Math.abs(x-it.u0)<e+inset&&Math.abs(y-it.y0)<e+inset)o.bl=r.bl-inset;
-  if(r.br&&Math.abs(x+w-(it.u0+it.uw))<e+inset&&Math.abs(y-it.y0)<e+inset)o.br=r.br-inset;
-  return o}
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
 
 /* ---------- elevation ---------- */
-const ORDER={frame:6,pelmet:5,ac:6,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+const ORDER={frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
   const L0=wlen(R,wall);
   const s=document.createElementNS(NS,'svg');
@@ -199,8 +174,9 @@ function drawElev(R,wall,letter,title){
   const line=(x1,y1,x2,y2,sw=3,ex={})=>el('line',{x1,y1:Y(y1),x2,y2:Y(y2),stroke:c('fg'),'stroke-width':sw,...ex});
   const text=(x,y,t,a='middle',sz=42,fill=c('muted'))=>{const e=el('text',{x,y:Y(y),'text-anchor':a,'font-size':sz,fill,'font-family':'Inter,system-ui,sans-serif'});e.textContent=t;return e};
   const mu={stroke:c('muted')};
-  const rrect=(x,y,w,h,r,fill,sw,ex={})=>{const{tl=0,tr=0,bl=0,br=0}=r,X0=x,X1=x+w,T=Y(y+h),B=Y(y);
-    return el('path',{d:`M${X0+tl} ${T}H${X1-tr}Q${X1} ${T} ${X1} ${T+tr}V${B-br}Q${X1} ${B} ${X1-br} ${B}H${X0+bl}Q${X0} ${B} ${X0} ${B-bl}V${T+tl}Q${X0} ${T} ${X0+tl} ${T}Z`,fill,stroke:c('fg'),'stroke-width':sw,...ex})};
+  const rrect=(x,y,w,h,fill,sw,ex,r)=>{const C=RC(r,w,h),T=Y(y+h),B=Y(y);
+    const d=`M${x+C.tl} ${T} L${x+w-C.tr} ${T} Q${x+w} ${T} ${x+w} ${T+C.tr} L${x+w} ${B-C.br} Q${x+w} ${B} ${x+w-C.br} ${B} L${x+C.bl} ${B} Q${x} ${B} ${x} ${B-C.bl} L${x} ${T+C.tl} Q${x} ${T} ${x+C.tl} ${T} Z`;
+    return el('path',{d,fill,stroke:c('fg'),'stroke-width':sw,...ex})};
   line(-120,0,L0+120,0,3,mu); line(-120,CEIL,L0+120,CEIL,3,mu); line(0,0,0,CEIL,3,mu); line(L0,0,L0,CEIL,3,mu);
 
   const list=R.items.map(it=>{
@@ -224,17 +200,17 @@ function drawElev(R,wall,letter,title){
       case 'counter': rect(u0-10,y0,uw+20,h+10,c('granite'),3,{rx:8});break;
       case 'cushion': rect(u0+10,y0,uw-20,h,c('fabric'),3,{rx:20});break;
       case 'unit':{
-        rrect(u0,y0,uw,h,RC(it),fill,4,S);
+        rrect(u0,y0,uw,h,fill,4,S,it.rc);
         const cols=it.cols||1, rows=it.rows||1, cw=uw/cols, rh=h/rows;
         for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
           const x=u0+j*cw, y=y0+i*rh;
-          rrect(x+8,y+8,cw-16,rh-16,subRC({...it,u0,uw,y0,h},x+8,y+8,cw-16,rh-16,8),it.glass?c('glass'):fill,3,S);
+          rrect(x+8,y+8,cw-16,rh-16,it.glass?c('glass'):fill,3,S,SRC(it.rc,j,i,cols,rows,8));
           if(it.mirrorCol===j){rect(x+40,y0+250,cw-80,1800,c('glass'),3,{rx:20});text(x+cw/2,y0+1100,'mirror','middle',36)}
-          const [hx,hy,hl,ho]=handle({...it,u0,uw,y0,h},j,i);
-          if(it.noHandle){} else if(ho==='h') line(hx-hl/2,hy,hx+hl/2,hy,10,{stroke:c('muted'),'stroke-linecap':'round'}); else line(hx,hy-hl/2,hx,hy+hl/2,10,{stroke:c('muted'),'stroke-linecap':'round'});
+          if(rows>1||it.flap) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:'#a9acaf','stroke-linecap':'round'});
+          else {const hx=(cols===1)?x+cw-45:((j+(it.flip?1:0))%2===0?x+cw-45:x+45); if(y>=2000){line(hx,y+50,hx,y+210,9,{stroke:'#a9acaf','stroke-linecap':'round'});continue} /* loft: upright bar at the bottom corner, opening side */ const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; line(hx,hy-120,hx,hy+120,9,{stroke:'#a9acaf','stroke-linecap':'round'})}
         }
         break}
-      case 'open': rrect(u0,y0,uw,h,RC(it),c('panel'),4,S);
+      case 'open': rrect(u0,y0,uw,h,c('panel'),4,S,it.rc);
         for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);break;
       case 'door':
         rect(u0,y0,uw,h,c('door'),4,S);
@@ -250,18 +226,23 @@ function drawElev(R,wall,letter,title){
         rect(u0+uw/2-150,y0+200,300,h-200,c('panel'),4);break;
       case 'hob': rect(u0,y0,uw,h,c('granite'),3);break;
       case 'sink': line(u0,y0+h,u0+uw,y0+h,8,{stroke:c('muted')});text(u0+uw/2,y0+100,'sink','middle',38);break;
-      case 'tv': rect(u0,y0,uw,h,c('granite'),4);break;
+      case 'tv': rect(u0,y0,uw,h,c('granite'),sw,S);break;
       case 'board': rect(u0,y0-45,uw,90,'none',3,S);
         [0.25,0.5,0.75].forEach(f=>el('circle',{cx:u0+uw*f,cy:Y(y0),r:8,fill:stroke}));break;
+      case 'chair':{const cx=u0+uw/2,G={fill:c('granite'),stroke:c('fg'),'stroke-width':3};
+        rect(cx-250,40,500,20,'none',3); line(cx,60,cx,440,14); rect(cx-250,440,500,80,'none',0,{...G,rx:30});
+        rect(cx-230,560,460,640,'none',0,{...G,rx:60}); for(let y=600;y<1170;y+=50)line(cx-200,y,cx+200,y,1.5,{stroke:c('muted')});
+        rect(cx-150,1220,300,130,'none',0,{...G,rx:40}); [cx-270,cx+250].forEach(x=>rect(x,520,20,170,'none',0,G));
+        break}
       case 'loose': rect(u0,y0,uw,h,'none',it.chg?6:3,{stroke,'stroke-dasharray':'18 12'});break;
       case 'bed':{const D={'stroke-dasharray':'18 12'},pw=Math.min(760,uw/2-70),gp=(uw-2*pw)/3;rect(u0,y0,uw,300,'none',3,{...D,rx:40});rect(u0+20,y0+280,uw-40,h-280,'none',3,{...D,rx:80});[u0+gp,u0+2*gp+pw].forEach(x=>rect(x,y0+h-20,pw,210,'none',3,{...D,rx:95}));break}
     }
     if(it.lab){
       let ty=y0+h/2-14; if(it.kind==='tv')ty=y0+h/2-14; if(it.kind==='board')ty=y0-120;
-      if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40;
-      if(it.kind==='unit'&&h>1500)ty=y0+h-200; if(it.kind==='door')ty=y0+h+40; if(it.kind==='panel'&&h>1500)ty=y0+h-140;
+      if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40; if(it.kind==='chair')ty=y0+h+90;
+      if(it.kind==='unit'&&h>1500)ty=y0+h-200; if(it.kind==='door')ty=y0+h+40; if(it.kind==='panel'&&h>1500)ty=y0+h-140; if(it.kind==='open'&&h>1500)ty=y0+h*0.575;
       if(it.kind==='hood')ty=y0+h+40;
-      const col=it.chg?c('accent'):(it.kind==='tv'?c('bg'):c('muted'));
+      const col=it.kind==='tv'?c('bg'):(it.chg?c('accent'):c('muted'));
       const t=text(u0+uw/2,ty,it.lab,'middle',36,col);
       if(it.kind==='unit'||it.kind==='panel'||it.kind==='open'){t.setAttribute('paint-order','stroke');t.setAttribute('stroke',c('bg'));t.setAttribute('stroke-width',10)}
     }
@@ -312,8 +293,8 @@ function drawPlan(R){
     if(['board','hob','sink','tile','plinth','hood','cushion'].includes(it.kind)){
       if(it.kind==='hob'||it.kind==='sink')el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':5,rx:30});
       continue;}
-    if(!it.loose&&(it.y0>=1400||it.noPlan))continue; // uppers and lofts not in plan
-    if(it.kind==='tv'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('granite')});continue}
+    if(!it.loose&&it.y0>=1400)continue; // uppers and lofts not in plan
+    if(it.kind==='tv'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('granite'),stroke:it.chg?c('accent'):'none','stroke-width':14});continue}
     if(it.loose){
       if(it.y0>0)continue;
       el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:'none',stroke,'stroke-width':it.chg?14:6,'stroke-dasharray':'40 26',rx:it.kind==='bed'?80:20});
@@ -323,18 +304,18 @@ function drawPlan(R){
       if(it.lab){const t=text(b.x+b.w/2,b.z+b.d/2+35,it.lab.split(' (')[0],'middle',95,it.chg?c('accent'):c('muted'));}
       continue;
     }
-    el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c(it.kind==='counter'?'granite':it.kind==='open'?'panel':(it.mat||'wood')),stroke:c('fg'),'stroke-width':6,...(it.pc?{fill:'none',stroke:'none'}:{})});
-    if(it.pc){const cp=P(R,it.wall,it.pc==='L'?it.u0:it.u0+it.uw,it.td),r=60,x0=b.x,x1=b.x+b.w,z0=b.z,z1=b.z+b.d,
-      k=(Math.abs(cp[0]-x0)<2?'l':'r')+(Math.abs(cp[1]-z0)<2?'t':'b'),R4={lt:0,rt:0,rb:0,lb:0};R4[k]=r;
-      el('path',{d:`M${x0+R4.lt} ${z0}H${x1-R4.rt}Q${x1} ${z0} ${x1} ${z0+R4.rt}V${z1-R4.rb}Q${x1} ${z1} ${x1-R4.rb} ${z1}H${x0+R4.lb}Q${x0} ${z1} ${x0} ${z1-R4.lb}V${z0+R4.lt}Q${x0} ${z0} ${x0+R4.lt} ${z0}Z`,
-        fill:c(it.mat||'wood'),stroke:c('fg'),'stroke-width':6})}
+    {const fillc=c(it.kind==='counter'?'granite':it.kind==='open'?'panel':(it.mat||'wood'));
+     if(it.wall&&it.prc){const q=(u,t)=>P(R,it.wall,u,t).join(' '),u0=it.u0,u1=it.u0+it.uw,t1=it.td,fl=it.prc.fl||0,fr=it.prc.fr||0;
+       const d=`M${q(u0,0)} L${q(u1,0)} L${q(u1,t1-fr)} Q${q(u1,t1)} ${q(u1-fr,t1)} L${q(u0+fl,t1)} Q${q(u0,t1)} ${q(u0,t1-fl)} Z`;
+       el('path',{d,fill:fillc,stroke:c('fg'),'stroke-width':6});}
+     else el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:fillc,stroke:c('fg'),'stroke-width':6});}
     if(it.kind==='unit'&&it.lab&&it.y0<1400){
       const vert=b.d>b.w; const t=text(b.x+b.w/2,b.z+b.d/2+35,it.lab,'middle',90,c('fg'));
       if(vert)t.setAttribute('transform',`rotate(-90 ${b.x+b.w/2} ${b.z+b.d/2})`);
     }
   }
   // elevation markers
-  for(const [w,letter] of R.elevs){const m=P(R,w,wlen(R,w)*0.3,-330);
+  for(const [w,letter] of R.elevs){const m=P(R,w,wlen(R,w)*0.18,-330);
     el('circle',{cx:m[0],cy:m[1],r:95,fill:c('bg'),stroke:c('fg'),'stroke-width':6});
     text(m[0],m[1]+38,letter,'middle',110,c('fg'),{'font-weight':600});}
   text(R.W/2,R.D+430,`${R.W} (${ftin(R.W)})`,'middle',100);
@@ -359,9 +340,9 @@ let build3D=()=>{};
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
   const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
-    granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),alu:M(0xd9dcde,{metalness:.1,roughness:.4}),
+    granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xd4d6d8,{metalness:0,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
-    mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),
+    mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),
     wall:new THREE.MeshStandardMaterial({color:0xf1efea,roughness:.9,side:THREE.FrontSide}),floor:M(0xe4e0d8)};
   const lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
   const mm=v=>v/1000;
@@ -403,27 +384,17 @@ let build3D=()=>{};
     const g=new THREE.BoxGeometry(mm(w),mm(h),mm(d)),o=new THREE.Mesh(g,m);
     o.position.set(mm(x+w/2),mm(y+h/2),mm(z+d/2)); o.castShadow=o.receiveShadow=true; G.add(o);
     if(edge){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g),lineM);e.position.copy(o.position);G.add(e)}}
+  function rbox(R,it,u0,uw,y0,h,t0,td,m,r){
+    const C=RC(r,uw,h),bl=C.bl,br=C.br,tr=C.tr,tl=C.tl; const sh=new THREE.Shape(),x=0,y=0,w=uw,hh=h;
+    sh.moveTo(x+bl,y);sh.lineTo(x+w-br,y);if(br)sh.quadraticCurveTo(x+w,y,x+w,y+br);sh.lineTo(x+w,y+hh-tr);if(tr)sh.quadraticCurveTo(x+w,y+hh,x+w-tr,y+hh);
+    sh.lineTo(x+tl,y+hh);if(tl)sh.quadraticCurveTo(x,y+hh,x,y+hh-tl);sh.lineTo(x,y+bl);if(bl)sh.quadraticCurveTo(x,y,x+bl,y);
+    const g=new THREE.ExtrudeGeometry(sh,{depth:td,bevelEnabled:false,curveSegments:8}); g.translate(u0,y0,t0); g.scale(.001,.001,.001);
+    const o=new THREE.Mesh(g,m); o.castShadow=o.receiveShadow=true;
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,25),lineM);
+    const p=new THREE.Group(); p.add(o,e);
+    const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall];
+    p.rotation.y=ROT[0]; p.position.set(mm(ROT[1]),0,mm(ROT[2])); G.add(p)}
   const wbox=(R,it,u0,uw,y0,h,t0,td,m,edge=true)=>{const b=W2R(R,it.wall,u0,uw,t0,td);box(b.x,y0,b.z,b.w,h,b.d,m,edge)};
-  /* Rounded box: edges parallel to `axis` are rounded with radius r (mm). */
-  function rbox(x,y,z,w,h,d,m,r,axis){
-    if(w<=0||h<=0||d<=0)return;
-    const [a,b,len]=axis==='y'?[w,d,h]:axis==='z'?[w,h,d]:[d,h,w];
-    const lim=v=>mm(Math.max(0,Math.min(v||0,a/2-1,b/2-1)));
-    const k=typeof r==='number'?{tl:r,tr:r,bl:r,br:r}:r, tl=lim(k.tl),tr=lim(k.tr),bl=lim(k.bl),br=lim(k.br);
-    const A=mm(a),B=mm(b), sh=new THREE.Shape();
-    sh.moveTo(bl,0);sh.lineTo(A-br,0);if(br)sh.quadraticCurveTo(A,0,A,br);sh.lineTo(A,B-tr);if(tr)sh.quadraticCurveTo(A,B,A-tr,B);
-    sh.lineTo(tl,B);if(tl)sh.quadraticCurveTo(0,B,0,B-tl);sh.lineTo(0,bl);if(bl)sh.quadraticCurveTo(0,0,bl,0);
-    const g=new THREE.ExtrudeGeometry(sh,{depth:mm(len),bevelEnabled:false,curveSegments:6});
-    const o=new THREE.Mesh(g,m);
-    if(axis==='y'){o.rotation.x=Math.PI/2;o.position.set(mm(x),mm(y+h),mm(z))}
-    else if(axis==='z'){o.position.set(mm(x),mm(y),mm(z))}
-    else {o.rotation.y=-Math.PI/2;o.position.set(mm(x+w),mm(y),mm(z))}
-    o.castShadow=o.receiveShadow=true; G.add(o);
-    if(m===MAT.alu)return; // handles: no dark outline
-    const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,35),lineM); e.position.copy(o.position); e.rotation.copy(o.rotation); G.add(e)}
-  const nAx=w=>(w==='N'||w==='S')?'z':'x';
-  const flip=(w,r)=>(w==='S'||w==='W')?{tl:r.tr,tr:r.tl,bl:r.br,br:r.bl}:r;
-  const rwbox=(R,it,u0,uw,y0,h,t0,td,m,r,axis)=>{const b=W2R(R,it.wall,u0,uw,t0,td);rbox(b.x,y0,b.z,b.w,h,b.d,m,r,axis)};
 
   build3D=function(R){
     if(G){scene.remove(G);G.traverse(o=>{o.geometry&&o.geometry.dispose()})}
@@ -436,22 +407,28 @@ let build3D=()=>{};
       const m=it.chg?MAT.accent:(MAT[it.mat]||MAT.wood);
       if(it.loose){
         const b=it.b;
-        if(it.ghost)continue;
         if(it.kind==='bed'){
           softBed(b,it.head||'W');
-        } else if(it.desk){ // own study table, same as Guest Bedroom Large: panel leg one end, white open shelf unit the other
-          const t=18,X=b.x,Z=b.z,Wd=b.w,Dd=b.d,H=it.h, sw=350, top=H-t, lo=it.shelfLow;
-          box(X,top,Z,Wd,t,Dd,MAT.wood);
-          box(lo?X+Wd-t:X,0,Z,t,top,Dd,MAT.wood);
-          box(lo?X+sw:X+t,top-150,Z+Dd-t,Wd-sw-t,150,t,MAT.wood);
-          const px=lo?X:X+Wd-sw;
-          box(lo?px+sw-t:px,0,Z,t,top,Dd,MAT.white); box(lo?px:px+t,0,Z+Dd-t,sw-t,top,t,MAT.white);
-          [0,300].forEach(y=>box(lo?px:px+t,y,Z,sw-t,t,Dd-t,MAT.white));
+        } else if(it.kind==='chair'){ // ergonomic chair: 5-star base, gas lift, grid seat and high back, headrest, arms; built facing +x then turned
+          const g=new THREE.Group(),K=MAT.chairF,Gd=MAT.chairG,add=(geo,m,x,y,z,rz=0,ry=0)=>{const o=new THREE.Mesh(geo,m);o.position.set(mm(x),mm(y),mm(z));o.rotation.set(0,ry,rz);o.castShadow=true;g.add(o)};
+          for(let k=0;k<5;k++){const a=k*Math.PI*2/5;add(new THREE.BoxGeometry(mm(320),mm(30),mm(40)),K,Math.cos(a)*160,75,Math.sin(a)*160,0,-a);add(new THREE.SphereGeometry(mm(28),12,8),K,Math.cos(a)*320,28,Math.sin(a)*320)}
+          add(new THREE.CylinderGeometry(mm(35),mm(35),mm(360),16),K,0,260,0); add(new THREE.CylinderGeometry(mm(22),mm(22),mm(120),16),MAT.metal,0,390,0);
+          add(softGeo(mm(500),mm(80),mm(500),mm(30),.15),Gd,0,470,0);
+          add(softGeo(mm(70),mm(700),mm(490),mm(30),.1),Gd,-265,870,0,.12);
+          add(softGeo(mm(60),mm(140),mm(300),mm(30),.1),Gd,-315,1300,0,.12);
+          [-265,265].forEach(z=>{add(new THREE.BoxGeometry(mm(30),mm(170),mm(20)),K,-105,605,z);add(new THREE.BoxGeometry(mm(260),mm(25),mm(50)),K,-30,702,z)});
+          g.rotation.y={E:0,S:-Math.PI/2,W:Math.PI,N:Math.PI/2}[it.face||'E']; g.position.set(mm(b.x+b.w/2),0,mm(b.z+b.d/2)); G.add(g);
+        } else if(it.desk){
+          const t=18,X=b.x,Z=b.z,Wd=b.w,Dd=b.d,H=it.h, sw=350, top=H-t;
+          box(X,top,Z,Wd,t,Dd,MAT.wood);                       // top
+          box(X,0,Z,t,top,Dd,MAT.wood);                         // panel leg (window end)
+          box(X+t,top-150,Z+Dd-t,Wd-sw-t,150,t,MAT.wood);       // back apron
+          const px=X+Wd-sw;                                     // white shelf unit (door end)
+          box(px,0,Z,t,top,Dd,MAT.white); box(px+t,0,Z+Dd-t,sw-t,top,t,MAT.white);
+          [0,300].forEach(y=>box(px+t,y,Z,sw-t,t,Dd-t,MAT.white));
         } else if(it.lab&&it.lab.startsWith('study')){
           box(b.x,it.h-30,b.z,b.w,30,b.d,m); [[0,0],[b.w-40,0],[0,b.d-40],[b.w-40,b.d-40]].forEach(([dx,dz])=>box(b.x+dx,0,b.z+dz,40,it.h-30,40,m,false));
-        } else if(it.mat==='wood'){ rbox(b.x,it.y0,b.z,b.w,it.h,b.d,m,40,'y');
-          if(it.on.includes('E')) rbox(b.x-22,it.y0+it.h-90,b.z+b.d/2-80,22,14,160,MAT.alu,7,'y'); }
-        else box(b.x,it.y0,b.z,b.w,it.h,b.d,m);
+        } else box(b.x,it.y0,b.z,b.w,it.h,b.d,m);
         continue;
       }
       const {u0,uw,y0,h,t0,td}=it;
@@ -463,14 +440,17 @@ let build3D=()=>{};
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
         case 'unit':{
-          rwbox(R,it,u0,uw,y0,h,0,td-18,m,flip(it.wall,RC(it)),nAx(it.wall));
+          rbox(R,it,u0,uw,y0,h,0,td-18,m,it.rc||0);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
-          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rwbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,flip(it.wall,subRC(it,u0+j*cw+3,y0+i*rh+3,cw-6,rh-6,3)),nAx(it.wall));
-          if(it.mirrorCol!=null)rwbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+250,1800,td,6,MAT.mirror,20,nAx(it.wall));
-          if(!it.noHandle)for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){const [hx,hy,hl,ho]=handle(it,j,i);
-            if(ho==='h')rwbox(R,it,hx-hl/2,hl,hy-7,14,td,22,MAT.alu,7,'y'); else rwbox(R,it,hx-7,14,hy-hl/2,hl,td,22,MAT.alu,7,'y')}
+          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,SRC(it.rc,j,i,cols,rows,3));
+          if(it.mirrorCol!=null)rbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+250,1800,td,6,MAT.mirror,20);
+          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){ // handles: slim rounded bars, same logic as elevations
+            const x=u0+j*cw, y=y0+i*rh;
+            if(rows>1||it.flap) rbox(R,it,x+cw/2-60,120,y+rh-60,16,td,22,MAT.metal,8);
+            else{const hx=(cols===1)?x+cw-55:((j+(it.flip?1:0))%2===0?x+cw-55:x+39); if(y>=2000){rbox(R,it,hx,16,y+40,160,td,22,MAT.metal,8);continue} const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; rbox(R,it,hx,16,hy-120,240,td,22,MAT.metal,8)}
+          }
           break}
-        case 'open': wbox(R,it,u0,uw,y0,h,0,20,MAT.panel);
+        case 'open': rbox(R,it,u0,uw,y0,h,0,20,MAT.panel,it.rc||0);
           wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
         case 'door': wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
@@ -500,8 +480,7 @@ let build3D=()=>{};
 /* ---------- show room ---------- */
 function show(id){
   const R=ROOMS[id];
-  document.querySelectorAll('.seg a[href^="#"]').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+R.id));
-  
+  document.getElementById('rtitle').textContent=R.name;
   document.getElementById('rnote').innerHTML=R.note;
   drawPlan(R);
   const box=document.getElementById('elevs'); box.textContent='';
@@ -513,12 +492,12 @@ function show(id){
   }
   const dl=document.getElementById('spec'); dl.textContent='';
   R.spec.forEach(([k,v])=>{const dt=document.createElement('dt');dt.textContent=k;const dd=document.createElement('dd');dd.textContent=v;
-    if(k==='Change'){dt.className='chg'}dl.append(dt,dd)});
+    dl.append(dt,dd)});
   build3D(R);
 }
-show('bedroom-3');
+show('bedroom-2');
 </script>
 
-</div></div>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-room]");if(a&&window.parent!==window){e.preventDefault();window.parent.go(a.dataset.room)}})</script>
 </body>
 </html>

@@ -48,20 +48,9 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
 .tab{font-variant-numeric:tabular-nums}
 @media (max-width:520px){dl{grid-template-columns:1fr} dd{margin-bottom:8px}}
 </style>
-<style>
-main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-width:0}.plan,.sheet{overflow-x:auto}
-.site{display:flex;align-items:flex-start}.content{flex:1;min-width:0}
-.side{position:sticky;top:0;flex:none;width:210px;height:100vh;overflow-y:auto;padding:32px 12px 24px 20px;border-right:1px solid #d9d7d2;box-sizing:border-box}
-.side b{display:block;font-size:15px;font-weight:600;margin:0 0 16px 8px;color:#1d1d1b}
-.side a{display:block;padding:7px 8px;border-radius:6px;color:#76746f;text-decoration:none;font-size:14px;white-space:nowrap}
-.side a:hover{color:#1d1d1b}.side a[aria-current]{background:#1d1d1b;color:#f7f7f5}
-@media (max-width:800px){.site{display:block}
-.side{z-index:20;width:auto;height:auto;display:flex;gap:4px;overflow-x:auto;padding:10px 16px;border-right:0;border-bottom:1px solid #d9d7d2;background:#f7f7f5}
-.side b{display:none}.side a{flex:none}}
-</style>
+<style>main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-width:0}.plan,.sheet{overflow-x:auto}</style>
 </head>
 <body>
-<div class="site"><nav class="side" aria-label="Rooms"><b>F34 Interiors</b><a href="index.html">Whole home</a><a href="living.html" aria-current="page">Living</a><a href="dining.html">Dining wall</a><a href="kitchen.html">Kitchen</a><a href="master-bedroom.html">Master bedroom</a><a href="guest-bedroom-large.html">Guest bedroom large</a><a href="guest-bedroom-small.html">Guest bedroom small</a></nav><script>(function(){var n=document.querySelector(".side"),a=n.querySelector("[aria-current]");if(a)n.scrollLeft=a.offsetLeft-16})()</script><div class="content">
 
 
 <main>
@@ -97,8 +86,8 @@ main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-w
   </section>
 </main>
 
-<script src="js/three.min.js"></script>
-<script src="js/OrbitControls.js"></script>
+<script src="../js/three.min.js"></script>
+<script src="../js/OrbitControls.js"></script>
 <script>
 const CEIL=2900, DH=2100;
 
@@ -539,6 +528,6 @@ function show(id){
 show('living');
 </script>
 
-</div></div>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-room]");if(a&&window.parent!==window){e.preventDefault();window.parent.go(a.dataset.room)}})</script>
 </body>
 </html>
