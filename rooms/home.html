@@ -141,7 +141,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
  A(R,'E','door',0,900,0,DH,40,{lab:'room door (open)',elevOnly:true});
- /* Mirror dresser (Aravindh's reference photo, 20 Nov): ivory; storage tower on the left (corner side): 3 drawers, open backlit shelves above;
+ /* Mirror dresser (Aravindh's reference photo, 20 Nov): ivory; storage tower on the left (corner side): 3 drawers, open backlit shelves above, top level with the mirror door;
     tall mirror door on the right, hinged on its right edge, handle on the left edge, storage behind. */
  A(R,'S','vanity',0,950,0,2150,400,{mat:'ivory',sw:380,dim:true});
  A(R,'S','panel',3200-BAY_X-BAY_W,BAY_W,420,30,10,{mat:'tile',lab:'',elevOnly:true});
@@ -203,7 +203,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['Study table','Wall-mounted foldable table 1200 × 450, top at 750, between the existing plug point and the dresser on the wall opposite the bed, almost centred on the bed. The plug point sits low (about 550, below the table top) near the middle of the wall, not centred on the bed (site photo, 20 Nov; position estimated). Can later serve as the TV base.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2050. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
+  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
   ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Curtain rod following the bay just below the soffit, a full sheer layer, and 4 tied-back curtains (two at the corners, two on the front window) ending just above the cushion.'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
   ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; loft shutters get a short upright bar at the bottom corner on the opening side, matching the wardrobe door below. The fold-down study table gets a finger pull at its front edge.'],
@@ -220,7 +220,7 @@ const ROOMS={};
 {const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
- A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,prc:{fl:60}});
  A(R,'N','unit',2670,1900,0,2400,600,{mat:'wood',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
  A(R,'N','unit',2320,825,2400,500,600,{mat:'wood',cols:1});
  A(R,'N','unit',3145,1425,2400,500,600,{mat:'wood',cols:3,flip:true});
@@ -230,6 +230,10 @@ const ROOMS={};
  A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
  A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
+ /* Bookshelf (Aravindh, 21 Nov): L in the NW corner beside the bed, running to the open shelf and matching it, 1200-2400, 300 deep, 3 compartments of 400.
+    West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
+ A(R,'W','open',2750,450,1200,1200,300,{shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
+ A(R,'N','open',300,2020,1200,1200,300,{shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
  L(R,'chair',3080-325,2100,650,650,0,1300,{on:['S'],face:'S',lab:'chair'});
@@ -240,7 +244,7 @@ const ROOMS={};
  L(R,'bed',60,685,2030,1830,0,500,{on:['W'],lab:'king bed 1830 × 2030'});
  L(R,'loose',60,235,400,450,0,500,{mat:'wood',on:['W']});
  L(R,'loose',60,2515,400,450,0,500,{mat:'wood',on:['W']});
- R.vd={E:[[0,1000,'1000'],[0,DH,'2100']],S:[[0,750,'750'],[0,DH,'2100']],N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']]};
+ R.vd={E:[[0,1000,'1000'],[0,DH,'2100']],S:[[0,750,'750'],[0,DH,'2100']],N:[[0,1200,'1200'],[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200'],[1200,2400,'1200']]};
  R.spec=[
   ['Room','15′0″ × 10′6″ (4570 × 3200), attached bathroom. Bed on one 10′6″ wall, bathroom door on the opposite one.'],
   ['Bed','King 1830 × 2030, head on the west wall, centred, two 400 × 450 side tables, headboard panel 2200 × 1200.'],
@@ -254,6 +258,7 @@ const ROOMS={};
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
   ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
+  ['Bookshelf','L-shaped open bookshelf in the north-west corner beside the bed, for 100+ books (Aravindh, 21 Nov). Runs along the wall right up to the open shelf and matches it: 1200 to 2400, 3 compartments of 400 (fits tall hardbacks), 300 deep. West leg 450 (headboard end to corner), north leg 2020 to the open shelf. Shelves run straight round the corner with no divider. About 7.4 m of shelf, roughly 180 to 220 books. Top shelf at about 2000, reachable standing. Only the free end on the bed wall is rounded. No doors, so no handles.'],
   ['TV','None.'],
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
@@ -634,6 +639,7 @@ function drawDining(el){
   const g=el('g',{transform:`translate(${DIN.X} ${DIN.Z}) rotate(-90)`});
   const r=(x,z,w,d,ex)=>el('rect',{x,y:z,width:w,height:d,...ex},g);
   r(DW.C0-15,0,DIN.WALL-DW.C0+15,DW.BD+25,{fill:c('granite'),stroke:c('fg'),'stroke-width':12,rx:30});
+  r(0,130,180,2800,{fill:c('wood'),stroke:c('fg'),'stroke-width':8,'stroke-dasharray':'40 30'}); // balcony pelmet (overhead)
   r(DW.BEN0,80,DW.BEN1-DW.BEN0,420,{fill:c('fabric'),stroke:c('fg'),'stroke-width':12,rx:40});
   r(DW.BEN0,DW.TZ0,DW.BEN1-DW.BEN0,DW.TZ1-DW.TZ0,{fill:'none',stroke:c('fg'),'stroke-width':12,'stroke-dasharray':'60 40',rx:120});
   [1071,1671].forEach(cx=>r(cx-220,DW.TZ1+120,440,440,{fill:'none',stroke:c('fg'),'stroke-width':10,'stroke-dasharray':'60 40',rx:40}));
@@ -764,7 +770,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
             const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,t0+td,16,MAT.alu,false)}}
           break}
         case 'open': wbox(R,it,u0,uw,y0,h,t0,20,MAT.panel);
-          wbox(R,it,u0,18,y0,h,t0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,t0,td,MAT.wood);
+          if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,MAT.wood);
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,MAT.wood);break;
         case 'wicker': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
         case 'flap': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
@@ -774,14 +780,14 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'glassp': wbox(R,it,u0,uw,y0,h,t0,8,MAT.mirror,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
         case 'board': if(h>0)wbox(R,it,u0,uw,y0-45,90,0,10,MAT.white,false); break;
-        case 'vanity':{const sw=it.sw,I=MAT.ivory,ST=2050,m=u0+sw,mw=uw-sw,dh=800/3;
+        case 'vanity':{const sw=it.sw,I=MAT.ivory,ST=h,m=u0+sw,mw=uw-sw,dh=800/3;
           wbox(R,it,u0,uw,0,80,0,td-40,MAT.panel,false);                               // recessed plinth
           wbox(R,it,u0,sw,80,800,0,td-18,I,false);                                     // drawer carcass
           for(let i=0;i<3;i++){const y=80+i*dh; wbox(R,it,u0+3,sw-6,y+3,dh-6,td-18,18,I); wbox(R,it,u0+sw/2-60,120,y+dh-60,14,td,22,MAT.metal,false,5)}
           wbox(R,it,u0,sw,880,20,0,td,I); wbox(R,it,u0,sw,ST-20,20,0,td,I);              // counter top and tower top
           wbox(R,it,u0,18,900,ST-920,0,td,I,false); wbox(R,it,u0+sw-18,18,900,ST-920,0,td,I,false);
           wbox(R,it,u0+18,sw-36,900,ST-920,0,12,MAT.glow,false);                        // lit back panel
-          [1280,1660].forEach(y=>wbox(R,it,u0+18,sw-36,y,18,0,td-20,I));
+          [1320,1740].forEach(y=>wbox(R,it,u0+18,sw-36,y,18,0,td-20,I));
           wbox(R,it,m,mw,80,h-80,0,td-18,I,false); wbox(R,it,m+3,mw-6,83,h-86,td-18,18,I);  // mirror cabinet and door
           wbox(R,it,m+60,mw-120,160,h-240,td,4,MAT.mirror,false);
           [[m+66,8,170,h-260],[m+mw-74,8,170,h-260],[m+66,mw-132,170,8],[m+66,mw-132,h-98,8]].forEach(([a,w,y,hh])=>wbox(R,it,a,w,y,hh,td+4,3,MAT.glow,false)); // LED frame
@@ -858,7 +864,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0-15,2460,0,pw+15,40,420,MAT.wood);
      box(P0+60,2500,30,pw-120,80,340,MAT.wood,false); box(P0+125,2580,57,pw-250,80,286,MAT.wood,false);
      cyl(cx,2660,200,120,70,MAT.wood); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
-    box(2920,2500,350,270,400,9470-DIN.X-350,MAT.wall,false); box(3040,2500,3120,150,400,940,MAT.wall,false); // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
+    box(2920,2500,350,270,400,9470-DIN.X-350,MAT.wall,false); box(3040,2500,3120,150,400,940,MAT.wall,false); box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
      box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.wood,false);

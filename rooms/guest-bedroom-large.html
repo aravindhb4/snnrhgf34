@@ -119,7 +119,7 @@ const ROOMS={};
 {const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
- A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,prc:{fl:60}});
  A(R,'N','unit',2670,1900,0,2400,600,{mat:'wood',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
  A(R,'N','unit',2320,825,2400,500,600,{mat:'wood',cols:1});
  A(R,'N','unit',3145,1425,2400,500,600,{mat:'wood',cols:3,flip:true});
@@ -129,6 +129,10 @@ const ROOMS={};
  A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
  A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
+ /* Bookshelf (Aravindh, 21 Nov): L in the NW corner beside the bed, running to the open shelf and matching it, 1200-2400, 300 deep, 3 compartments of 400.
+    West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
+ A(R,'W','open',2750,450,1200,1200,300,{shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
+ A(R,'N','open',300,2020,1200,1200,300,{shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
  L(R,'chair',3080-325,2100,650,650,0,1300,{on:['S'],face:'S',lab:'chair'});
@@ -139,7 +143,7 @@ const ROOMS={};
  L(R,'bed',60,685,2030,1830,0,500,{on:['W'],lab:'king bed 1830 × 2030'});
  L(R,'loose',60,235,400,450,0,500,{mat:'wood',on:['W']});
  L(R,'loose',60,2515,400,450,0,500,{mat:'wood',on:['W']});
- R.vd={E:[[0,1000,'1000'],[0,DH,'2100']],S:[[0,750,'750'],[0,DH,'2100']],N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']]};
+ R.vd={E:[[0,1000,'1000'],[0,DH,'2100']],S:[[0,750,'750'],[0,DH,'2100']],N:[[0,1200,'1200'],[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200'],[1200,2400,'1200']]};
  R.spec=[
   ['Room','15′0″ × 10′6″ (4570 × 3200), attached bathroom. Bed on one 10′6″ wall, bathroom door on the opposite one.'],
   ['Bed','King 1830 × 2030, head on the west wall, centred, two 400 × 450 side tables, headboard panel 2200 × 1200.'],
@@ -153,6 +157,7 @@ const ROOMS={};
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
   ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
+  ['Bookshelf','L-shaped open bookshelf in the north-west corner beside the bed, for 100+ books (Aravindh, 21 Nov). Runs along the wall right up to the open shelf and matches it: 1200 to 2400, 3 compartments of 400 (fits tall hardbacks), 300 deep. West leg 450 (headboard end to corner), north leg 2020 to the open shelf. Shelves run straight round the corner with no divider. About 7.4 m of shelf, roughly 180 to 220 books. Top shelf at about 2000, reachable standing. Only the free end on the bed wall is rounded. No doors, so no handles.'],
   ['TV','None.'],
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
@@ -451,7 +456,7 @@ let build3D=()=>{};
           }
           break}
         case 'open': rbox(R,it,u0,uw,y0,h,0,20,MAT.panel,it.rc||0);
-          wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
+          if(!it.noL)wbox(R,it,u0,18,y0,h,0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood); /* noL/noR: open end that runs on into the next unit (L corner) */
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
         case 'door': wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
