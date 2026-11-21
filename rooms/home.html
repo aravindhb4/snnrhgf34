@@ -517,7 +517,7 @@ SPACES.find(s=>s.id==='bedroom-1').size='10′6″ × 13′6″ + passage';
 SPACES.push(
   {id:'recess',name:'',x0:10290,z0:2040,x1:10890,z1:3290,open:['W'],floor:'floor'},
   {id:'dining',name:'Dining',size:'10′ × 10′',x0:6290,z0:6760,x1:9410,z1:9800,open:['N','E'],floor:'floor'},
-  {id:'balcony',name:'Balcony',size:'10′ × 4′6″',x0:6290,z0:9920,x1:9350,z1:11300,floor:'tilefloor'},
+  {id:'balcony',name:'Balcony',size:'10′ × 4′6″',x0:6290,z0:9920,x1:9350,z1:11300,open:['S'],floor:'tilefloor'},
   {id:'passage',name:'Passage',x0:4690,z0:3720,x1:5600,z1:5570,floor:'floor'},
   {id:'toilet2',name:'Toilet',size:'8′ × 5′',x0:5720,z0:400,x1:8160,z1:1920,floor:'tilefloor'},
   {id:'toiletC',name:'Common toilet',size:'8′ × 5′',x0:9470,z0:6880,x1:11910,z1:8400,floor:'tilefloor'},
@@ -577,6 +577,7 @@ function drawPlan(){
   drawDining(el);
   {const P=PHOTO; for(const [dz,,w] of P.F)el('rect',{x:P.x,y:P.zc+dz-w/2,width:30,height:w,fill:c('fg')});
    text(P.x+90,P.zc+40,'photo wall','start',110,c('muted'))}
+  el('rect',{x:6290,y:11300,width:3060,height:150,fill:c('granite')}); el('line',{x1:6290,y1:11385,x2:9350,y2:11385,stroke:c('sage'),'stroke-width':24}); // balcony parapet + railing
   {const P=PHOTO2; for(const [dx,,w] of P.F)el('rect',{x:P.xc+dx-w/2,y:P.z-30,width:w,height:30,fill:c('fg')});
    text(P.xc,P.z-90,'photo wall','middle',110,c('muted'))}
   // walls
@@ -686,6 +687,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
       x.setLineDash([]);x.fillStyle='#e8e8ea';for(let i=32;i<256;i+=64)for(let j=32;j<256;j+=64){x.beginPath();x.arc(i,j,6,0,7);x.fill()}
       return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:.9})})(),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),ivory:M(0xe8e1d4,{roughness:.6}),glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd28a,emissiveIntensity:.7}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
+    clear:new THREE.MeshStandardMaterial({color:0xe8f2f4,transparent:true,opacity:.12,roughness:.02,depthWrite:false}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xd9e4e7,{metalness:.6,roughness:.1}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#8fa58a';x.fillRect(0,0,256,256);x.strokeStyle='#b9c9b3';x.lineWidth=5;
       const leaf=(cx,cy)=>{x.beginPath();x.moveTo(cx,cy+75);x.bezierCurveTo(cx-55,cy+20,cx-45,cy-55,cx,cy-85);x.bezierCurveTo(cx+45,cy-55,cx+55,cy+20,cx,cy+75);x.moveTo(cx,cy+75);x.lineTo(cx,cy-60);x.stroke()};
@@ -909,7 +911,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
       // split into bands by opening heights
       const ys=[0,H,...cuts(sl).flatMap(p=>[p.y0,p.y1])].filter(y=>y>=0&&y<=H); const yy=[...new Set(ys)].sort((a,b)=>a-b);
       for(let k=0;k<yy.length-1;k++){const y0=yy[k],y1=yy[k+1];for(const [a,b] of pieces(sl,(y0+y1)/2))bx(a,b,y0,y1)}
-      for(const p of cuts(sl)){if((p.kind==='window'||p.kind==='slider')&&p.y0<H){const a=Math.max(p.a0,sl.a0),b=Math.min(p.a1,sl.a1);
+      for(const p of cuts(sl)){if(p.kind==='window'&&p.y0<H){const a=Math.max(p.a0,sl.a0),b=Math.min(p.a1,sl.a1);
         bx(a,b,p.y0,Math.min(p.y1,H)); wallG.children[wallG.children.length-1].material=MAT.glass}}}
     G=scene}
   setWalls=v=>{low=v;walls()};
@@ -931,6 +933,17 @@ let focusRoom=()=>{}, setWalls=()=>{};
    P.F.forEach(([dz,yc,w,h],k)=>{const z=P.zc+dz-w/2,y=yc-h/2,mt=Math.min(w,h)>200?26:18;
      box(P.x,y,z,22,h,w,FR,false); box(P.x+22,y+14,z+14,3,h-28,w-28,MT,false); box(P.x+25,y+14+mt,z+14+mt,2,h-28-2*mt,w-28-2*mt,PH[k%PH.length],false)})}
   {const g=new THREE.Group(); g.position.set(mm(DIN.X),0,mm(DIN.Z)); g.rotation.y=Math.PI/2; scene.add(g); G=g; dining(); G=scene}
+  // balcony (site photos, 21 Nov): clear sliding door (one panel slid open), low parapet with granite top, sage-green metal railing, daylight coming in
+  {const pane=(x0,x1,z)=>{box(x0,0,z,50,DH,30,MAT.white,false);box(x1-50,0,z,50,DH,30,MAT.white,false);box(x0+50,DH-60,z,x1-x0-100,60,30,MAT.white,false);box(x0+50,0,z,x1-x0-100,60,30,MAT.white,false);
+     const gl=new THREE.Mesh(new THREE.BoxGeometry(mm(x1-x0-100),mm(DH-120),mm(8)),MAT.clear);gl.position.set(mm((x0+x1)/2),mm(DH/2),mm(z+15));G.add(gl)};
+   box(6570,0,9810,40,DH,100,MAT.white,false); box(9030,0,9810,40,DH,100,MAT.white,false); box(6570,DH-40,9810,2500,40,100,MAT.white,false); box(6570,0,9810,2500,15,100,MAT.white,false); // aluminium frame
+   pane(6610,7840,9825); pane(6660,7890,9870);                                   // fixed panel + sliding panel parked over it: right half clear
+   const X0=6290,X1=9350,PZ=11300;
+   box(X0,0,PZ,X1-X0,250,150,MAT.wall,false); box(X0,250,PZ-10,X1-X0,25,170,MAT.granite,false); // parapet, granite top
+   for(let x=X0+30;x<X1;x+=1000)box(x,275,PZ+55,40,790,40,MAT.sage,false);            // posts
+   box(X0,1030,PZ+45,X1-X0,40,60,MAT.sage,false); box(X0,330,PZ+60,X1-X0,25,30,MAT.sage,false); // top and bottom rails
+   for(let x=X0+90;x<X1-40;x+=115)box(x,355,PZ+67,16,675,16,MAT.sage,false);           // bars
+   const sl=new THREE.SpotLight(0xfff4e0,0.45,0,0.6,0.7,1); sl.position.set(7.8,2.6,13.6); sl.target.position.set(7.8,0,8.4); sl.castShadow=true; sl.shadow.mapSize.set(2048,2048); sl.shadow.bias=-0.0005; scene.add(sl,sl.target);}
   walls();
 
   const VIEWS={all:{t:[7.4,0.4,6.6],p:[7.4,17,19.5]}};
