@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>F34 Kitchen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
+:root{
+  --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce;
+  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b;
+  --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a;
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a;
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
+main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:36px}
+h1{font-size:22px;font-weight:600;margin:0;text-wrap:balance}
+h2{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h3{font-size:14px;font-weight:600;margin:0 0 8px}
+p{margin:0;color:var(--muted);max-width:65ch}
+.sheet{overflow-x:auto;border-top:1px solid var(--line);padding-top:16px}
+svg{display:block;width:100%;height:auto;min-width:600px}
+.plan svg{max-width:640px;min-width:420px}
+.elevs{display:grid;gap:28px}
+#three{width:100%;aspect-ratio:16/10;max-width:100%;border-top:1px solid var(--line);cursor:grab;touch-action:none}
+.hint{font-size:12px}
+.seg{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;justify-self:start}
+.seg a{font-size:13px;padding:6px 14px;color:var(--muted);text-decoration:none;border-right:1px solid var(--line)}
+.seg a:last-child{border-right:0}
+.seg a[aria-current="true"]{background:var(--fg);color:var(--bg)}
+.seg a:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
+.chg{color:var(--accent)}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:0;font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+dt{color:var(--muted)} dd{margin:0;min-width:0}
+.tab{font-variant-numeric:tabular-nums}
+@media (max-width:520px){dl{grid-template-columns:1fr} dd{margin-bottom:8px}}
+</style>
+<style>main{grid-template-columns:minmax(0,1fr)}main div,main section,main figure{min-width:0}.plan,.sheet{overflow-x:auto}</style>
+</head>
+<body>
+<nav style="max-width:1100px;margin:0 auto;padding:14px 16px 0;font:500 14px Inter,system-ui,sans-serif"><a href="index.html" style="color:#76746f;text-decoration:none">&larr; All rooms</a></nav>
+
+
+<main>
+  <header style="display:grid;gap:10px">
+    <h1>F34 · kitchen</h1>
+    <p>Drawn from DesignCafe's 3D renders, the sale-agreement plan and site photos. Sizes in mm and are proposals; confirm after site measurement.</p>
+    <p><a href="index.html" rel="noopener" style="color:var(--fg)">All rooms ↗</a></p>
+  </header>
+
+  <section>
+    <h2 id="rtitle"></h2>
+    <p id="rnote"></p>
+  </section>
+
+  <section>
+    <h2>Plan</h2>
+    <div class="sheet plan"><svg id="plan" role="img" aria-label="Room plan"></svg></div>
+  </section>
+
+  <section>
+    <h2>Elevations</h2>
+    <div class="elevs" id="elevs"></div>
+  </section>
+
+  <section>
+    <h2>3D view</h2>
+    <div id="three"></div>
+    <p class="hint">Drag to rotate. Scroll or pinch to zoom.</p>
+  </section>
+
+  <section>
+    <h2>Spec</h2>
+    <dl class="tab" id="spec"></dl>
+  </section>
+</main>
+
+<script src="js/three.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script>
+const CEIL=2900, DH=2100;
+
+/* ---------- geometry helpers (mm). Room: x east 0..W, z south 0..D.
+   Wall-local: u runs left→right as seen from inside, t = distance out from wall. ---------- */
+const wlen=(R,w)=>(w==='N'||w==='S')?R.W:R.D;
+function P(R,w,u,t){switch(w){case'N':return[u,t];case'E':return[R.W-t,u];case'S':return[R.W-u,R.D-t];case'W':return[t,R.D-u]}}
+function W2R(R,w,u0,uw,t0,td){const a=P(R,w,u0,t0),b=P(R,w,u0+uw,t0+td);
+  return{x:Math.min(a[0],b[0]),z:Math.min(a[1],b[1]),w:Math.abs(a[0]-b[0]),d:Math.abs(a[1]-b[1])}}
+function R2W(R,w,b){switch(w){
+  case'N':return{u0:b.x,uw:b.w,t:b.z};
+  case'E':return{u0:b.z,uw:b.d,t:R.W-b.x-b.w};
+  case'S':return{u0:R.W-b.x-b.w,uw:b.w,t:R.D-b.z-b.d};
+  case'W':return{u0:R.D-b.z-b.d,uw:b.d,t:b.x}}}
+/* Handles: one per shutter. Drawers and lift-ups get a horizontal bar, doors a vertical bar near the opening edge. */
+/* Handle follows how the front opens:
+   open:'pullout' -> narrow pull-out, short bar along the top edge
+   rows>1 (drawers, unless open:'door') -> bar near the top edge of each drawer
+   y0>=2100 (top lofts) -> short upright bar at the bottom corner, opening side
+   doors -> upright bar on the opening edge (hand:'L' puts it on the left; pairs meet in the middle)
+   noHandle -> appliances with their own handles */
+function handle(it,x,y,cw,rh,j,cols,rows){
+  if(it.noHandle) return null;
+  if(it.open==='pullout'){const w=Math.min(140,cw-60); return [x+cw/2-w/2,w,y+rh-60,14]}
+  if((rows>1&&it.open!=='door')||it.flap) return [x+cw/2-100,200,y+rh-60,14];
+  const left=cols===1?it.hand==='L':j%2===1;
+  const hx=left?x+41:x+cw-55;
+  if(it.y0>=2100) return [hx,14,y+50,160];
+  let hy=it.y0>=1400? y+170 : Math.min(y+rh/2,1100); hy=Math.max(y+170,Math.min(hy,y+rh-170));
+  return [hx,14,hy-120,240];
+}
+/* Rounding: only the outer corners of a run of storage. Where units touch (side by side or stacked), those corners stay square so the run reads as one block. */
+const STORE=k=>k==='unit'||k==='wicker';
+function outer(R,it){
+  const o=R.items.filter(b=>b!==it&&!b.loose&&b.wall===it.wall&&STORE(b.kind));
+  const near=(a,b)=>Math.abs(a-b)<=12, span=(a0,a1,p,dir)=>dir>0?(a0<=p+1&&a1>p+1):(a0<p-1&&a1>=p-1);
+  const u1=it.u0+it.uw, y1=it.y0+it.h;
+  // a corner stays square if a touching unit covers that corner from the side or from above/below
+  const side=(uEdge,yp,dir)=>o.some(b=>near(dir<0?b.u0+b.uw:b.u0,uEdge)&&span(b.y0,b.y0+b.h,yp,yp===it.y0?1:-1));
+  const vert=(yEdge,up,dir)=>o.some(b=>near(dir>0?b.y0:b.y0+b.h,yEdge)&&span(b.u0,b.u0+b.uw,up,up===it.u0?1:-1));
+  return {tl:!side(it.u0,y1,-1)&&!vert(y1,it.u0,1), tr:!side(u1,y1,1)&&!vert(y1,u1,1),
+          br:!side(u1,it.y0,1)&&!vert(it.y0,u1,-1), bl:!side(it.u0,it.y0,-1)&&!vert(it.y0,it.u0,-1)};
+}
+function room(o){o.items=[];return o}
+function A(R,wall,kind,u0,uw,y0,h,td,o={}){const t0=o.t0||0;R.items.push({kind,wall,u0,uw,y0,h,td,t0,b:W2R(R,wall,u0,uw,t0,td),...o})}
+function L(R,kind,x,z,w,d,y0,h,o={}){R.items.push({kind,loose:true,b:{x,z,w,d},y0,h,on:o.on||[],...o})}
+
+/* ---------- rooms ---------- */
+const ROOMS={};
+
+/* Kitchen 12'6" x 10'6": U-shape on W, N, E walls. S wall (opposite the cooking wall) holds the entrance,
+   washbasin (west of the entrance), fridge, dishwasher and washing machine (east of it). */
+{const R=room({id:'kitchen',name:'Kitchen',W:3810,D:3200,
+  note:'Entrance at the corner by the common toilet, as in the floor plan. On entering: washbasin on the left, fridge on the right, then dishwasher and washing machine along the entrance wall. L-shaped counter on the left and cooking walls. Render IMG_3072, site photos IMG_3060–3062.',
+  elevs:[['S','A','Entrance wall: fridge, DW, WM'],['W','B','Left wall: washbasin and tall unit'],['N','C','Cooking wall'],['E','D','Window wall']]});
+ /* S wall, u from east (left when facing it from inside). Entrance at the west end, per the floor plan. */
+ A(R,'S','tile',0,1200,0,1200,10,{marble:true});
+ A(R,'S','unit',100,600,0,848,550,{mat:'silver',cols:1,flap:true,noHandle:true,lab:'WM Bosch',dim:true});
+ A(R,'S','unit',800,600,0,845,600,{mat:'white',cols:1,flap:true,noHandle:true,lab:'DW Bosch',dim:true});
+ A(R,'S','board',920,160,1265,90,10,{lab:'plug'});
+ A(R,'S','inlet',1010,50,900,50,10,{lab:'water inlet'});
+ A(R,'S','counter',0,1400,950,20,620,{});
+ L(R,'loose',1705,2510,555,640,0,1545,{mat:'silver',lab:'fridge',on:['S'],dim:true});
+ A(R,'S','gap',2590,1220,0,DH,0,{lab:'entrance',dim:true});
+ A(R,'S','board',2180,160,1150,90,10,{});
+ /* W wall, u from south (entrance end) */
+ A(R,'W','unit',250,450,150,650,450,{mat:'white',cols:1,hand:'L',lab:'basin vanity',dim:true});
+ A(R,'W','counter',250,450,800,20,470,{});
+ A(R,'W','sink',290,370,806,14,360,{});
+ A(R,'W','glassp',290,370,1150,700,10,{lab:'mirror'});
+ A(R,'W','unit',730,600,100,2050,600,{mat:'wood2',cols:1,rows:3,open:'door',lab:'tall unit',dim:true});
+ A(R,'W','unit',730,600,2150,700,600,{mat:'wood2',cols:1});
+ A(R,'W','wicker',1330,670,100,730,580,{mat:'wood',lab:'wicker baskets',dim:true});
+ A(R,'W','unit',2000,600,100,730,580,{mat:'wood2',rows:3,dim:true});
+ A(R,'W','plinth',1330,1870,0,100,560,{});
+ A(R,'W','counter',1330,1270,830,20,620,{});
+ A(R,'W','tile',1330,1870,850,600,10,{lab:'dado 600'});
+ A(R,'W','unit',1330,1520,1450,700,350,{mat:'cream',glass:true,cols:2,lab:'L corner'});
+ A(R,'W','unit',1330,1270,2150,700,600,{mat:'cream',cols:2});
+ /* N wall, u from west. Run ends at the pillar in front of the recessed window wall. */
+ A(R,'N','unit',0,600,100,730,580,{mat:'wood2',cols:1,lab:'corner unit',dim:true});
+ A(R,'N','unit',600,550,100,730,580,{mat:'wood2',rows:3,dim:true});
+ A(R,'N','unit',1150,200,100,730,580,{mat:'wood2',cols:1,open:'pullout',lab:'oil',dim:true});
+ A(R,'N','unit',1350,1000,100,730,580,{mat:'wood2',rows:3,lab:'hob drawers',dim:true});
+ A(R,'N','unit',2350,1000,100,730,580,{mat:'wood2',cols:2,lab:'sink',dim:true});
+ A(R,'N','unit',3350,160,100,730,580,{mat:'wood2',cols:1,open:'pullout',lab:'towel',dim:true});
+ A(R,'N','plinth',0,3510,0,100,560,{});
+ A(R,'N','counter',0,3510,830,20,620,{});
+ A(R,'N','tile',0,3510,850,600,10,{lab:'dado / backsplash 600'});
+ A(R,'N','hob',1480,740,850,25,500,{lab:'hob'});
+ A(R,'N','sink',2410,880,836,14,460,{});
+ A(R,'N','hoodslant',1400,900,1600,550,480,{lab:'slant chimney 90'});
+ A(R,'N','unit',0,1350,1450,700,350,{mat:'cream',glass:true,cols:3});
+ A(R,'N','unit',2350,1160,1450,700,350,{mat:'cream',glass:true,cols:2});
+ A(R,'N','unit',0,3510,2150,700,600,{mat:'cream',cols:6,lab:'top shutters'});
+ A(R,'N','board',900,160,1150,90,10,{});
+ A(R,'N','board',3250,160,1150,90,10,{});
+ A(R,'N','panel',3510,300,0,CEIL,620,{mat:'tile',lab:'pillar',dim:true});
+ /* E wall (window, recessed behind the pillar): one double-door unit next to the pillar (shaft), under the window */
+ A(R,'E','unit',620,1100,100,730,560,{mat:'wood2',cols:2,lab:'corner unit',dim:true});
+ A(R,'E','plinth',620,1100,0,100,540,{});
+ A(R,'E','counter',620,1100,830,20,600,{});
+ A(R,'E','tile',2100,1100,0,1200,10,{marble:true});
+ A(R,'E','window',900,1200,1050,1050,40,{dim:true});
+ R.vd={S:[[0,850,'850'],[850,950,'100'],[950,970,''],[970,1200,'230'],[1200,DH,'900']],
+       W:[[0,100,'100'],[100,850,'750'],[850,1450,'600'],[1450,2150,'700'],[2150,2850,'700']],
+       N:[[0,100,'100'],[100,850,'750'],[850,1450,'600'],[1450,2150,'700'],[2150,2850,'700']],
+       E:[[0,850,'850'],[850,1050,'200'],[1050,2100,'1050'],[2100,CEIL,'']]};
+ R.spec=[
+  ['Room','12′6″ × 10′6″ (3810 × 3200). Cooking wall is the 12′6″ side; the entrance is in the wall opposite it. Confirmed by Aravindh.'],
+  ['Entrance','About 4′ (1220) wide at the end of the wall opposite the cooking wall, next to the common-toilet wall. That leaves about 8′6″ (2590) of wall for the appliances.'],
+  ['Entrance wall','From the window corner: 100 gap, washing machine (600) on the tiled corner with the drain, 100 gap, dishwasher (600), 150 gap, fridge (555), about 75 to the fridge plug, then open floor to the entrance. Granite top 0–1400 over the WM and DW, underside at 950 (100 clear of the 848 WM, room for anti-vibration feet), top at 970. Two cable holes with grommets at the back of the granite so the plugs reach the socket above the tiles. The water inlet (about 900) sits just below the granite, reached by sliding the WM or DW out. Site tiles kept: white marble 600 × 300, floor to 1200.'],
+  ['Washbasin','450 floating vanity (smaller basin) on the left wall, about 250 in from the entrance so the doorway stays clear. Top at 800, mirror above. Water and drain from the common toilet basin behind this wall; check the line with the builder.'],
+  ['Appliances','Your models: Samsung RT28C3053S8 fridge, silver, 555 W × 637 D × 1545 H (100 left, ~300 right, 50 behind for heat). Bosch WAJ24266IN 7 kg front-load, silver, 598 W × 550 D × 848 H. Bosch 13-place freestanding dishwasher, white, 600 W × 600 D × 845 H. Sizes from standard specs, check against the listings.'],
+  ['Counter','On the left wall and the cooking wall (about 3510 up to the pillar). 850 high, 600 deep, granite. Plinth 100.'],
+  ['Window wall','Recessed behind the pillar (shaft) at the end of the cooking wall. One double-door unit, about 1100 long, in the recess right after the pillar, continuing from the sink side under the window. Granite on top. No overlap with the sink run.'],
+  ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
+  ['Hob base','1000 wide drawer unit under the hob, so a larger hob fits later.'],
+  ['Chimney','Slanted (angled glass) chimney, 90 cm, centred on the 1000 hob base. Glass face 1600–2050, about 750 above the counter; slim duct cover above it to the top row. 90 cm confirmed by Aravindh; ducted, filterless auto-clean, BLDC recommended.'],
+  ['Uppers','First row 350 deep, 1450–2150 with clear glass shutters in a brushed-aluminium profile, light inside and a glass shelf, as in the dining crockery. Left-wall uppers run into the corner to meet the cooking-wall uppers (L corner, no gap); hinged top row 2150–2850 is 600 deep, flush with the tall unit, for more storage.'],
+  ['Tall unit','600 wide, to the ceiling, on the left wall right after the washbasin.'],
+  ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
+  ['Oil pull-out','200 wide tall pull-out for oil bottles and spices, immediately left of the hob drawers. The drawer unit to its left is 550.'],
+  ['Left wall','From the entrance: washbasin, tall unit, wicker basket unit (670, open frame, two split pull-out baskets), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
+  ['Handles','Slim brushed-aluminium bars placed by how each front opens: top edge on drawers and the oil pull-out, a short upright bar at the bottom corner of the top shutters on the opening side (as in the other rooms), upright on the opening side of doors (tall unit boxes on the side), meeting in the middle on double doors. None on the dishwasher and washing machine.'],
+  ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
+ ROOMS.kitchen=R}
+
+/* ---------- SVG helpers ---------- */
+const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
+function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
+
+/* ---------- elevation ---------- */
+const ORDER={wicker:3,gap:0,panel:1,tile:1,glassp:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hoodslant:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+function drawElev(R,wall,letter,title){
+  const L0=wlen(R,wall);
+  const s=document.createElementNS(NS,'svg');
+  s.setAttribute('viewBox',`-560 -330 ${L0+800} ${CEIL+680}`);
+  s.setAttribute('role','img');s.setAttribute('aria-label',`Elevation ${letter}, ${title}`);
+  s.style.maxWidth=Math.round((L0+800)/5600*100)+'%'; s.style.minWidth=Math.round((L0+800)/5600*600)+'px';
+  const el=mkEl(s), Y=y=>CEIL-y;
+  const rect=(x,y,w,h,fill='none',sw=4,ex={})=>el('rect',{x,y:Y(y+h),width:w,height:h,fill,stroke:c('fg'),'stroke-width':sw,...ex});
+  const rrect=(x,y,w,h,r,fill,sw,ex={})=>{const [tl,tr,br,bl]=r.map(v=>Math.min(v,w/2,h/2)), t=Y(y+h), bt=Y(y);
+    return el('path',{d:`M${x+tl} ${t} H${x+w-tr} Q${x+w} ${t} ${x+w} ${t+tr} V${bt-br} Q${x+w} ${bt} ${x+w-br} ${bt} H${x+bl} Q${x} ${bt} ${x} ${bt-bl} V${t+tl} Q${x} ${t} ${x+tl} ${t} Z`,fill,stroke:c('fg'),'stroke-width':sw,...ex})};
+  const line=(x1,y1,x2,y2,sw=3,ex={})=>el('line',{x1,y1:Y(y1),x2,y2:Y(y2),stroke:c('fg'),'stroke-width':sw,...ex});
+  const text=(x,y,t,a='middle',sz=42,fill=c('muted'))=>{const e=el('text',{x,y:Y(y),'text-anchor':a,'font-size':sz,fill,'font-family':'Inter,system-ui,sans-serif'});e.textContent=t;return e};
+  const mu={stroke:c('muted')};
+  line(-120,0,L0+120,0,3,mu); line(-120,CEIL,L0+120,CEIL,3,mu); line(0,0,0,CEIL,3,mu); line(L0,0,L0,CEIL,3,mu);
+
+  const list=R.items.map(it=>{
+    if(!it.loose) return it.wall===wall?{...it}:null;
+    if(!it.on.includes(wall)) return null;
+    const w=R2W(R,wall,it.b); return {...it,u0:w.u0,uw:w.uw};
+  }).filter(Boolean).sort((a,b)=>ORDER[a.kind]-ORDER[b.kind]);
+
+  const dims=[];
+  for(const it of list){
+    const {u0,uw,y0,h}=it, stroke=it.chg?c('accent'):c('fg'), sw=it.chg?7:4, fill=c(it.mat||'wood');
+    const S={stroke};
+    switch(it.kind){
+      case 'gap': rect(u0,y0,uw,h,'none',3,{stroke:c('muted'),'stroke-dasharray':'20 14'});break;
+      case 'panel': rect(u0,y0,uw,h,fill,4,S);
+        if(it.fluted)for(let x=u0+60;x<u0+uw-20;x+=60)line(x,y0+20,x,y0+h-20,2,{stroke:c('muted')});break;
+      case 'glassp': rect(u0,y0,uw,h,c('glass'),3,{stroke:c('fg'),rx:30});break;
+      case 'tile': rect(u0,y0,uw,h,c('tile'),3,{stroke:c('muted')});
+        if(it.marble){ // 600 x 300 white marble tiles with soft grey veins, as on site
+          for(let x=u0+600;x<u0+uw;x+=600)line(x,y0,x,y0+h,1.5,{stroke:c('muted')});
+          for(let y=y0+300;y<y0+h;y+=300)line(u0,y,u0+uw,y,1.5,{stroke:c('muted')});
+          for(let x=u0;x<u0+uw-1;x+=600)for(let y=y0;y<y0+h-1;y+=300){const w=Math.min(600,u0+uw-x),k=((x+y)/300)%2;
+            line(x+w*(k?.15:.55),y+40,x+w*(k?.6:.9),y+260,1,{stroke:c('muted'),opacity:.55});line(x+w*(k?.45:.2),y+30,x+w*(k?.7:.4),y+150,1,{stroke:c('muted'),opacity:.4})}
+          break}
+        for(let x=u0+300;x<u0+uw;x+=300)line(x,y0,x,y0+h,1.5,{stroke:c('muted')});
+        line(u0,y0+h/2,u0+uw,y0+h/2,1.5,{stroke:c('muted')});break;
+      case 'inlet': rect(u0,y0-25,uw,50,c('panel'),3,{stroke:c('fg'),rx:25});break;
+      case 'plinth': rect(u0,y0,uw,h,c('panel'),3,{stroke:c('muted')});break;
+      case 'counter': rect(u0-10,y0,uw+20,h+10,c('granite'),3,{rx:8});break;
+      case 'cushion': rect(u0+10,y0,uw-20,h,c('fabric'),3,{rx:20});break;
+      case 'unit':{
+        const oc=outer(R,it), RAD=60;
+        rrect(u0,y0,uw,h,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?RAD:0),fill,4,S);
+        const cols=it.cols||1, rows=it.rows||1, cw=uw/cols, rh=h/rows;
+        for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
+          const x=u0+j*cw, y=y0+i*rh, L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1;
+          rrect(x+8,y+8,cw-16,rh-16,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?RAD-8:0),it.glass?c('glass'):fill,2,S); if(it.glass)line(x+30,y+rh/2,x+cw-30,y+rh/2,2,{stroke:c('muted')});
+
+          const hd=handle(it,x,y,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; rect(hu,hy0,hw,hh,'#b8bbbe',2,{rx:7,stroke:c('fg')})}
+        }
+        break}
+      case 'wicker':{ {const oc=outer(R,it); rrect(u0,y0,uw,h,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0),fill,4,S);} rect(u0+20,y0+20,uw-40,h-40,c('panel'),2,{stroke:c('muted')});
+        [[y0+40,300],[y0+380,300]].forEach(([by,bh])=>{rect(u0+30,by,uw-60,22,fill,2,S);
+          rect(u0+50,by+22,uw-100,bh-40,'#c99a62',3,{...S,rx:24});
+          for(let k=u0+80;k<u0+uw-70;k+=36)line(k,by+40,k,by+bh-36,1.5,{stroke:c('muted')});
+          line(u0+uw/2,by+22,u0+uw/2,by+bh-18,6);});
+        break}
+      case 'open': rect(u0,y0,uw,h,c('panel'),4,S);
+        for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);break;
+      case 'door':
+        rect(u0,y0,uw,h,c('door'),4,S);
+        el('circle',{cx:it.swing==='L'?u0+uw-80:u0+80,cy:Y(1000),r:16,fill:c('fg')});
+        if(it.mirror){rect(u0+150,y0+500,uw-300,1300,c('glass'),it.chg?6:3,S);text(u0+uw/2,y0+1150,'mirror','middle',38,it.chg?c('accent'):c('muted'))}
+        break;
+      case 'window': rect(u0,y0,uw,h,c('glass'),4,S); line(u0+uw/2,y0,u0+uw/2,y0+h,3);
+        if(it.rail)line(u0,y0+1000,u0+uw,y0+1000,3,{stroke:c('muted'),'stroke-dasharray':'12 10'});break;
+      case 'hoodslant': rect(u0+uw/2-150,y0+420,300,h-420,c('panel'),3);
+        rect(u0,y0,uw,450,c('granite'),3,{rx:16}); rect(u0+30,y0+30,uw-60,390,'none',2,{stroke:c('muted'),rx:10}); break;
+      case 'hood': el('path',{d:`M${u0+60} ${Y(y0)} L${u0+uw-60} ${Y(y0)} L${u0+uw/2+170} ${Y(y0+200)} L${u0+uw/2-170} ${Y(y0+200)} Z`,fill:c('panel'),stroke:c('fg'),'stroke-width':4});
+        rect(u0+uw/2-150,y0+200,300,h-200,c('panel'),4);break;
+      case 'hob': rect(u0,y0,uw,h,c('granite'),3);break;
+      case 'sink': line(u0,y0+h,u0+uw,y0+h,8,{stroke:c('muted')});text(u0+uw/2,y0+100,'sink','middle',38);break;
+      case 'tv': rect(u0,y0,uw,h,c('granite'),4);break;
+      case 'board': rect(u0,y0-45,uw,90,'none',3,S);
+        [0.25,0.5,0.75].forEach(f=>el('circle',{cx:u0+uw*f,cy:Y(y0),r:8,fill:stroke}));break;
+      case 'loose': rect(u0,y0,uw,h,'none',it.chg?6:3,{stroke,'stroke-dasharray':'18 12'});break;
+      case 'bed': rect(u0,y0,uw,h-180,'none',3,{'stroke-dasharray':'18 12'});rect(u0+20,y0+h-180,uw-40,180,'none',3,{'stroke-dasharray':'18 12'});break;
+    }
+    if(it.lab){
+      let ty=y0+h/2-14; if(it.kind==='tv')ty=y0+h/2-14; if(it.kind==='board')ty=y0-120;
+      if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40;
+      if(it.kind==='unit'&&h>1500)ty=y0+h-200; if(it.kind==='door')ty=y0+h+40; if(it.kind==='panel'&&h>1500)ty=y0+h-140;
+      if(it.kind==='hood')ty=y0+h+40; if(it.kind==='hoodslant')ty=y0-120;
+      const col=it.chg?c('accent'):(it.kind==='tv'?c('bg'):c('muted'));
+      const t=text(u0+uw/2,ty,it.lab,'middle',36,col);
+      if(it.kind==='unit'||it.kind==='panel'||it.kind==='open'){t.setAttribute('paint-order','stroke');t.setAttribute('stroke',c('bg'));t.setAttribute('stroke-width',10)}
+    }
+    if(it.dim)dims.push([u0,u0+uw]);
+  }
+  // dims
+  const st={stroke:c('muted'),'stroke-width':2};
+  const hdim=(x1,x2,y,label,off)=>{line(x1,y,x2,y,2,st);line(x1,y-25,x1,y+25,2,st);line(x2,y-25,x2,y+25,2,st);text((x1+x2)/2,y+off,label,'middle',38)};
+  const vdim=(x,y1,y2,label)=>{line(x,y1,x,y2,2,st);line(x-25,y1,x+25,y1,2,st);line(x-25,y2,x+25,y2,2,st);text(x-30,(y1+y2)/2-14,label,'end',36)};
+  hdim(0,L0,-220,`${L0} (${ftin(L0)})`,-70);
+  // chain: stack overlapping dims on two rows
+  dims.sort((a,b)=>a[0]-b[0]); let lastEnd=[-1e9,-1e9];
+  for(const [a,b] of dims){const row=a>=lastEnd[0]-1?0:1;lastEnd[row]=b;hdim(a,b,CEIL+90+row*120,String(Math.round(b-a)),40)}
+  const vd=(R.vd&&R.vd[wall])||[]; let vx=-130;
+  vd.forEach(([a,b,l],i)=>{ if(i>0&&a<vd[i-1][1]-1&&a!==vd[i-1][1])vx-=170; vdim(vx,a,b,l)});
+  text(L0/2,-330+40,'','middle');
+  return s;
+}
+function ftin(mm){const i=Math.round(mm/25.4);const f=Math.floor(i/12),r=i%12;return r?`${f}′${r}″`:`${f}′`}
+
+/* ---------- plan ---------- */
+function drawPlan(R){
+  const s=document.getElementById('plan'); s.textContent='';
+  const el=mkEl(s);
+  s.setAttribute('viewBox',`-560 -520 ${R.W+1100} ${R.D+1000}`);
+  const text=(x,y,t,a='middle',sz=110,fill=c('muted'),ex={})=>{const e=el('text',{x,y,'text-anchor':a,'font-size':sz,fill,'font-family':'Inter,system-ui,sans-serif',...ex});e.textContent=t;return e};
+  el('rect',{x:-60,y:-60,width:R.W+120,height:R.D+120,fill:'none',stroke:c('fg'),'stroke-width':120});
+  el('rect',{x:0,y:0,width:R.W,height:R.D,fill:c('bg'),stroke:'none'});
+  const poly=(pts,ex)=>el('polygon',{points:pts.map(p=>p.join(',')).join(' '),...ex});
+  const sorted=[...R.items].sort((a,b)=>(a.loose?1:0)-(b.loose?1:0));
+  for(const it of sorted){
+    const b=it.b, stroke=it.chg?c('accent'):c('fg');
+    if(it.kind==='door'||it.kind==='gap'||it.kind==='window'){
+      const w=it.wall, q=(u,t)=>P(R,w,u,t);
+      poly([q(it.u0,0),q(it.u0+it.uw,0),q(it.u0+it.uw,-120),q(it.u0,-120)],{fill:it.kind==='window'?c('glass'):c('bg'),stroke:it.kind==='window'?c('fg'):'none','stroke-width':6});
+      if(it.kind==='window'){const a=q(it.u0,-60),z=q(it.u0+it.uw,-60);el('line',{x1:a[0],y1:a[1],x2:z[0],y2:z[1],stroke:c('fg'),'stroke-width':6})}
+      if(it.kind==='door'&&it.swing){
+        const hu=it.swing==='L'?it.u0:it.u0+it.uw, ou=it.swing==='L'?it.u0+it.uw:it.u0;
+        const H=q(hu,0),E=q(hu,it.uw),O=q(ou,0);
+        el('line',{x1:H[0],y1:H[1],x2:E[0],y2:E[1],stroke:c('fg'),'stroke-width':8});
+        const sweep=((E[0]-H[0])*(O[1]-H[1])-(E[1]-H[1])*(O[0]-H[0]))>0?1:0;
+        el('path',{d:`M${E[0]} ${E[1]} A ${it.uw} ${it.uw} 0 0 ${sweep} ${O[0]} ${O[1]}`,fill:'none',stroke:c('muted'),'stroke-width':4,'stroke-dasharray':'20 14'});
+      }
+      if(it.kind==='door'&&it.mirror){const m1=q(it.u0+80,30),m2=q(it.u0+it.uw-80,30);el('line',{x1:m1[0],y1:m1[1],x2:m2[0],y2:m2[1],stroke:stroke,'stroke-width':it.chg?18:10})}
+      if(it.lab){const m=q(it.u0+it.uw/2,-260);text(m[0],m[1]+35,it.lab,'middle',90,it.chg?c('accent'):c('muted'))}
+      continue;
+    }
+    if(['board','hob','sink','tile','plinth','hood','hoodslant','cushion','glassp'].includes(it.kind)){
+      if(it.kind==='hob'||it.kind==='sink')el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':5,rx:30});
+      continue;}
+    if(!it.loose&&it.y0>=1400)continue; // uppers and lofts not in plan
+    if(it.kind==='tv'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('granite')});continue}
+    if(it.loose){
+      if(it.y0>0)continue;
+      el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:'none',stroke,'stroke-width':it.chg?14:6,'stroke-dasharray':'40 26',rx:20});
+      if(it.kind==='bed'){const head=it.head||'W'; if(head==='W')el('line',{x1:b.x+450,y1:b.z+40,x2:b.x+450,y2:b.z+b.d-40,stroke:c('muted'),'stroke-width':5});
+        else el('line',{x1:b.x+b.w-450,y1:b.z+40,x2:b.x+b.w-450,y2:b.z+b.d-40,stroke:c('muted'),'stroke-width':5})}
+      if(it.lab){const t=text(b.x+b.w/2,b.z+b.d/2+35,it.lab.split(' (')[0],'middle',95,it.chg?c('accent'):c('muted'));}
+      continue;
+    }
+    el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c(it.kind==='counter'?'granite':it.kind==='open'?'panel':(it.mat||'wood')),stroke:c('fg'),'stroke-width':6,rx:0});
+    if(it.kind==='unit'&&it.lab&&it.y0<1400){
+      const vert=b.d>b.w; const t=text(b.x+b.w/2,b.z+b.d/2+35,it.lab,'middle',90,c('fg'));
+      if(vert)t.setAttribute('transform',`rotate(-90 ${b.x+b.w/2} ${b.z+b.d/2})`);
+    }
+  }
+  // elevation markers
+  for(const [w,letter] of R.elevs){const m=P(R,w,wlen(R,w)*0.18,-330);
+    el('circle',{cx:m[0],cy:m[1],r:95,fill:c('bg'),stroke:c('fg'),'stroke-width':6});
+    text(m[0],m[1]+38,letter,'middle',110,c('fg'),{'font-weight':600});}
+  text(R.W/2,R.D+430,`${R.W} (${ftin(R.W)})`,'middle',100);
+  text(R.W+430,R.D/2,`${R.D} (${ftin(R.D)})`,'middle',100).setAttribute('transform',`rotate(90 ${R.W+430} ${R.D/2})`);
+  text(-430,-400,'N ↑','start',100,c('muted'));
+}
+
+/* ---------- 3D ---------- */
+let build3D=()=>{};
+(function(){
+  const host=document.getElementById('three');
+  if(!window.THREE){host.textContent='3D view could not load.';return}
+  const th=document.documentElement.dataset.theme;
+  const dark=th==='dark'||(th!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(dark?0x171716:0xf7f7f5);
+  const cam=new THREE.PerspectiveCamera(38,16/10,0.1,100);
+  const r=new THREE.WebGLRenderer({antialias:true}); r.setPixelRatio(Math.min(devicePixelRatio,2)); r.shadowMap.enabled=true;
+  host.appendChild(r.domElement);
+  const ctl=new THREE.OrbitControls(cam,r.domElement); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI/2-0.02;
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8a8378,0.8));
+  const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
+  Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
+  const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
+  const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+    granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
+    glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.22,roughness:.05,depthWrite:false}),
+    mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),accent:M(0xc77a43),wicker:M(0xc58a4f,{roughness:.95}),alu:M(0xd9dcdf,{metalness:.15,roughness:.4,emissive:0x2a2b2c}),
+    wall:new THREE.MeshStandardMaterial({color:0xf1efea,roughness:.9,side:THREE.FrontSide}),floor:M(0xe4e0d8)};
+  const lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+  const mm=v=>v/1000; let G=null;
+  function box(x,y,z,w,h,d,m,edge=true){
+    if(w<=0||h<=0||d<=0)return;
+    const g=new THREE.BoxGeometry(mm(w),mm(h),mm(d)),o=new THREE.Mesh(g,m);
+    o.position.set(mm(x+w/2),mm(y+h/2),mm(z+d/2)); o.castShadow=o.receiveShadow=true; G.add(o);
+    if(edge){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g),lineM);e.position.copy(o.position);G.add(e)}}
+  const wbox=(R,it,u0,uw,y0,h,t0,td,m,edge=true)=>{const b=W2R(R,it.wall,u0,uw,t0,td);box(b.x,y0,b.z,b.w,h,b.d,m,edge)};
+  /* storage units: corners rounded as seen from the front (standing rule) */
+  function rbox(R,it,u0,uw,y0,h,t0,td,m,r){   // r: [tl,tr,br,bl] in wall view
+    const b=W2R(R,it.wall,u0,uw,t0,td), ns=(it.wall==='N'||it.wall==='S');
+    const w=ns?b.w:b.d, d=ns?b.d:b.w;
+    let [tl,tr,br,bl]=(Array.isArray(r)?r:[r,r,r,r]).map(v=>mm(Math.min(v,w/2-1,h/2-1)));
+    if(it.wall==='S'||it.wall==='W'){[tl,tr]=[tr,tl];[bl,br]=[br,bl]}  // shape x runs opposite to wall u
+    const s=new THREE.Shape(), W=mm(w),H=mm(h);
+    s.moveTo(bl,0);s.lineTo(W-br,0);s.quadraticCurveTo(W,0,W,br);s.lineTo(W,H-tr);s.quadraticCurveTo(W,H,W-tr,H);
+    s.lineTo(tl,H);s.quadraticCurveTo(0,H,0,H-tl);s.lineTo(0,bl);s.quadraticCurveTo(0,0,bl,0);
+    const g=new THREE.ExtrudeGeometry(s,{depth:mm(d),bevelEnabled:false,curveSegments:6}),o=new THREE.Mesh(g,m);
+    if(ns)o.position.set(mm(b.x),mm(y0),mm(b.z)); else {o.rotation.y=-Math.PI/2;o.position.set(mm(b.x+b.w),mm(y0),mm(b.z))}
+    o.castShadow=o.receiveShadow=true;G.add(o);
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),lineM);e.position.copy(o.position);e.rotation.copy(o.rotation);G.add(e)}
+
+  build3D=function(R){
+    if(G){scene.remove(G);G.traverse(o=>{o.geometry&&o.geometry.dispose()})}
+    G=new THREE.Group(); scene.add(G);
+    const W=mm(R.W),D=mm(R.D),H=mm(CEIL);
+    const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.floor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D/2); fl.receiveShadow=true; G.add(fl);
+    const walls=[[W,0,W/2,0,0],[W,Math.PI,W/2,D,0],[D,-Math.PI/2,W,D/2,1],[D,Math.PI/2,0,D/2,1]];
+    walls.forEach(([len,ry,x,z])=>{const p=new THREE.Mesh(new THREE.PlaneGeometry(len,H),MAT.wall);p.rotation.y=ry;p.position.set(x,H/2,z);p.receiveShadow=true;G.add(p)});
+    for(const it of R.items){
+      const m=it.chg?MAT.accent:(MAT[it.mat]||MAT.wood);
+      if(it.loose){
+        const b=it.b;
+        if(it.kind==='bed'){
+          const head=it.head||'W';
+          box(b.x,0,b.z,b.w,300,b.d,MAT.wood); box(b.x+20,300,b.z+20,b.w-40,220,b.d-40,MAT.fabric);
+          if(head==='W'){box(b.x+60,520,b.z+120,400,120,b.d/2-160,MAT.white);box(b.x+60,520,b.z+b.d/2+40,400,120,b.d/2-160,MAT.white)}
+          else{box(b.x+b.w-460,520,b.z+120,400,120,b.d/2-160,MAT.white);box(b.x+b.w-460,520,b.z+b.d/2+40,400,120,b.d/2-160,MAT.white)}
+        } else if(it.lab&&it.lab.startsWith('study')){
+          box(b.x,it.h-30,b.z,b.w,30,b.d,m); [[0,0],[b.w-40,0],[0,b.d-40],[b.w-40,b.d-40]].forEach(([dx,dz])=>box(b.x+dx,0,b.z+dz,40,it.h-30,40,m,false));
+        } else box(b.x,it.y0,b.z,b.w,it.h,b.d,m);
+        continue;
+      }
+      const {u0,uw,y0,h,t0,td}=it;
+      switch(it.kind){
+        case 'gap': break;
+        case 'panel': wbox(R,it,u0,uw,y0,h,0,td,m); break;
+        case 'tile': wbox(R,it,u0,uw,y0,h,0,10,MAT.tile,false); break;
+        case 'glassp': wbox(R,it,u0,uw,y0,h,0,10,MAT.mirror,false); break;
+        case 'plinth': wbox(R,it,u0,uw,y0,h,0,td,MAT.granite,false); break;
+        case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
+        case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
+        case 'unit':{
+          const oc=outer(R,it);
+          if(it.glass){
+            wbox(R,it,u0,uw,y0,h,0,12,MAT.white,false);                       // back
+            wbox(R,it,u0,18,y0,h,0,td-18,m,false); wbox(R,it,u0+uw-18,18,y0,h,0,td-18,m,false); // sides
+            wbox(R,it,u0,uw,y0,18,0,td-18,m,false); wbox(R,it,u0,uw,y0+h-18,18,0,td-18,m,false); // bottom, top
+            wbox(R,it,u0+18,uw-36,y0+h/2-6,12,12,td-40,MAT.glass,false);      // glass shelf
+          } else rbox(R,it,u0,uw,y0,h,0,td-18,m,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0));
+          const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
+          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){if(it.glass){wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,cw-6,y0+(i+1)*rh-27,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+(j+1)*cw-27,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+27,cw-54,y0+i*rh+27,rh-54,td-14,6,MAT.glass,false)} else {const L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1; rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,m,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?57:0))}
+            const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,td,20,MAT.alu,false)}}
+          break}
+        case 'wicker':{
+          wbox(R,it,u0,uw,y0,h,0,12,MAT.panel,false); wbox(R,it,u0,18,y0,h,0,td,m,false); wbox(R,it,u0+uw-18,18,y0,h,0,td,m,false);
+          wbox(R,it,u0,uw,y0,18,0,td,m,false); wbox(R,it,u0,uw,y0+h-18,18,0,td,m,false);
+          [y0+40,y0+380].forEach(by=>{wbox(R,it,u0+30,uw-60,by,22,20,td-30,m,false);
+            wbox(R,it,u0+50,uw-100,by+22,260,40,td-80,MAT.wicker,true);
+            wbox(R,it,u0+uw/2-6,12,by+22,270,40,td-80,MAT.wicker,false)});
+          break}
+        case 'open': wbox(R,it,u0,uw,y0,h,0,20,MAT.panel);
+          wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
+          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
+        case 'door': wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
+          if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
+        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); break;
+        case 'hoodslant':{
+          const sh=new THREE.Shape(); sh.moveTo(0,0); sh.lineTo(mm(td),0); sh.lineTo(mm(180),mm(450)); sh.lineTo(0,mm(450)); sh.lineTo(0,0);
+          const g=new THREE.ExtrudeGeometry(sh,{depth:mm(uw),bevelEnabled:false}), o=new THREE.Mesh(g,MAT.granite);
+          const b=W2R(R,it.wall,u0,uw,0,td); o.rotation.y=-Math.PI/2; o.position.set(mm(b.x+b.w),mm(y0),mm(b.z)); o.castShadow=true; G.add(o);
+          wbox(R,it,u0+uw/2-150,300,y0+420,h-420,0,250,MAT.metal); break}
+        case 'hood': wbox(R,it,u0+60,uw-120,y0,200,0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+200,h-200,0,300,MAT.metal); break;
+        case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
+        case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;
+        case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
+        case 'board': wbox(R,it,u0,uw,y0-45,90,0,10,it.chg?MAT.accent:MAT.white,false); break;
+      }
+    }
+    const span=Math.max(W,D);
+    ctl.target.set(W/2,0.9,D/2); ctl.minDistance=1.5; ctl.maxDistance=span*4;
+    cam.position.set(W/2+span*0.35,span*1.1+1.2,D+span*0.95);
+    sun.target.position.set(W/2,0,D/2);
+    ctl.update();
+  };
+  function size(){const w=host.clientWidth,h=Math.round(w*10/16);r.setSize(w,h,false);r.domElement.style.width='100%';r.domElement.style.height='auto';cam.aspect=w/h;cam.updateProjectionMatrix()}
+  addEventListener('resize',size); size();
+  (function loop(){ctl.update();r.render(scene,cam);requestAnimationFrame(loop)})();
+})();
+
+/* ---------- show room ---------- */
+function show(id){
+  const R=ROOMS.kitchen;
+  document.querySelectorAll('.seg a[href^="#"]').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+R.id));
+  document.getElementById('rtitle').textContent=R.name;
+  document.getElementById('rnote').innerHTML=R.note;
+  drawPlan(R);
+  const box=document.getElementById('elevs'); box.textContent='';
+  for(const [w,letter,title] of R.elevs){
+    const sec=document.createElement('div');
+    const h=document.createElement('h3'); h.textContent=`${letter} · ${title}`; sec.appendChild(h);
+    const sh=document.createElement('div'); sh.className='sheet'; sh.appendChild(drawElev(R,w,letter,title)); sec.appendChild(sh);
+    box.appendChild(sec);
+  }
+  const dl=document.getElementById('spec'); dl.textContent='';
+  R.spec.forEach(([k,v])=>{const dt=document.createElement('dt');dt.textContent=k;const dd=document.createElement('dd');dd.textContent=v;
+    if(k==='Change'){dt.className='chg'}dl.append(dt,dd)});
+  build3D(R);
+}
+const cur=()=>'kitchen';
+show(cur());
+</script>
+
+</body>
+</html>
