@@ -113,25 +113,26 @@ const ROOMS={};
 /* Entrance lobby outside the main door (Aravindh 22 Nov): common corridor 1500 wide between the OTS and Guest Bedroom Small (floor plan).
    Room frame: x east 0..1500, z south 0..2690; W wall = main door wall, E wall = wall opposite the door, S wall = Guest Small's north wall, N = open to the lift lobby. */
 {const R=room({id:'entrance',name:'Entrance lobby',W:1500,D:2690,
-  note:'The corridor is open towards F35. The closed shoe rack is on the 1500 end wall, 450 clear of the door wall, and an open-shelf bench runs along the block in an L.',
-  elevs:[['S','A','Shoe rack (1500 end wall)'],['E','B','Bench (along the block)'],['W','C','Main door and window']]});
+  note:'The corridor is open towards F35. An open L-shaped bench for daily footwear runs along the block and the 1500 end wall, with a mirror above it. Rarely used shoes go in the closed rack inside, under the key holder.',
+  elevs:[['S','A','Bench and mirror (1500 end wall)'],['E','B','Bench (along the block)'],['W','C','Main door and window']]});
  A(R,'W','door',100,1050,0,DH,40,{lab:'main door',swing:null,dim:true});
  /* uPVC window north of the door: louvred section next to the door, fixed pane beyond, sill about 900 (site photos 22 Nov) */
  A(R,'W','window',1450,1190,900,1200,120,{lab:'window'});
  /* waist-high block opposite the door (site photos); the corridor is open beyond it and to the north (towards F35) */
  A(R,'E','unit',1400,1290,0,1000,300,{t0:-300,mat:'wall',cols:1,noHandle:true,lab:'existing block'});
- /* closed shoe rack on the 1500 end wall, 450 clear of the door wall, 1525 (5 ft) high; narrower below 600 so the bench runs under it into the corner */
- A(R,'S','unit',400,650,0,600,350,{mat:'white',cols:1,rows:1,lab:'shoe rack',dim:true});
- A(R,'S','unit',0,1050,600,925,350,{mat:'white',cols:2,rows:2});
- /* bench along the block, into the corner under the rack (L): 1290 long, 400 deep, 600 high, two open shelves (300 each) for daily footwear, no cushions */
- A(R,'E','open',1400,1290,0,600,400,{mat:'white',shelves:2,lab:'bench, open shelves',dim:true});
+ /* open bench in an L for everyday footwear, 600 high, two open rows of 300, no cushions: along the block into the corner, then along the 1500 end wall up to 450 from the door wall */
+ A(R,'E','open',1400,1290,0,600,400,{mat:'white',shelves:2,lab:'open bench',dim:true});
+ A(R,'S','open',400,650,0,600,400,{mat:'white',shelves:2,dim:true});
+ /* mirror at face height on the end wall, above the bench */
+ A(R,'S','panel',460,500,1150,800,12,{mat:'mirror',lab:'mirror',dim:true});
  R.wallH={N:0,E:0};
- R.vd={E:[[0,300,'300'],[300,600,'300'],[0,1000,'block 1000']],S:[[0,600,'600'],[600,1525,'925'],[0,1525,'1525 (5 ft)']],W:[[900,2100,'window'],[0,DH,'2100']]};
+ R.vd={E:[[0,300,'300'],[300,600,'300'],[0,1000,'block 1000']],S:[[0,300,'300'],[300,600,'300'],[1150,1950,'mirror']],W:[[900,2100,'window'],[0,DH,'2100']]};
  R.spec=[
   ['Lobby','Common corridor outside the main door, about 1500 wide. It is open: it carries on north towards F35, and opposite the door there is only a waist-high block (about 1000) with open space beyond. North of the door is a uPVC window (louvred section next to the door, fixed pane beyond), sill about 900.'],
-  ['Shoe rack','Closed rack for rarely used shoes on the 1500 end wall: about 1050 wide, 350 deep, 1525 (5 ft) high, starting 450 from the door wall. Below 600 it is 650 wide (one tilt flap) so the bench can run under it into the corner; above that, 2 rows of tilt flaps in 2 columns. The top is a ledge for keys. White matte, brushed-aluminium bar handles, ventilation slots in the flaps.'],
-  ['Bench','Against the block, running into the corner under the rack to form an L: about 1290 long, 400 deep, 600 high, no cushions. Below the top are two open shelves, about 300 each, for everyday footwear. All rack flaps stay clear of the bench.'],
-  ['Clearance','450 between the door wall and the rack, and about 1100 between the door wall and the bench. Everything stays inside F34\'s frontage, so the corridor towards F35 is untouched.'],
+  ['Bench','Open L-shaped bench for everyday footwear: along the block into the corner (about 1290) and along the 1500 end wall up to 450 from the door wall (about 650). 400 deep, 600 high, two open shelves of 300, no cushions, white.'],
+  ['Mirror','About 500 × 800 on the 1500 end wall above the bench, 1150 to 1950 high (face height), slim white frame.'],
+  ['Shoe rack','Rarely used footwear goes in the closed rack inside the flat, under the key holder in the living room.'],
+  ['Clearance','450 between the door wall and the bench on the end wall, and about 1100 between the door wall and the bench along the block. Everything stays inside F34\'s frontage, so the corridor towards F35 is untouched.'],
   ['Check','Exact block size and height on site. Society rules on fixtures in the common lobby.']];
  ROOMS['entrance']=R}
 
