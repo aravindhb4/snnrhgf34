@@ -229,9 +229,9 @@ var XTRA=window.XTRA||{
    alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
    black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
  // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
- sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
-   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
-   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+ sheer(box,o,a0,a1,c,top,bot=10){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,bot,c-2,a1-a0,top-5-bot,4,m.sheer,false); else box(c-2,bot,a0,4,top-5-bot,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,bot,c+16,s,top-5-bot,3,m.sheer,false); else box(c+16,bot,a,3,top-5-bot,s,m.sheer,false)} // folds
    if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
  // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
  keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);

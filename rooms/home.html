@@ -153,8 +153,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'S','window',3200-BAY_X-BAY_W,BAY_W,450,1650,40,{dim:true,elevOnly:true});
  {const u=3200-BAY_X-BAY_W, top=2150, bot=540;
   A(R,'S','curtain',u,BAY_W,bot,top-bot,10,{sheer:true,elevOnly:true});
-  [0,BAY_W/3-130,2*BAY_W/3-130,BAY_W-260].forEach(d=>A(R,'S','curtain',u+d,260,bot,top-bot,10,{elevOnly:true}));
-  A(R,'S','board',u-30,BAY_W+60,top,0,10,{elevOnly:true,rod:true,lab:'curtain rod along the bay'});}
+  A(R,'S','board',u-30,BAY_W+60,top,0,10,{elevOnly:true,rod:true,lab:'sheer curtain on a track along the bay'});}
  R.vd={N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']],E:[[0,550,'550'],[0,750,'750'],[1150,1710,'560']],S:[[0,900,'900'],[0,2150,'2150'],[0,450,'450'],[450,2100,'1650']]};
  R.plan=(el,text)=>{
   // toilet: part inside the room, rest continues outside (dashed)
@@ -191,12 +190,9 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   box(BAY_X,2150,RD,BAY_W,80,BAY_D,MAT.white);
   [[BAY_X,0],[BAY_X+BAY_W-40,0]].forEach(([x])=>box(x,450,RD+BAY_D-40,40,1700,40,MAT.white,false));
   box(3200-750,1000,RD-12,700,1200,12,MAT.glass);
-  const sheerM=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.45,roughness:.9});
-  const cz=RD+BAY_D-70, cx0=BAY_X+70, cx1=BAY_X+BAY_W-70, cy=540, ch=2150-540;
-  box(cx0,cy,cz-10,cx1-cx0,ch,10,sheerM,false); box(cx1,cy,RD,10,ch,BAY_D-70,sheerM,false);
-  box(cx0,2140,cz-25,cx1-cx0,20,20,MAT.metal,false);
-  box(cx0+20,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40); box(cx1-140,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40);
-  [BAY_W/3,2*BAY_W/3].forEach(d=>box(BAY_X+d-110,cy,cz-150,220,ch,120,MAT.fabric,false,40));
+  // bay curtain (22 Nov, Aravindh): thin sheer only, sliding on a slim aluminium track that follows the bay (same as the entrance screens); no thick drapes
+  const cz=RD+BAY_D-70, cx0=BAY_X+70, cx1=BAY_X+BAY_W-70;
+  XTRA.sheer(box,'x',cx0,cx1,cz-20,2120,560); XTRA.sheer(box,'z',RD+20,cz,cx1-20,2120,560);
  };
  /* Daylight through the bay (22 Nov, Aravindh): bright sky behind the glass, a warm sun patch falling into the room with curtain shadows, and soft fill near the window. */
  R.light=(G,mm)=>{
@@ -216,7 +212,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
-  ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Curtain rod following the bay just below the soffit, a full sheer layer, and 4 tied-back curtains (two at the corners, two on the front window) ending just above the cushion.'],
+  ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Thin sheer curtain only, on a slim brushed-aluminium track that follows the bay just below the soffit, sliding open in one move and ending just above the cushion (no thick drapes, 22 Nov).'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
   ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; loft shutters get a short upright bar at the bottom corner on the opening side, matching the wardrobe door below. The fold-down study table gets a finger pull at its front edge.'],
   ['Open points','Passage depth, plug point position and height, bay width. All sizes to be measured.']];
@@ -229,9 +225,9 @@ var XTRA=window.XTRA||{
    alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
    black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
  // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
- sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
-   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
-   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+ sheer(box,o,a0,a1,c,top,bot=10){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,bot,c-2,a1-a0,top-5-bot,4,m.sheer,false); else box(c-2,bot,a0,4,top-5-bot,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,bot,c+16,s,top-5-bot,3,m.sheer,false); else box(c+16,bot,a,3,top-5-bot,s,m.sheer,false)} // folds
    if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
  // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
  keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);
@@ -448,9 +444,9 @@ var XTRA=window.XTRA||{
    alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
    black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
  // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
- sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
-   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
-   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+ sheer(box,o,a0,a1,c,top,bot=10){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,bot,c-2,a1-a0,top-5-bot,4,m.sheer,false); else box(c-2,bot,a0,4,top-5-bot,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,bot,c+16,s,top-5-bot,3,m.sheer,false); else box(c+16,bot,a,3,top-5-bot,s,m.sheer,false)} // folds
    if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
  // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
  keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);
@@ -564,9 +560,9 @@ var XTRA=window.XTRA||{
    alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
    black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
  // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
- sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
-   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
-   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+ sheer(box,o,a0,a1,c,top,bot=10){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,bot,c-2,a1-a0,top-5-bot,4,m.sheer,false); else box(c-2,bot,a0,4,top-5-bot,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,bot,c+16,s,top-5-bot,3,m.sheer,false); else box(c+16,bot,a,3,top-5-bot,s,m.sheer,false)} // folds
    if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
  // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
  keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);
