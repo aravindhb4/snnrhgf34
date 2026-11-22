@@ -198,6 +198,15 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   box(cx0+20,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40); box(cx1-140,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40);
   [BAY_W/3,2*BAY_W/3].forEach(d=>box(BAY_X+d-110,cy,cz-150,220,ch,120,MAT.fabric,false,40));
  };
+ /* Daylight through the bay (22 Nov, Aravindh): bright sky behind the glass, a warm sun patch falling into the room with curtain shadows, and soft fill near the window. */
+ R.light=(G,mm)=>{
+  const sky=new THREE.Mesh(new THREE.PlaneGeometry(mm(BAY_W+600),mm(2200)),new THREE.MeshBasicMaterial({color:0xf4f8fb}));
+  sky.position.set(mm(BAY_X+BAY_W/2),mm(1300),mm(RD+BAY_D+60)); sky.rotation.y=Math.PI; G.add(sky);
+  const sun=new THREE.SpotLight(0xfff1da,1.1,9,Math.PI/3.2,.55,1.2); sun.position.set(mm(BAY_X+BAY_W/2+300),mm(2050),mm(RD+300));
+  sun.target.position.set(mm(BAY_X+BAY_W/2+500),0,mm(RD-2000)); sun.castShadow=true; sun.shadow.mapSize.set(1024,1024); sun.shadow.bias=-0.0005;
+  G.add(sun); G.add(sun.target);
+  const fill=new THREE.PointLight(0xfff6ea,.45,4.5,1.5); fill.position.set(mm(BAY_X+BAY_W/2),mm(1400),mm(RD-400)); G.add(fill);
+ };
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
@@ -230,6 +239,15 @@ var XTRA=window.XTRA||{
      for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
 {const R=ROOMS['bedroom-1'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.sheer(box,'x',2260,3140,-35,2070);};
  R.spec.push(['Entrance screen','Thin sheer curtain on a slim brushed-aluminium track inside the room door opening (living side), slides aside in one move.']);}
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 
 return ROOMS['bedroom-1']||Object.values(ROOMS)[0]})();
 SET['bedroom-2']=(function(){
@@ -291,6 +309,15 @@ const ROOMS={};
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
 
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 
 return ROOMS['bedroom-2']||Object.values(ROOMS)[0]})();
 SET['bedroom-3']=(function(){
@@ -359,6 +386,15 @@ function subRC(it,x,y,w,h,inset){const r=RC(it),o={},e=2;
   if(r.bl&&Math.abs(x-it.u0)<e+inset&&Math.abs(y-it.y0)<e+inset)o.bl=r.bl-inset;
   if(r.br&&Math.abs(x+w-(it.u0+it.uw))<e+inset&&Math.abs(y-it.y0)<e+inset)o.br=r.br-inset;
   return o}
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 
 return ROOMS['bedroom-3']||Object.values(ROOMS)[0]})();
 SET['living']=(function(){
@@ -422,6 +458,15 @@ var XTRA=window.XTRA||{
      for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
 {const R=ROOMS['living'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.keys(box,1290,1829);};
  R.spec.push(['Key holder','Wenge wooden key board about 300 × 200 with two rows of 6 straight chrome knob hooks and a black strip under each row, centred at 6 ft (1830) on the wall where the sofa\'s long side ends, on the way to the main door.']);}
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 
 return ROOMS['living']||Object.values(ROOMS)[0]})();
 SET['kitchen']=(function(){
@@ -529,6 +574,15 @@ var XTRA=window.XTRA||{
      for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
 {const R=ROOMS['kitchen'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.sheer(box,'x',-150,1370,3320,2180);};
  R.spec.push(['Entrance screen','Thin sheer curtain on a slim brushed-aluminium track at about 2180, on the dining side of the entrance, 150 past each side; slides aside in one move.']);}
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 
 return ROOMS['kitchen']||Object.values(ROOMS)[0]})();
 
@@ -987,7 +1041,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
   // rooms
   for(const id in PLACE){const pl=PLACE[id],R=pl.R,g=new THREE.Group();
     g.position.set(mm(pl.X),0,mm(pl.Z)); g.rotation.y=pl.rot===90?-Math.PI/2:0; scene.add(g); G=g;
-    HROOM=id; roomItems(R); HROOM=''; sofa(R); if(R.three)R.three(box,MAT,soft); G=scene}
+    HROOM=id; roomItems(R); HROOM=''; sofa(R); if(R.three)R.three(box,MAT,soft); if(R.light)R.light(G,mm); G=scene}
   {const P=PHOTO2,PH=[MAT.paper,MAT.wood2,MAT.cream,MAT.door,MAT.fabric,MAT.wood];
    P.F.forEach(([dx,yc,w,h],k)=>{const x=P.xc+dx-w/2,y=yc-h/2,mt=Math.min(w,h)>200?26:18;
      box(x,y,P.z-22,w,h,22,MAT.granite,false); box(x+14,y+14,P.z-25,w-28,h-28,3,MAT.white,false); box(x+14+mt,y+14+mt,P.z-27,w-28-2*mt,h-28-2*mt,2,PH[k%PH.length],false)})}
@@ -1008,6 +1062,9 @@ let focusRoom=()=>{}, setWalls=()=>{};
    const sl=new THREE.SpotLight(0xfff4e0,0.45,0,0.6,0.7,1); sl.position.set(7.8,2.6,13.6); sl.target.position.set(7.8,0,8.4); sl.castShadow=true; sl.shadow.mapSize.set(2048,2048); sl.shadow.bias=-0.0005; scene.add(sl,sl.target);}
   // entrance curtains and the key holder are drawn by the room pages (living, kitchen, bedroom-1) through R.three
   walls();
+  // daylight through every window (Aravindh 22 Nov: doors open, light coming through wherever possible)
+  OPEN.filter(o=>o.kind==='window').forEach(o=>{const l=new THREE.PointLight(0xfff4e0,.3,3.5,1.5),m=(o.a0+o.a1)/2,y=Math.min((o.y0+o.y1)/2,1800);
+    if(o.o==='x')l.position.set(mm(m),mm(y),mm(o.c)); else l.position.set(mm(o.c),mm(y),mm(m)); scene.add(l)});
 
   const VIEWS={all:{t:[7.4,0.4,6.6],p:[7.4,17,19.5]}};
   for(const sp of SPACES){const cx=mm((sp.x0+sp.x1)/2),cz=mm((sp.z0+sp.z1)/2),s=Math.max(mm(sp.x1-sp.x0),mm(sp.z1-sp.z0));

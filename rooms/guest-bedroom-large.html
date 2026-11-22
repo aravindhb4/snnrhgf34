@@ -170,6 +170,15 @@ const ROOMS={};
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
 
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -471,12 +480,12 @@ let build3D=()=>{};
           if(!it.noL)wbox(R,it,u0,18,y0,h,0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood); /* noL/noR: open end that runs on into the next unit (L corner) */
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
-        case 'door': wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
+        case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
         case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); break;
         case 'ac': wbox(R,it,u0,uw,y0,h,t0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,t0+td-10,14,MAT.granite,false); break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
-        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); break;
+        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); XOPEN.glow(R,it,G,mm,.22); break;
         case 'hood': wbox(R,it,u0+60,uw-120,y0,200,0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+200,h-200,0,300,MAT.metal); break;
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
         case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;

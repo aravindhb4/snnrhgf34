@@ -166,6 +166,15 @@ var XTRA=window.XTRA||{
      for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
 {const R=ROOMS['living'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.keys(box,1290,1829);};
  R.spec.push(['Key holder','Wenge wooden key board about 300 × 200 with two rows of 6 straight chrome knob hooks and a black strip under each row, centred at 6 ft (1830) on the wall where the sofa\'s long side ends, on the way to the main door.']);}
+/* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
+var XOPEN=window.XOPEN||(window.XOPEN={
+ room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
+  const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
+ door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
+  wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
+  if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
+  XOPEN.glow(R,it,G,mm,.18)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -501,9 +510,9 @@ let build3D=()=>{};
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
         case 'recess': break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+15,uw-30,y0+15,h-30,25,3,MAT.white,false); wbox(R,it,u0+40,uw-80,y0+40,h-80,28,2,MAT.wood,false); break;
-        case 'door': wbox(R,it,u0,uw,y0,h,it.t0||0,40,MAT.door);
+        case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,it.t0||0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
-        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); break;
+        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); XOPEN.glow(R,it,G,mm,.22); break;
         case 'hood': wbox(R,it,u0+60,uw-120,y0,200,0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+200,h-200,0,300,MAT.metal); break;
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
         case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;
