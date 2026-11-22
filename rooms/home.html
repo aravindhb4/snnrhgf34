@@ -728,7 +728,7 @@ SPACES.push(
 const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820},{x0:12510,z0:2000,x1:12810,z1:3410,h:1000},{x0:10890,z0:600,x1:11010,z1:650},{x0:10890,z0:1840,x1:11010,z1:2040},{x0:10890,z0:650,x1:11010,z1:1840,h:900},{x0:10890,z0:650,x1:11010,z1:1840,y0:2100}]; // + lobby: waist-high block opposite the door (site photos 22 Nov), door wall north of the main door with a uPVC window (sill 900); corridor open to the north (towards F35) and beyond the block
 /* Lobby outside the main door (Aravindh 22 Nov): the end wall beside the door has only ~100 of wall, so the tall shoe rack goes on the wall opposite the door
    (floor to ceiling, 350 deep, about 1150 clear in front of the door) and the seat on the longer door-side wall north of the door, facing the rack */
-const LOBBY={rack:{x0:11460,x1:12510,z1:3290,d:350},bench:{x1:12510,z0:2000,z1:3290,d:400,h:600},win:{z0:650,z1:1840,y0:900,y1:2100}}; // closed rack on the 1500 end wall (450 clear of the door wall), open-shelf bench along the block in an L (Aravindh 22 Nov)
+const LOBBY={rack:{x0:11460,x1:12510,z1:3290,d:350},bench:{x1:12510,z0:2000,z1:3290,d:400,h:600},win:{z0:650,z1:1840,y0:900,y1:2100}}; // closed rack (1525 high) on the 1500 end wall (450 clear of the door wall), open-shelf bench along the block in an L (Aravindh 22 Nov)
 const GROUPS={'shaft':'bedroom-1','recess':'living','livingB':'living','strip':'living','passage':'bedroom-1','toilet1':'bedroom-1','toilet2':'bedroom-2','balcony':'dining'};
 
 /* openings: {o:'x'|'z' (direction the wall runs), a0,a1 along it, c across (wall line), y0,y1, kind} */
@@ -1167,12 +1167,10 @@ let focusRoom=()=>{}, setWalls=()=>{};
    box(12510,1000,2000,300,20,1410,MAT.granite,false);                                                                    // block top
    const L=K.x1-K.x0,cw=L/2,zf=K.z1-K.d,fr=zf-18,B=LOBBY.bench,bx=B.x1-B.d,BL=B.z1-B.z0,Ll=bx-K.x0;
    box(K.x0+20,0,zf+50,Ll-40,100,K.d-50,MAT.wgrey||MAT.panel,false);                                                    // recessed plinth
-   rbox(K.x0,100,zf,Ll,500,K.d,W,30); rbox(K.x0,600,zf,L,CEIL-600,K.d,W,30);                                            // rack: narrower below 600 so the bench runs under it into the corner
+   rbox(K.x0,100,zf,Ll,500,K.d,W,30); rbox(K.x0,600,zf,L,925,K.d,W,30);                                            // rack: narrower below 600 so the bench runs under it into the corner
    box(K.x0+3,103,fr,Ll-6,494,18,W); box(K.x0+Ll/2-80,560,fr-14,160,14,14,MAT.alu,false);                                // low tilt flap (2 tiers)
    for(let j=0;j<2;j++){const x=K.x0+j*cw;
-     for(let i=0;i<2;i++){const y=600+i*400; box(x+3,y+3,fr,cw-6,394,18,W); box(x+cw/2-80,y+360,fr-14,160,14,14,MAT.alu,false)} // 2 rows of tilt flaps above the bench
-     box(x+3,1403,fr,cw-6,894,18,W); box(x+3,2303,fr,cw-6,CEIL-2306,18,W);                                              // shutter, loft
-     const hx=j?x+40:x+cw-54; box(hx,1450,fr-14,14,300,14,MAT.alu,false); box(hx,2340,fr-14,14,160,14,MAT.alu,false)}
+     for(let i=0;i<2;i++){const y=600+i*462; box(x+3,y+3,fr,cw-6,456,18,W); box(x+cw/2-80,y+420,fr-14,160,14,14,MAT.alu,false)}} // 2 rows of tilt flaps above the bench, rack top at 1525 (5 ft)
    box(bx,0,B.z0,B.d,B.h,18,W,false); box(B.x1-18,0,B.z0,18,B.h,BL,MAT.panel,false);                                         // bench end panel, back panel
    for(const y of [0,B.h/2-9])box(bx,y,B.z0,B.d,18,BL,W,false);                                                           // bottom and middle shelf: two open rows for daily footwear
    rbox(bx,B.h-25,B.z0,B.d,25,BL,W,12)}                                                                                    // bench top, 600 high, no cushions
