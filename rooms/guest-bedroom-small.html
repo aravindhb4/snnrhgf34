@@ -115,8 +115,8 @@ const ROOMS={};
   elevs:[['W','A','Wardrobe and room door'],['E','B','Bed wall'],['S','C','Window wall'],['N','D','Study wall']]});
  A(R,'W','door',200,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
- A(R,'W','unit',1150,550,0,750,600,{mat:'wood',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
- A(R,'W','open',1300,400,1350,1050,400,{shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
+ A(R,'W','unit',1150,550,0,750,600,{mat:'white',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
+ A(R,'W','open',1300,400,1350,1050,400,{mat:'white',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
  A(R,'W','unit',1300,900,2400,500,600,{mat:'white',cols:1});
  A(R,'W','unit',1700,1500,0,2400,600,{mat:'white',ward:true,cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
  A(R,'W','unit',2200,1000,2400,500,600,{mat:'white',cols:2});
@@ -486,8 +486,8 @@ let build3D=()=>{};
             if(ho==='h')rwbox(R,it,hx-hl/2,hl,hy-7,14,td,22,MAT.alu,7,'y'); else rwbox(R,it,hx-7,14,hy-hl/2,hl,td,22,MAT.alu,7,'y')}
           break}
         case 'open': wbox(R,it,u0,uw,y0,h,0,20,MAT.panel);
-          wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
-          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
+          wbox(R,it,u0,18,y0,h,0,td,(MAT[it.mat]||MAT.wood)); wbox(R,it,u0+uw-18,18,y0,h,0,td,(MAT[it.mat]||MAT.wood));
+          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,(MAT[it.mat]||MAT.wood));break;
         case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
         case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); XOPEN.drape(R,it,wbox,G); break;

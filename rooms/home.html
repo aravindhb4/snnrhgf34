@@ -125,8 +125,8 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
   elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','Desk and 43″ TV'],['S','D','Bay window and dresser']]});
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
- // wardrobe (22 Nov, Aravindh ref photo IMG_3117): one tall unit, no loft. Ivory base drawers 450, then 3 full-height shutters to the ceiling; more shelves inside
- A(R,'N','unit',0,TB_W,0,450,600,{t0:TB_D,mat:'ivory',cols:2,drw:true,round:'bottom',carcH:2900});
+ // wardrobe (22 Nov, Aravindh ref photo IMG_3117): one tall unit, no loft. Warm-grey base drawers 450 (same grey as the other wardrobes' lower band), then 3 full-height shutters to the ceiling; more shelves inside
+ A(R,'N','unit',0,TB_W,0,450,600,{t0:TB_D,mat:'wgrey',cols:2,drw:true,round:'bottom',carcH:2900});
  A(R,'N','unit',0,TB_W,450,CEIL-450,600,{t0:TB_D,mat:'white',cols:3,hs:['L','R','L'],lab:'wardrobe',dim:true,round:'top',noCarc:true});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
@@ -135,19 +135,19 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'W','panel',MAIN-600,600,0,CEIL,10,{mat:'white',lab:'wardrobe side',elevOnly:true});
  A(R,'W','gap',MAIN,TB_D,0,CEIL,0,{lab:'toilet',elevOnly:true});
  L(R,'bed',60,BED_Z-915,2074,1830,0,500,{on:['W'],lab:'king bed, 7 ft overall'}); // 22 Nov: cot + headrest cushions make it about 7 ft (2134) from the wall
- L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'wood',on:['W']});
+ L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'white',on:['W']});
  /* East wall (u from the north/passage end). Plug board low at about 550, near the middle of the wall (site photo 20 Nov, estimated).
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
  /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
- A(R,'E','unit',DESK_U,DESK_W,600,150,330,{mat:'wood',cols:2,flap:true,rf:30,lab:'desk + TV console',dim:true}); // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
+ A(R,'E','unit',DESK_U,DESK_W,600,150,330,{mat:'white',cols:2,flap:true,rf:30,lab:'desk + TV console',dim:true}); // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
  A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
  A(R,'E','door',0,900,0,DH,40,{lab:'room door (open)',elevOnly:true});
  /* Mirror dresser (Aravindh's reference photo, 20 Nov): ivory; storage tower on the left (corner side): 3 drawers, open backlit shelves above, top level with the mirror door;
     tall mirror door on the right, hinged on its right edge, handle on the left edge, storage behind. */
- A(R,'S','vanity',0,950,0,2150,400,{mat:'ivory',sw:380,dim:true});
+ A(R,'S','vanity',0,950,0,2150,400,{mat:'white',sw:380,dim:true});
  A(R,'S','panel',3200-BAY_X-BAY_W,BAY_W,420,30,10,{mat:'tile',lab:'',elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-BAY_W,BAY_W,450,80,10,{elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-100,110,530,600,10,{elevOnly:true}); // backrest cushion on the bay's west (brick) side
@@ -211,12 +211,12 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep, one tall unit with no loft: 2 ivory base drawers 800 × 450, then 3 full-height white hinged shutters about 533 wide from 450 to the ceiling. Inside: hanging on one side, shelves on the rest, high shelves up to the ceiling for less-used items.'],
-  ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 330 × 150 (top at 750, rounded edges and rounded drawer fronts like the living TV unit, centred horizontal pull handles; about 740 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
+  ['Wardrobe','1600 (5′ toilet face) × 600 deep, one tall unit with no loft: 2 warm-grey base drawers 800 × 450 (same grey as the other wardrobes), then 3 full-height white hinged shutters about 533 wide from 450 to the ceiling. Inside: hanging on one side, shelves on the rest, high shelves up to the ceiling for less-used items.'],
+  ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One white side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
+  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed white floating desk 1200 × 330 × 150 (top at 750, rounded edges and rounded drawer fronts like the living TV unit, centred horizontal pull handles; about 740 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
+  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, white matte to match the wardrobe. Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
   ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Clear glass with white uPVC frames (site photo). Thin sheer curtain only, on a slim brushed-aluminium track along the long glass side and the leg-side glass (none on the brick, cushion side), slides fully open to the ends, ending just above the cushion (no thick drapes, 22 Nov).'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe base drawers and tall shutters read as one block; shutters and drawer fronts are plain where they meet.'],
   ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; wardrobe base drawers get a horizontal pull on the top edge. The fold-down study table gets a finger pull at its front edge.'],
@@ -287,7 +287,7 @@ const ROOMS={};
 {const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
- A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,prc:{fl:60}});
+ A(R,'N','open',2320,350,1200,1200,400,{mat:'white',shelves:3,lab:'open',dim:true,prc:{fl:60}});
  A(R,'N','unit',2670,1900,0,2400,600,{mat:'white',ward:true,cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
  A(R,'N','unit',2320,825,2400,500,600,{mat:'white',cols:1});
  A(R,'N','unit',3145,1425,2400,500,600,{mat:'white',cols:3,flip:true});
@@ -299,8 +299,8 @@ const ROOMS={};
  A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
  /* Bookshelf (Aravindh, 21 Nov): L in the NW corner beside the bed, running to the open shelf and matching it, 1200-2400, 300 deep, 3 compartments of 400.
     West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
- A(R,'W','open',2750,450,1200,1200,300,{shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
- A(R,'N','open',300,2020,1200,1200,300,{shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
+ A(R,'W','open',2750,450,1200,1200,300,{mat:'white',shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
+ A(R,'N','open',300,2020,1200,1200,300,{mat:'white',shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
  /* Books on the bookshelf, for representation only (21 Nov): seeded random spines per compartment, about 75% full, upright, muted colours.
     Each book: [u, width, y, height, depth, colour index]. Renderers draw it.books in the elevation and 3D. */
  R.items.filter(it=>it.kind==='open'&&/book/.test(it.lab||'')).forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
@@ -375,8 +375,8 @@ const ROOMS={};
   elevs:[['W','A','Wardrobe and room door'],['E','B','Bed wall'],['S','C','Window wall'],['N','D','Study wall']]});
  A(R,'W','door',200,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
- A(R,'W','unit',1150,550,0,750,600,{mat:'wood',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
- A(R,'W','open',1300,400,1350,1050,400,{shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
+ A(R,'W','unit',1150,550,0,750,600,{mat:'white',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
+ A(R,'W','open',1300,400,1350,1050,400,{mat:'white',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
  A(R,'W','unit',1300,900,2400,500,600,{mat:'white',cols:1});
  A(R,'W','unit',1700,1500,0,2400,600,{mat:'white',ward:true,cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
  A(R,'W','unit',2200,1000,2400,500,600,{mat:'white',cols:2});
@@ -999,8 +999,8 @@ let focusRoom=()=>{}, setWalls=()=>{};
             const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,t0+td,16,MAT.alu,false)}}
           break}
         case 'open': wbox(R,it,u0,uw,y0,h,t0,20,MAT.panel);
-          if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,MAT.wood); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,MAT.wood);
-          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,MAT.wood);
+          if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood)); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood));
+          for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,(MAT[it.mat]||MAT.wood));
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,t0+20,bd,BOOKM[ci],false));break;
         case 'wicker': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
         case 'flap': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
