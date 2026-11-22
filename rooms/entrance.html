@@ -12,17 +12,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#4a7d6b; --ebony:#3a2c25; --handle:#1c1c1c;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#2a201b; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#2a201b; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -370,7 +370,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={ivory:M(0xe8e1d4,{roughness:1}),emerald:M(0x4f8370,{roughness:1}),ebony:M(0x3a2c25,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={ivory:M(0xe8e1d4,{roughness:1}),emerald:M(0x4f8370,{roughness:1}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),alu:M(0xd9dcde,{metalness:.1,roughness:.4}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),

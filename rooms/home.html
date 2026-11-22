@@ -11,17 +11,17 @@
 <style>
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --ivory:#ebe5da; --glow:#d9a94a; --emerald:#4a7d6b; --ebony:#3a2c25; --handle:#1c1c1c;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --ivory:#ebe5da; --glow:#d9a94a; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --alu:#a3a7aa; --accent:#b4612b; --sofa:#8a4a2c;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#2a201b; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#2a201b; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5;margin:0}
 main{max-width:1100px;margin:0 auto;padding-block:32px 48px;
@@ -909,7 +909,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
   Object.assign(sun.shadow.camera,{left:-12,right:12,top:12,bottom:-12,far:60}); sun.target.position.set(7.4,0,6.4); scene.add(sun,sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
   const BOOKM=[0x8a6f5a,0x5f6b6d,0xa89a82,0x6f7d68,0xb7a58a,0x4f4b47,0x9a6b5b,0xc9bfae].map(col=>M(col,{roughness:.8}));
-  const MAT={emerald:M(0x4f8370,{roughness:1}),ebony:M(0x3a2c25,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wgrey:M(0xd3cec7,{roughness:.8}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),sofaF:M(0x5c301c,{roughness:.95}),
+  const MAT={emerald:M(0x4f8370,{roughness:1}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wgrey:M(0xd3cec7,{roughness:.8}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),sofaF:M(0x5c301c,{roughness:.95}),
     quilt:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d');x.fillStyle='#6b3820';x.fillRect(0,0,128,128);
       x.strokeStyle='#b8876a';x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(0,0);x.lineTo(128,128);x.moveTo(128,0);x.lineTo(0,128);x.moveTo(64,0);x.lineTo(128,64);x.lineTo(64,128);x.lineTo(0,64);x.closePath();x.stroke();
       const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(3,3);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),
