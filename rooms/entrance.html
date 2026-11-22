@@ -113,7 +113,7 @@ const ROOMS={};
 /* Entrance lobby outside the main door (Aravindh 22 Nov): common corridor 1500 wide between the OTS and Guest Bedroom Small (floor plan).
    Room frame: x east 0..1500, z south 0..2690; W wall = main door wall, E wall = wall opposite the door, S wall = Guest Small's north wall, N = open to the lift lobby. */
 {const R=room({id:'entrance',name:'Entrance lobby',W:1500,D:2690,
-  note:'The corridor is open towards F35. The shoe rack sits against the waist-high block opposite the door, level with its top, and the seat is on the 1500 end wall.',
+  note:'The corridor is open towards F35. The shoe rack sits against the waist-high block opposite the door, level with its top, and a single seat is on the 1500 end wall with room to open the flaps.',
   elevs:[['E','A','Shoe rack (opposite the door)'],['S','B','Seat (1500 end wall)'],['W','C','Main door and window']]});
  A(R,'W','door',100,1050,0,DH,40,{lab:'main door',swing:null,dim:true});
  /* uPVC window north of the door: louvred section next to the door, fixed pane beyond, sill about 900 (site photos 22 Nov) */
@@ -122,16 +122,16 @@ const ROOMS={};
  A(R,'E','unit',1400,1290,0,1000,300,{t0:-300,mat:'wall',cols:1,noHandle:true,lab:'existing block'});
  /* shoe rack against the block, opposite the door: 1230 wide x 350 deep x 1000 high (level with the block), 4 rows of tilt-out flaps in 2 columns */
  A(R,'E','unit',1460,1230,0,1000,350,{mat:'white',cols:2,rows:4,rc:{tl:30,tr:30},lab:'shoe rack, 4 rows',dim:true});
- /* seat on the 1500 end wall, clear of the door: 860 x 420, cushion top at 450, back cushion on the wall */
- A(R,'S','unit',350,860,0,380,420,{mat:'white',cols:1,noHandle:true,rc:{tl:30,tr:30},lab:'seat',dim:true});
- A(R,'S','cushion',350,860,380,70,420,{});
- A(R,'S','cushion',370,820,460,400,80,{});
+ /* single seat on the 1500 end wall, clear of the door and the rack flaps: 500 x 420, cushion top at 450, back cushion on the wall */
+ A(R,'S','unit',810,500,0,380,420,{mat:'white',cols:1,noHandle:true,rc:{tl:30,tr:30},lab:'seat',dim:true});
+ A(R,'S','cushion',810,500,380,70,420,{});
+ A(R,'S','cushion',830,460,460,400,80,{});
  R.wallH={N:0,E:0};
  R.vd={E:[[0,1000,'1000']],S:[[0,450,'450']],W:[[900,2100,'window'],[0,DH,'2100']]};
  R.spec=[
   ['Lobby','Common corridor outside the main door, about 1500 wide. It is open: it carries on north towards F35, and opposite the door there is only a waist-high block (about 1000) with open space beyond. North of the door is a uPVC window (louvred section next to the door, fixed pane beyond), sill about 900.'],
   ['Shoe rack','Against the block, opposite the door: about 1230 wide, 350 deep, 1000 high so its top lines up with the block. 4 rows of tilt-out flaps in 2 columns, about 24 pairs. The top works as a ledge for keys. White matte, brushed-aluminium bar handles, ventilation slots in the flaps.'],
-  ['Seat','On the 1500 end wall, between the door and the rack: about 860 long, 420 deep, 450 to the cushion top, white box with storage, fabric seat and back cushions. It starts about 400 from the door wall so the door stays clear.'],
+  ['Seat','Single seater on the 1500 end wall: about 500 wide, 420 deep, 450 to the cushion top, white box with storage, fabric seat and back cushions. About 300 from the door wall and about 450 clear of the rack, so the flaps open fully.'],
   ['Clearance','About 1150 clear between the rack and the door wall. The rack and seat stay inside F34\'s frontage, so the corridor towards F35 is untouched.'],
   ['Check','Exact block size and height on site. Society rules on fixtures in the common lobby.']];
  ROOMS['entrance']=R}
