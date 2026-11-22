@@ -240,6 +240,18 @@ var XOPEN=window.XOPEN||(window.XOPEN={
   wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
   if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
   XOPEN.glow(R,it,G,mm,.18)}});
+/* floating desk (22 Nov, Aravindh): one block whose front outline is rounded at the outer corners, the drawer fronts follow the same curve; thin groove between drawers, centred pulls */
+var XDESK=window.XDESK||(window.XDESK=function(R,it,G,mm,m,alu,lineM){
+ const r=Math.min(60,it.h/2-1),w=it.uw,h=it.h,td=it.td,cols=it.cols||1,s=new THREE.Shape();
+ s.moveTo(r,0);s.lineTo(w-r,0);s.quadraticCurveTo(w,0,w,r);s.lineTo(w,h-r);s.quadraticCurveTo(w,h,w-r,h);s.lineTo(r,h);s.quadraticCurveTo(0,h,0,h-r);s.lineTo(0,r);s.quadraticCurveTo(0,0,r,0);
+ const g=new THREE.ExtrudeGeometry(s,{depth:td,bevelEnabled:false,curveSegments:10}); g.translate(it.u0,it.y0,it.t0||0); g.scale(.001,.001,.001);
+ const grp=new THREE.Group(),o=new THREE.Mesh(g,m); o.castShadow=o.receiveShadow=true; grp.add(o,new THREE.LineSegments(new THREE.EdgesGeometry(g,30),lineM));
+ const bx=(u,y,t,bw,bh,bd,mat)=>{const b=new THREE.Mesh(new THREE.BoxGeometry(mm(bw),mm(bh),mm(bd)),mat);b.position.set(mm(u+bw/2),mm(y+bh/2),mm(t+bd/2));b.castShadow=true;grp.add(b)};
+ const groove=new THREE.MeshStandardMaterial({color:0x5a4c3e,roughness:.9}),t1=(it.t0||0)+td,cw=w/cols;
+ for(let j=1;j<cols;j++)bx(it.u0+j*cw-2,it.y0+8,t1-1,4,h-16,2,groove);
+ for(let j=0;j<cols;j++)bx(it.u0+(j+.5)*cw-60,it.y0+h/2-7,t1,120,14,22,alu);
+ const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall];
+ grp.rotation.y=ROT[0]; grp.position.set(mm(ROT[1]),0,mm(ROT[2])); G.add(grp)});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -540,6 +552,7 @@ let build3D=()=>{};
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
         case 'flap': wbox(R,it,u0,uw,y0,h,0,td,m,false,12); wbox(R,it,u0+uw/2-60,120,y0-14,14,td,22,MAT.metal,false,5); wbox(R,it,u0+uw/2-30,60,y0-400,400,0,40,m,false,8); break;
         case 'unit':{
+          if(it.rf&&it.flap){XDESK(R,it,G,mm,m,MAT.metal,lineM);break}
           if(!it.noCarc)wbox(R,it,u0,uw,y0,it.carcH||h,t0||0,td-18,m,false,25);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,(t0||0)+td-18,18,it.glass?MAT.glass:m,!it.rf,it.rf||0);
