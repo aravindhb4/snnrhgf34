@@ -179,7 +179,20 @@ var XOPEN=window.XOPEN||(window.XOPEN={
  door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
   wbox(R,it,u0,uw,0,it.h,-1,3,new THREE.MeshBasicMaterial({color:0xf7f2e8}),false); // doorway: daylight beyond
   if(it.swing){const hu=it.swing==='L'?u0:u0+uw-40;wbox(R,it,hu,40,0,Math.min(it.h,2100),3,uw-40,MAT.door)} // leaf swung back into the room
-  XOPEN.glow(R,it,G,mm,.18)}});
+  XOPEN.glow(R,it,G,mm,.18)},
+ clear(){return XOPEN._c||(XOPEN._c=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.07,roughness:0,depthWrite:false}))}, // clear window glass (22 Nov, Aravindh)
+ frame(R,it,wbox,MAT){const {u0,uw,y0,h}=it,f=MAT.white; wbox(R,it,u0+uw/2-20,40,y0,h,0,40,f,false); wbox(R,it,u0,uw,y0+Math.min(h*.45,900),40,0,40,f,false)}, // white uPVC mullion + transom
+ // curtains in the pelmet, tied back at both edges (never closed): full-height linen drapes gathered by a tie at about 1050
+ drape(R,it,wbox,G){const m=XOPEN._d||(XOPEN._d={f:new THREE.MeshStandardMaterial({color:0xe6ddcc,roughness:1}),t:new THREE.MeshStandardMaterial({color:0xb9a98f,roughness:.9})});
+  const top=it.y0,ty=1050,grp=new THREE.Group();
+  for(const [c,s] of [[it.u0+170,1],[it.u0+it.uw-170,-1]]){ // hourglass drape: wide at the pelmet, gathered by a tie at about 1050, flaring to the floor
+   const sh=new THREE.Shape(),hw=y=>y>ty?75+(150-75)*Math.pow((y-ty)/(top-ty),1.4):75+(140-75)*Math.pow((ty-y)/ty,1.2);
+   sh.moveTo(c-hw(10),10); for(let y=10;y<=top;y+=50)sh.lineTo(c-hw(y),y); for(let y=top;y>=10;y-=50)sh.lineTo(c+hw(y),y);
+   const g=new THREE.ExtrudeGeometry(sh,{depth:50,bevelEnabled:true,bevelThickness:12,bevelSize:14,bevelSegments:3,curveSegments:4}); g.translate(0,0,60); g.scale(.001,.001,.001);
+   const o=new THREE.Mesh(g,m.f); o.castShadow=o.receiveShadow=true; grp.add(o);
+   const t=new THREE.Mesh(new THREE.BoxGeometry(.17,.05,.1),m.t); t.position.set((c)/1000,ty/1000,.085); grp.add(t)}
+  const rod=new THREE.Mesh(new THREE.BoxGeometry((it.uw-80)/1000,.02,.02),m.t); rod.position.set((it.u0+it.uw/2)/1000,(top-20)/1000,.09); grp.add(rod);
+  const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -473,10 +486,10 @@ let build3D=()=>{};
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
         case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
-        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); break;
+        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); XOPEN.drape(R,it,wbox,G); break;
         case 'ac': wbox(R,it,u0,uw,y0,h,t0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,t0+td-10,14,MAT.granite,false); break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
-        case 'window': wbox(R,it,u0,uw,y0,h,0,30,MAT.glass); XOPEN.glow(R,it,G,mm,.22); break;
+        case 'window': wbox(R,it,u0,uw,y0,h,0,30,XOPEN.clear()); XOPEN.frame(R,it,wbox,MAT); XOPEN.glow(R,it,G,mm,.22); break;
         case 'hood': wbox(R,it,u0+60,uw-120,y0,200,0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+200,h-200,0,300,MAT.metal); break;
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
         case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;
