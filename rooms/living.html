@@ -149,6 +149,23 @@ const ROOMS={};
   ['Open points','Openings read from the sale-agreement plan: passage to the bedrooms on the south wall about 2300 to 3500 from the west wall; the photo wall stretch (common bath wall) runs about 880 from the TV wall and ends where the common bath door starts; from there to about 4070 the living is open to the dining. Measure these, the recess, the TV wall and the door positions.']];
  ROOMS.living=R}
 
+
+/* entrance sheer curtains + key holder (22 Nov, Aravindh): shared helpers, drawn in room coordinates */
+var XTRA=window.XTRA||{
+ mats(){if(!XTRA.m)XTRA.m={sheer:new THREE.MeshStandardMaterial({color:0xf1ebdf,transparent:true,opacity:.5,roughness:.95,side:THREE.DoubleSide,depthWrite:false}),
+   alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
+   black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
+ // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
+ sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+   if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
+ // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
+ keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);
+   for(const ky of [y0+150,y0+60]){box(18,ky-55,z0+30,2,35,240,m.black,false);
+     for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
+{const R=ROOMS['living'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.keys(box,1290,1829);};
+ R.spec.push(['Key holder','Wenge wooden key board about 300 × 200 with two rows of 6 straight chrome knob hooks and a black strip under each row, centred at 6 ft (1830) on the wall where the sofa\'s long side ends, on the way to the main door.']);}
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -495,6 +512,7 @@ let build3D=()=>{};
       }
     }
     if(R.sofa)sofa3D(R.sofa);
+    if(R.three)R.three(box,MAT,typeof soft==='function'?soft:null);
     const span=Math.max(W,D);
     ctl.target.set(W/2,0.9,D/2); ctl.minDistance=1.5; ctl.maxDistance=span*4;
     cam.position.set(W/2+span*0.35,span*1.1+1.2,D+span*0.95);

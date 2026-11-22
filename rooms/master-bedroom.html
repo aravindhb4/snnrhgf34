@@ -203,6 +203,23 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['Open points','Passage depth, plug point position and height, bay width. All sizes to be measured.']];
  ROOMS['bedroom-1']=R}
 
+
+/* entrance sheer curtains + key holder (22 Nov, Aravindh): shared helpers, drawn in room coordinates */
+var XTRA=window.XTRA||{
+ mats(){if(!XTRA.m)XTRA.m={sheer:new THREE.MeshStandardMaterial({color:0xf1ebdf,transparent:true,opacity:.5,roughness:.95,side:THREE.DoubleSide,depthWrite:false}),
+   alu:new THREE.MeshStandardMaterial({color:0xd4d7d9,metalness:.15,roughness:.4}),wenge:new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}),
+   black:new THREE.MeshStandardMaterial({color:0x151515,roughness:.6}),chrome:new THREE.MeshStandardMaterial({color:0xd8dadc,metalness:.4,roughness:.25})};return XTRA.m},
+ // sheer curtain on a slim track: o='x' runs along x at z=c, o='z' runs along z at x=c; a0..a1 along it; top = track height; pleated in 40 mm folds
+ sheer(box,o,a0,a1,c,top){const m=XTRA.mats(),n=Math.round((a1-a0)/40),s=(a1-a0)/n;
+   if(o==='x')box(a0,10,c-2,a1-a0,top-15,4,m.sheer,false); else box(c-2,10,a0,4,top-15,a1-a0,m.sheer,false);      // back layer
+   for(let i=0;i<n;i+=2){const a=a0+i*s; if(o==='x')box(a,10,c+16,s,top-15,3,m.sheer,false); else box(c+16,10,a,3,top-15,s,m.sheer,false)} // folds
+   if(o==='x')box(a0,top,c-20,a1-a0,25,40,m.alu,false); else box(c-20,top,a0,40,25,a1-a0,m.alu,false)},
+ // wenge key board 300 x 200 on the wall x=0 (protruding +x), two rows of 6 straight chrome knobs, black strip under each row; centred at height yc, z from z0
+ keys(box,z0,yc){const m=XTRA.mats(),y0=yc-100; box(0,y0,z0,18,200,300,m.wenge,false);
+   for(const ky of [y0+150,y0+60]){box(18,ky-55,z0+30,2,35,240,m.black,false);
+     for(let i=0;i<6;i++){const z=z0+25+i*50; box(18,ky-6,z-6,24,12,12,m.chrome,false); box(42,ky-9,z-9,8,18,18,m.chrome,false)}}}};
+{const R=ROOMS['bedroom-1'],_t=R.three; R.three=(box,MAT,soft)=>{if(_t)_t(box,MAT,soft); XTRA.sheer(box,'x',2260,3140,-35,2070);};
+ R.spec.push(['Entrance screen','Thin sheer curtain on a slim brushed-aluminium track inside the room door opening (living side), slides aside in one move.']);}
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
