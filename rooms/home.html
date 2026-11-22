@@ -723,8 +723,12 @@ SPACES.push(
   {id:'toilet2',name:'Toilet',size:'8′ × 5′',x0:5720,z0:400,x1:8160,z1:1920,floor:'tilefloor'},
   {id:'toiletC',name:'Common toilet',size:'8′ × 5′',x0:9470,z0:6880,x1:11910,z1:8400,floor:'tilefloor'},
   {id:'shaft',name:'Shaft',x0:2970,z0:3720,x1:4570,z1:4330,floor:'tilefloor'},
-  {id:'toilet1',name:'Toilet',size:'5′ × 8′',x0:2970,z0:4450,x1:4570,z1:5570,floor:'tilefloor'});
-const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820}];
+  {id:'toilet1',name:'Toilet',size:'5′ × 8′',x0:2970,z0:4450,x1:4570,z1:5570,floor:'tilefloor'},
+  {id:'lobby',name:'Lobby',size:'1500 wide',x0:11010,z0:600,x1:12510,z1:3290,open:['N','S','E','W'],floor:'tilefloor'}); // common corridor outside the main door (floor plan, 22 Nov)
+const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820},{x0:12510,z0:2060,x1:12630,z1:3410},{x0:10890,z0:600,x1:11010,z1:2040}]; // + lobby east wall (opposite the door) and the door wall north of the main door
+/* Lobby outside the main door (Aravindh 22 Nov): the end wall beside the door has only ~100 of wall, so the tall shoe rack goes on the wall opposite the door
+   (floor to ceiling, 350 deep, about 1150 clear in front of the door) and the seat on the longer door-side wall north of the door, facing the rack */
+const LOBBY={rack:{x1:12510,z0:2060,z1:3290,d:350},seat:{x0:11010,z0:700,z1:1940,d:420,h:440}};
 const GROUPS={'shaft':'bedroom-1','recess':'living','livingB':'living','strip':'living','passage':'bedroom-1','toilet1':'bedroom-1','toilet2':'bedroom-2','balcony':'dining'};
 
 /* openings: {o:'x'|'z' (direction the wall runs), a0,a1 along it, c across (wall line), y0,y1, kind} */
@@ -782,6 +786,8 @@ function drawPlan(){
   for(const k of SCREENS){const L=k.a1-k.a0,n=Math.round(L/120);let d='';for(let i=0;i<=n;i++){const a=k.a0+L*i/n,w=(i%2?25:-25);d+=(i?'L':'M')+(k.o==='x'?`${a} ${k.c+w}`:`${k.c+w} ${a}`)}
     el('path',{d,fill:'none',stroke:c('muted'),'stroke-width':10})}
   text(9250,9130,'sheer screen','end',100,c('muted')); text(5640,5470,'sheer screen','middle',100,c('muted'));
+  {const K=LOBBY.rack,S=LOBBY.seat; el('rect',{x:K.x1-K.d,y:K.z0,width:K.d,height:K.z1-K.z0,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text(K.x1-K.d-60,(K.z0+K.z1)/2,'shoe rack','end',90,c('muted'));
+   el('rect',{x:S.x0,y:S.z0,width:S.d,height:S.z1-S.z0,rx:30,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text(S.x0+S.d+60,(S.z0+S.z1)/2,'seat','start',90,c('muted'))}
   el('rect',{x:KEYS.x,y:KEYS.z,width:KEYS.w,height:30,fill:c('fg')}); text(KEYS.x+KEYS.w/2,KEYS.z+130,'key holder','middle',100,c('muted'));
   {const P=PHOTO2; for(const [dx,,w] of P.F)el('rect',{x:P.xc+dx-w/2,y:P.z-30,width:w,height:30,fill:c('fg')});
    text(P.xc,P.z-90,'photo wall','middle',110,c('muted'))}
@@ -1155,6 +1161,16 @@ let focusRoom=()=>{}, setWalls=()=>{};
    box(X0,1030,PZ+45,X1-X0,40,60,MAT.sage,false); box(X0,330,PZ+60,X1-X0,25,30,MAT.sage,false); // top and bottom rails
    for(let x=X0+90;x<X1-40;x+=115)box(x,355,PZ+67,16,675,16,MAT.sage,false);           // bars
    const sl=new THREE.SpotLight(0xfff4e0,0.45,0,0.6,0.7,1); sl.position.set(7.8,2.6,13.6); sl.target.position.set(7.8,0,8.4); sl.castShadow=true; sl.shadow.mapSize.set(2048,2048); sl.shadow.bias=-0.0005; scene.add(sl,sl.target);}
+  {const K=LOBBY.rack,S=LOBBY.seat,W=MAT.white,x0=K.x1-K.d,L=K.z1-K.z0,cw=L/2,fr=x0-18,FH=1000,rh=(FH-100)/4;
+   box(x0+50,0,K.z0+20,K.d-50,100,L-40,MAT.wgrey||MAT.panel,false);                       // recessed plinth
+   box(x0,100,K.z0,K.d,CEIL-100,L,W,false);                                                // carcass, floor to ceiling
+   for(let j=0;j<2;j++){const z=K.z0+j*cw;
+     for(let i=0;i<4;i++){const y=100+i*rh; box(fr,y+3,z+3,18,rh-6,cw-6,W); box(fr-14,y+rh-40,z+cw/2-80,14,14,160,MAT.alu,false)} // 4 rows of tilt-out shoe flaps, bar on the top edge
+     box(fr,FH+3,z+3,18,1300-6,cw-6,W); box(fr,FH+1300+3,z+3,18,CEIL-FH-1300-6,cw-6,W);  // tall shutter above, loft to the ceiling
+     const hz=j?z+40:z+cw-54; box(fr-14,FH+80,hz,14,300,14,MAT.alu,false); box(fr-14,FH+1300+40,hz,14,160,14,MAT.alu,false)}
+   rbox(S.x0,0,S.z0,S.d,S.h-60,S.z1-S.z0,W,30);                                            // seat box (storage below)
+   soft(S.x0+10,S.h-60,S.z0+10,S.d-20,70,S.z1-S.z0-20,MAT.fabric,30,.12);                  // seat cushion
+   soft(S.x0+10,S.h+20,S.z0+20,80,420,S.z1-S.z0-40,MAT.fabric,35,.1)}                       // back cushion on the wall
   // entrance curtains and the key holder are drawn by the room pages (living, kitchen, bedroom-1) through R.three
   walls();
   // daylight through every window (Aravindh 22 Nov: doors open, light coming through wherever possible)

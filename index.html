@@ -22,11 +22,11 @@ iframe{flex:1;min-width:0;width:100%;height:100%;border:0;display:block;backgrou
 </head>
 <body>
 <div class="site">
-<nav class="side" aria-label="Rooms"><b>F34 Interiors</b><a href="#home" data-room="home">Whole home</a><a href="#living" data-room="living">Living</a><a href="#dining" data-room="dining">Dining wall</a><a href="#kitchen" data-room="kitchen">Kitchen</a><a href="#master-bedroom" data-room="master-bedroom">Master bedroom</a><a href="#guest-bedroom-large" data-room="guest-bedroom-large">Guest bedroom large</a><a href="#guest-bedroom-small" data-room="guest-bedroom-small">Guest bedroom small</a></nav>
+<nav class="side" aria-label="Rooms"><b>F34 Interiors</b><a href="#home" data-room="home">Whole home</a><a href="#entrance" data-room="entrance">Entrance</a><a href="#living" data-room="living">Living</a><a href="#dining" data-room="dining">Dining wall</a><a href="#kitchen" data-room="kitchen">Kitchen</a><a href="#master-bedroom" data-room="master-bedroom">Master bedroom</a><a href="#guest-bedroom-large" data-room="guest-bedroom-large">Guest bedroom large</a><a href="#guest-bedroom-small" data-room="guest-bedroom-small">Guest bedroom small</a></nav>
 <iframe id="view" title="Room view" allow="fullscreen"></iframe>
 </div>
 <script>
-var ROOMS=["home", "living", "dining", "kitchen", "master-bedroom", "guest-bedroom-large", "guest-bedroom-small"],view=document.getElementById('view'),nav=document.querySelector('.side');
+var ROOMS=["home", "entrance", "living", "dining", "kitchen", "master-bedroom", "guest-bedroom-large", "guest-bedroom-small"],view=document.getElementById('view'),nav=document.querySelector('.side');
 function go(k,push){if(ROOMS.indexOf(k)<0)k='home';
   if(view.dataset.room!==k){var u='rooms/'+k+'.html';if(view.dataset.room){try{view.contentWindow.location.replace(u)}catch(e){view.src=u}}else view.src=u;view.dataset.room=k}
   nav.querySelectorAll('a').forEach(function(a){if(a.dataset.room===k)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
