@@ -190,6 +190,15 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   box(cx0+20,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40); box(cx1-140,cy,RD+40,120,ch,cz-RD-60,MAT.fabric,false,40);
   [BAY_W/3,2*BAY_W/3].forEach(d=>box(BAY_X+d-110,cy,cz-150,220,ch,120,MAT.fabric,false,40));
  };
+ /* Daylight through the bay (22 Nov, Aravindh): bright sky behind the glass, a warm sun patch falling into the room with curtain shadows, and soft fill near the window. */
+ R.light=(G,mm)=>{
+  const sky=new THREE.Mesh(new THREE.PlaneGeometry(mm(BAY_W+600),mm(2200)),new THREE.MeshBasicMaterial({color:0xf4f8fb}));
+  sky.position.set(mm(BAY_X+BAY_W/2),mm(1300),mm(RD+BAY_D+60)); sky.rotation.y=Math.PI; G.add(sky);
+  const sun=new THREE.SpotLight(0xfff1da,1.1,9,Math.PI/3.2,.55,1.2); sun.position.set(mm(BAY_X+BAY_W/2+300),mm(2050),mm(RD+300));
+  sun.target.position.set(mm(BAY_X+BAY_W/2+500),0,mm(RD-2000)); sun.castShadow=true; sun.shadow.mapSize.set(1024,1024); sun.shadow.bias=-0.0005;
+  G.add(sun); G.add(sun.target);
+  const fill=new THREE.PointLight(0xfff6ea,.45,4.5,1.5); fill.position.set(mm(BAY_X+BAY_W/2),mm(1400),mm(RD-400)); G.add(fill);
+ };
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
@@ -562,6 +571,7 @@ let build3D=()=>{};
       }
     }
     if(R.three)R.three(box,MAT,soft);
+    if(R.light)R.light(G,mm);
     const span=Math.max(W,D);
     ctl.target.set(W/2,0.9,D/2); ctl.minDistance=1.5; ctl.maxDistance=span*4;
     cam.position.set(W/2+span*0.35,span*1.1+1.2,D+span*0.95);
