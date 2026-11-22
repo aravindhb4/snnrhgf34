@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>F34 Whole Home</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -730,10 +731,21 @@ SPACES.push(
   {id:'shaft',name:'Shaft',x0:2970,z0:3720,x1:4570,z1:4330,floor:'tilefloor'},
   {id:'toilet1',name:'Toilet',size:'5′ × 8′',x0:2970,z0:4450,x1:4570,z1:5570,floor:'tilefloor'},
   {id:'lobby',name:'Lobby',size:'1500 wide',x0:11010,z0:-900,x1:12510,z1:3290,open:['N','S','E','W'],floor:'tilefloor'}); // common corridor outside the main door (floor plan, 22 Nov)
-const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820},{x0:12510,z0:2000,x1:12810,z1:3410,h:1000},{x0:10890,z0:600,x1:11010,z1:650},{x0:10890,z0:1840,x1:11010,z1:2040},{x0:10890,z0:650,x1:11010,z1:1840,h:900},{x0:10890,z0:650,x1:11010,z1:1840,y0:2100}]; // + lobby: waist-high block opposite the door (site photos 22 Nov), door wall north of the main door with a uPVC window (sill 900); corridor open to the north (towards F35) and beyond the block
+const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820},{x0:12510,z0:2000,x1:12625,z1:3410,h:1000},{x0:10890,z0:600,x1:11010,z1:650},{x0:10890,z0:1840,x1:11010,z1:2040},{x0:10890,z0:650,x1:11010,z1:1840,h:900},{x0:10890,z0:650,x1:11010,z1:1840,y0:2100}]; // + lobby: waist-high block opposite the door (site photos 22 Nov), door wall north of the main door with a uPVC window (sill 900); corridor open to the north (towards F35) and beyond the block
 /* Lobby outside the main door (Aravindh 22 Nov): the end wall beside the door has only ~100 of wall, so the tall shoe rack goes on the wall opposite the door
    (floor to ceiling, 350 deep, about 1150 clear in front of the door) and the seat on the longer door-side wall north of the door, facing the rack */
-const LOBBY={bench:{x1:12510,z0:2000,z1:3290,d:400,h:600},mirror:{x0:11550,x1:12050,y0:1150,y1:1950},win:{z0:650,z1:1840,y0:900,y1:2100}}; // outside: straight open bench with 3 open rows along the block opposite the door, mirror on the end wall; closed rack moved inside the living (Aravindh 22 Nov)
+/* entrance: round mirror + name board (Aravindh 22 Nov). Drawn on a wall face at z=zw; s=-1 faces -z. */
+var XENT=window.XENT||(window.XENT={
+ mirror(G,mm,cx,cy,zw,r,s){const C=(rr,t,m,o)=>{const k=new THREE.Mesh(new THREE.CylinderGeometry(mm(rr),mm(rr),mm(t),72),m);k.rotation.x=Math.PI/2;k.position.set(mm(cx),mm(cy),mm(zw+s*o));k.castShadow=true;G.add(k)};
+  C(r+22,14,new THREE.MeshStandardMaterial({color:0xc8b48a,metalness:.55,roughness:.35}),7); C(r,6,new THREE.MeshStandardMaterial({color:0xdde6e9,metalness:.2,roughness:.1}),17)},
+ board(G,mm,cx,cy,zw,w,h,s,txt){const b=new THREE.Mesh(new THREE.BoxGeometry(mm(w),mm(h),mm(20)),new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}));
+  b.position.set(mm(cx),mm(cy),mm(zw+s*10));b.castShadow=true;G.add(b);
+  const cv=document.createElement('canvas');cv.width=1400;cv.height=Math.round(1400*h/w);const x=cv.getContext('2d'),tex=new THREE.CanvasTexture(cv);
+  const draw=()=>{x.clearRect(0,0,cv.width,cv.height);x.fillStyle='#d9c08f';x.textAlign='center';x.textBaseline='middle';x.font=Math.round(cv.height*.62)+'px "Great Vibes","Brush Script MT","Segoe Script",cursive';x.fillText(txt,cv.width/2,cv.height*.54);tex.needsUpdate=true};
+  draw(); if(document.fonts)document.fonts.load('80px "Great Vibes"').then(draw).catch(()=>{});
+  const p=new THREE.Mesh(new THREE.PlaneGeometry(mm(w),mm(h)),new THREE.MeshStandardMaterial({map:tex,transparent:true,roughness:.5,metalness:.3}));
+  p.position.set(mm(cx),mm(cy),mm(zw+s*21)); if(s<0)p.rotation.y=Math.PI; G.add(p)}});
+const LOBBY={bench:{x1:12510,z0:2000,z1:3290,d:400,h:600},win:{z0:650,z1:1840,y0:900,y1:2100}}; // outside: straight open bench with 3 open rows along the block opposite the door, mirror on the end wall; closed rack moved inside the living (Aravindh 22 Nov)
 const GROUPS={'shaft':'bedroom-1','recess':'living','livingB':'living','strip':'living','passage':'bedroom-1','toilet1':'bedroom-1','toilet2':'bedroom-2','balcony':'dining'};
 
 /* openings: {o:'x'|'z' (direction the wall runs), a0,a1 along it, c across (wall line), y0,y1, kind} */
@@ -1170,12 +1182,12 @@ let focusRoom=()=>{}, setWalls=()=>{};
   {const Wn=LOBBY.win,W=MAT.white,zm=Wn.z0+(Wn.z1-Wn.z0)*0.54;
    box(10930,Wn.y0,Wn.z0,40,Wn.y1-Wn.y0,Wn.z1-Wn.z0,MAT.white,false); box(10935,Wn.y0+40,Wn.z0+40,30,Wn.y1-Wn.y0-80,zm-Wn.z0-60,MAT.glass,false); // uPVC window: frame, fixed pane (north)
    for(let y=Wn.y0+60;y<Wn.y1-50;y+=70)box(10930,y,zm+20,60,30,Wn.z1-zm-60,MAT.white,false);                                                 // louvred section next to the door
-   box(12510,1000,2000,300,20,1410,MAT.granite,false);                                                                    // block top
+   box(12505,1000,2000,135,20,1410,MAT.granite,false);                                                                    // block top
    const B=LOBBY.bench,Mi=LOBBY.mirror,bx=B.x1-B.d,BL=B.z1-B.z0,ez=3290;
    box(bx,0,B.z0,B.d,B.h,18,W,false); box(B.x1-18,0,B.z0,18,B.h,BL,MAT.panel,false);                                    // bench along the block: end panel, back panel
    for(const y of [0,(B.h-25)/3,2*(B.h-25)/3])box(bx,y,B.z0,B.d,18,BL,W,false);                                         // three open rows of about 200 for daily footwear
    rbox(bx,B.h-25,B.z0,B.d,25,BL,W,12);                                                                                    // top, 600 high, no cushions
-   box(Mi.x0-20,Mi.y0-20,ez-24,Mi.x1-Mi.x0+40,Mi.y1-Mi.y0+40,12,MAT.white,false); box(Mi.x0,Mi.y0,ez-30,Mi.x1-Mi.x0,Mi.y1-Mi.y0,6,new THREE.MeshStandardMaterial({color:0xdde6e9,metalness:.2,roughness:.12}),false)} // mirror at face height
+   XENT.mirror(G,mm,11760,1600,ez,300,-1); XENT.board(G,mm,11760,1150,ez,700,150,-1,'Priya & Aravindh')}   // round mirror centred on the end wall, name board below
   // entrance curtains and the key holder are drawn by the room pages (living, kitchen, bedroom-1) through R.three
   walls();
   // daylight through every window (Aravindh 22 Nov: doors open, light coming through wherever possible)

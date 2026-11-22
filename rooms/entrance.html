@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Entrance Lobby</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
@@ -106,6 +107,17 @@ function room(o){o.items=[];return o}
 function A(R,wall,kind,u0,uw,y0,h,td,o={}){const t0=o.t0||0;R.items.push({kind,wall,u0,uw,y0,h,td,t0,b:W2R(R,wall,u0,uw,t0,td),...o})}
 function L(R,kind,x,z,w,d,y0,h,o={}){R.items.push({kind,loose:true,b:{x,z,w,d},y0,h,on:o.on||[],...o})}
 
+/* entrance: round mirror + name board (Aravindh 22 Nov). Drawn on a wall face at z=zw; s=-1 faces -z. */
+var XENT=window.XENT||(window.XENT={
+ mirror(G,mm,cx,cy,zw,r,s){const C=(rr,t,m,o)=>{const k=new THREE.Mesh(new THREE.CylinderGeometry(mm(rr),mm(rr),mm(t),72),m);k.rotation.x=Math.PI/2;k.position.set(mm(cx),mm(cy),mm(zw+s*o));k.castShadow=true;G.add(k)};
+  C(r+22,14,new THREE.MeshStandardMaterial({color:0xc8b48a,metalness:.55,roughness:.35}),7); C(r,6,new THREE.MeshStandardMaterial({color:0xdde6e9,metalness:.2,roughness:.1}),17)},
+ board(G,mm,cx,cy,zw,w,h,s,txt){const b=new THREE.Mesh(new THREE.BoxGeometry(mm(w),mm(h),mm(20)),new THREE.MeshStandardMaterial({color:0x3b2a22,roughness:.7}));
+  b.position.set(mm(cx),mm(cy),mm(zw+s*10));b.castShadow=true;G.add(b);
+  const cv=document.createElement('canvas');cv.width=1400;cv.height=Math.round(1400*h/w);const x=cv.getContext('2d'),tex=new THREE.CanvasTexture(cv);
+  const draw=()=>{x.clearRect(0,0,cv.width,cv.height);x.fillStyle='#d9c08f';x.textAlign='center';x.textBaseline='middle';x.font=Math.round(cv.height*.62)+'px "Great Vibes","Brush Script MT","Segoe Script",cursive';x.fillText(txt,cv.width/2,cv.height*.54);tex.needsUpdate=true};
+  draw(); if(document.fonts)document.fonts.load('80px "Great Vibes"').then(draw).catch(()=>{});
+  const p=new THREE.Mesh(new THREE.PlaneGeometry(mm(w),mm(h)),new THREE.MeshStandardMaterial({map:tex,transparent:true,roughness:.5,metalness:.3}));
+  p.position.set(mm(cx),mm(cy),mm(zw+s*21)); if(s<0)p.rotation.y=Math.PI; G.add(p)}});
 /* ---------- rooms ---------- */
 const ROOMS={};
 
@@ -119,17 +131,21 @@ const ROOMS={};
  /* uPVC window north of the door: louvred section next to the door, fixed pane beyond, sill about 900 (site photos 22 Nov) */
  A(R,'W','window',1450,1190,900,1200,120,{lab:'window'});
  /* waist-high block opposite the door (site photos); the corridor is open beyond it and to the north (towards F35) */
- A(R,'E','unit',1400,1290,0,1000,300,{t0:-300,mat:'wall',cols:1,noHandle:true,lab:'existing block'});
+ A(R,'E','unit',1400,1290,0,1000,115,{t0:-115,mat:'wall',cols:1,noHandle:true,lab:'existing low wall, 1 brick'});
+ A(R,'E','panel',1400,1290,1000,20,135,{t0:-125,mat:'granite'});
  /* straight open bench for everyday footwear along the block opposite the door, into the corner: 600 high, three open rows of about 200, no cushions */
  A(R,'E','open',1400,1290,0,600,400,{mat:'white',shelves:3,lab:'open bench',dim:true});
  /* mirror at face height on the end wall, above the bench */
- A(R,'S','panel',460,500,1150,800,12,{mat:'mirror',lab:'mirror',dim:true});
+ A(R,'S','panel',450,600,1300,600,12,{mat:'mirror',lab:'round mirror ⌀600',dim:true,elevOnly:true});
+ A(R,'S','panel',400,700,1075,150,20,{mat:'wood',lab:'name board',elevOnly:true});
+ R.three=(box,MAT,G,mm)=>{XENT.mirror(G,mm,750,1600,2690,300,-1); XENT.board(G,mm,750,1150,2690,700,150,-1,'Priya & Aravindh')};
  R.wallH={N:0,E:0};
- R.vd={E:[[0,200,'200'],[200,400,'200'],[400,600,'200'],[0,1000,'block 1000']],S:[[1150,1950,'mirror']],W:[[900,2100,'window'],[0,DH,'2100']]};
+ R.vd={E:[[0,200,'200'],[200,400,'200'],[400,600,'200'],[0,1000,'block 1000']],S:[[1300,1900,'mirror ⌀600'],[1075,1225,'name board']],W:[[900,2100,'window'],[0,DH,'2100']]};
  R.spec=[
-  ['Lobby','Common corridor outside the main door, about 1500 wide. It is open: it carries on north towards F35, and opposite the door there is only a waist-high block (about 1000) with open space beyond. North of the door is a uPVC window (louvred section next to the door, fixed pane beyond), sill about 900.'],
+  ['Lobby','Common corridor outside the main door, about 1500 wide. It is open: it carries on north towards F35, and opposite the door there is only a low wall, one brick thick (about 115) and about 1000 high with a granite top, with open space beyond. North of the door is a uPVC window (louvred section next to the door, fixed pane beyond), sill about 900.'],
   ['Bench','Straight open bench for everyday footwear against the block opposite the door, running into the corner: about 1290 long, 400 deep, 600 (2 ft) high, three open rows of about 200, no cushions, white.'],
-  ['Mirror','About 500 × 800 on the 1500 end wall, 1150 to 1950 high (face height), slim white frame.'],
+  ['Mirror','Round, about 600 across, centred on the 1500 end wall at face height (1300 to 1900), thin champagne-gold rim.'],
+  ['Name board','Below the mirror, centred: wenge board about 700 × 150 at 1075 to 1225, "Priya & Aravindh" in a flowing script (Great Vibes style) in champagne-gold letters.'],
   ['Shoe rack','Rarely used footwear goes in the shoe cabinet and bench inside the flat, under the key holder in the living room.'],
   ['Clearance','About 1100 between the door wall and the bench. Everything stays inside F34\'s frontage, so the corridor towards F35 is untouched.'],
   ['Check','Exact block size and height on site. Society rules on fixtures in the common lobby.']];
@@ -428,7 +444,7 @@ let build3D=()=>{};
     const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.floor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D/2); fl.receiveShadow=true; G.add(fl);
     const walls=[[W,0,W/2,0,0],[W,Math.PI,W/2,D,0],[D,-Math.PI/2,W,D/2,1],[D,Math.PI/2,0,D/2,1]];
     walls.forEach(([len,ry,x,z],k)=>{const h=mm((R.wallH||{})['NSEW'[k]]??CEIL); if(!h)return;const p=new THREE.Mesh(new THREE.PlaneGeometry(len,h),MAT.wall);p.rotation.y=ry;p.position.set(x,h/2,z);p.receiveShadow=true;G.add(p)});
-    for(const it of R.items){
+    for(const it of R.items){ if(it.elevOnly)continue;
       const m=it.chg?MAT.accent:(MAT[it.mat]||MAT.wood);
       if(it.loose){
         const b=it.b;
@@ -482,6 +498,7 @@ let build3D=()=>{};
         case 'board': wbox(R,it,u0,uw,y0-45,90,0,10,it.chg?MAT.accent:MAT.white,false); break;
       }
     }
+    if(R.three)R.three(box,MAT,G,mm);
     const span=Math.max(W,D);
     ctl.target.set(W/2,0.9,D/2); ctl.minDistance=1.5; ctl.maxDistance=span*4;
     cam.position.set(W/2+span*0.25,span*0.75+0.9,-span*0.85); // entrance: look in from the lift lobby (north)
