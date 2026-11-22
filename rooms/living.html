@@ -12,17 +12,17 @@
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
   --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
-  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --paper2:#b3c4ad; --alu:#a3a7aa; --accent:#b4612b;
+  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#c3d0bd; --paper2:#b8995a; --alu:#a3a7aa; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --paper2:#66785f; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --paper2:#66785f; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -116,7 +116,8 @@ const ROOMS={};
   elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall']]});
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
  A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
- A(R,'N','panel',1250,2470,0,CEIL,3,{mat:'paper',lab:'wallpaper',dim:true});
+ A(R,'N','panel',1370,2230,160,1880,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
+ A(R,'N','mould',1310,2350,100,2000,20,{});
  A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
  A(R,'N','tv',1765,1440,950,830,80,{lab:'65″ TV'});
  A(R,'N','board',2160,500,350,90,10,{lab:'existing sockets'});
@@ -141,7 +142,7 @@ const ROOMS={};
  R.vd={W:[[0,510,'510'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
-  ['Wallpaper','Washable vinyl on the whole solid TV wall (about 2470 wide) floor to ceiling. Sage green with a soft tone-on-tone leaf pattern: a cool accent against the dark brown sofa and doors that also sets off the white console and black TV. No fluted panel.'],
+  ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide, double moulding 60 apart, painted wall colour. Washable vinyl inside the inner moulding only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
   ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
   ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
@@ -201,7 +202,7 @@ const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
 
 /* ---------- elevation ---------- */
-const ORDER={frame:8,recess:0,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+const ORDER={mould:2,frame:8,recess:0,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
   const L0=wlen(R,wall);
   const s=document.createElementNS(NS,'svg');
@@ -234,9 +235,10 @@ function drawElev(R,wall,letter,title){
           for(let r=0,yy=y0+150;yy<y0+h+300;yy+=420,r++)for(let xx=u0+(r%2?0:210);xx<u0+uw+300;xx+=420){
             const cx=xx,cy=Y(yy);const pth=document.createElementNS(NS,'path');
             pth.setAttribute('d',`M${cx} ${cy+150} C${cx-110} ${cy+40} ${cx-90} ${cy-110} ${cx} ${cy-170} C${cx+90} ${cy-110} ${cx+110} ${cy+40} ${cx} ${cy+150} M${cx} ${cy+150} L${cx} ${cy-120}`);
-            pth.setAttribute('fill','none');pth.setAttribute('stroke',c('paper2'));pth.setAttribute('stroke-width',8);g.appendChild(pth)}
+            pth.setAttribute('fill','none');pth.setAttribute('stroke',c('paper2'));pth.setAttribute('stroke-width',6);g.appendChild(pth)}
           s.appendChild(g)}
         if(it.fluted)for(let x=u0+60;x<u0+uw-20;x+=60)line(x,y0+20,x,y0+h-20,2,{stroke:c('muted')});break;
+      case 'mould': rect(u0,y0,uw,h,'none',14,{stroke:c('muted')}); rect(u0+60,y0+60,uw-120,h-120,'none',8,{stroke:c('muted')});break;
       case 'tile': rect(u0,y0,uw,h,c('tile'),3,{stroke:c('muted')});
         for(let x=u0+300;x<u0+uw;x+=300)line(x,y0,x,y0+h,1.5,{stroke:c('muted')});
         line(u0,y0+h/2,u0+uw,y0+h/2,1.5,{stroke:c('muted')});break;
@@ -339,7 +341,7 @@ function drawPlan(R){
       continue;
     }
     if(it.kind==='frame')continue;
-    if(['board','hob','sink','tile','plinth','hood','cushion'].includes(it.kind)){
+    if(['board','hob','sink','tile','plinth','hood','cushion','mould'].includes(it.kind)){
       if(it.kind==='hob'||it.kind==='sink')el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':5,rx:30});
       continue;}
     if(!it.loose&&it.y0>=1400)continue; // uppers and lofts not in plan
@@ -387,10 +389,10 @@ let build3D=()=>{};
   const MAT={ivory:M(0xe8e1d4,{roughness:1}),emerald:M(0x4f8370,{roughness:1}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
-    mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#8fa58a';x.fillRect(0,0,256,256);x.strokeStyle='#b9c9b3';x.lineWidth=5;
+    mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,256,256);x.strokeStyle='#b8995a';x.lineWidth=3;
       const leaf=(cx,cy)=>{x.beginPath();x.moveTo(cx,cy+75);x.bezierCurveTo(cx-55,cy+20,cx-45,cy-55,cx,cy-85);x.bezierCurveTo(cx+45,cy-55,cx+55,cy+20,cx,cy+75);x.moveTo(cx,cy+75);x.lineTo(cx,cy-60);x.stroke()};
       [[64,64],[192,64],[0,192],[128,192],[256,192]].forEach(([a,b])=>leaf(a,b));
-      const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(2470/420,2900/420);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),alu:M(0xd4d7d9,{metalness:.15,roughness:.4}),sofa:M(0x6b3820,{roughness:.95}),sofaF:M(0x5c301c,{roughness:.95}),chrome:M(0xd0d2d4,{metalness:.2,roughness:.3}),
+      const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(2230/420,1880/420);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),alu:M(0xd4d7d9,{metalness:.15,roughness:.4}),sofa:M(0x6b3820,{roughness:.95}),sofaF:M(0x5c301c,{roughness:.95}),chrome:M(0xd0d2d4,{metalness:.2,roughness:.3}),
     smoke:new THREE.MeshStandardMaterial({color:0x4a3628,transparent:true,opacity:.55,roughness:.05}),
     quilt:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d');x.fillStyle='#6b3820';x.fillRect(0,0,128,128);
       x.strokeStyle='#b8876a';x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(0,0);x.lineTo(128,128);x.moveTo(128,0);x.lineTo(0,128);x.moveTo(64,0);x.lineTo(128,64);x.lineTo(64,128);x.lineTo(0,64);x.closePath();x.stroke();
@@ -538,6 +540,9 @@ let build3D=()=>{};
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
         case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
+        case 'mould': for(const [o,t] of [[0,40],[60,28]]){const a=u0+o,b=uw-2*o,c0=y0+o,hh=h-2*o;
+          wbox(R,it,a,b,c0,t,0,t===40?22:16,MAT.white,false);wbox(R,it,a,b,c0+hh-t,t,0,t===40?22:16,MAT.white,false);
+          wbox(R,it,a,t,c0,hh,0,t===40?22:16,MAT.white,false);wbox(R,it,a+b-t,t,c0,hh,0,t===40?22:16,MAT.white,false)} break;
         case 'board': wbox(R,it,u0,uw,y0-45,90,0,10,it.chg?MAT.accent:MAT.white,false); break;
       }
     }
