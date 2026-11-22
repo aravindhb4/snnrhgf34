@@ -113,25 +113,27 @@ const ROOMS={};
 /* Entrance lobby outside the main door (Aravindh 22 Nov): common corridor 1500 wide between the OTS and Guest Bedroom Small (floor plan).
    Room frame: x east 0..1500, z south 0..2690; W wall = main door wall, E wall = wall opposite the door, S wall = Guest Small's north wall, N = open to the lift lobby. */
 {const R=room({id:'entrance',name:'Entrance lobby',W:1500,D:2690,
-  note:'The wall opposite the door is only a low parapet, so the shoe rack goes under the window on the door wall, below the sill, and the seat sits against the parapet facing the door.',
-  elevs:[['W','A','Main door and shoe rack'],['E','B','Parapet and seat'],['S','C','End wall (Guest Small)']]});
+  note:'The corridor is open towards F35. The shoe rack sits against the waist-high block opposite the door, level with its top, and the seat is on the 1500 end wall.',
+  elevs:[['E','A','Shoe rack (opposite the door)'],['S','B','Seat (1500 end wall)'],['W','C','Main door and window']]});
  A(R,'W','door',100,1050,0,DH,40,{lab:'main door',swing:null,dim:true});
- /* louvred uPVC window north of the door, sill about 1000 (site photo 22 Nov) */
- A(R,'W','window',1550,940,1000,1100,120,{lab:'louvred window'});
- /* shoe rack under the window: 1240 wide x 350 deep x 900 high, 2 columns of 2 tilt-out flaps, 2 shoe tiers behind each flap; top is a key ledge */
- A(R,'W','unit',1350,1240,0,900,350,{mat:'white',cols:2,rows:2,rc:{tl:30,tr:30},lab:'shoe rack',dim:true});
- /* seat against the low parapet, facing the door: 1140 x 420, cushion top at 450, back cushion on the parapet */
- A(R,'E','unit',1450,1140,0,380,420,{mat:'white',cols:1,noHandle:true,rc:{tl:30,tr:30},lab:'seat',dim:true});
- A(R,'E','cushion',1450,1140,380,70,420,{});
- A(R,'E','cushion',1470,1100,460,400,80,{});
- R.wallH={E:1000};
- R.vd={E:[[0,450,'450'],[0,1000,'parapet 1000']],W:[[0,900,'900'],[1000,2100,'window'],[0,DH,'2100']]};
+ /* uPVC window north of the door: louvred section next to the door, fixed pane beyond, sill about 900 (site photos 22 Nov) */
+ A(R,'W','window',1450,1190,900,1200,120,{lab:'window'});
+ /* waist-high block opposite the door (site photos); the corridor is open beyond it and to the north (towards F35) */
+ A(R,'E','unit',1400,1290,0,1000,300,{t0:-300,mat:'wall',cols:1,noHandle:true,lab:'existing block'});
+ /* shoe rack against the block, opposite the door: 1230 wide x 350 deep x 1000 high (level with the block), 4 rows of tilt-out flaps in 2 columns */
+ A(R,'E','unit',1460,1230,0,1000,350,{mat:'white',cols:2,rows:4,rc:{tl:30,tr:30},lab:'shoe rack, 4 rows',dim:true});
+ /* seat on the 1500 end wall, clear of the door: 860 x 420, cushion top at 450, back cushion on the wall */
+ A(R,'S','unit',350,860,0,380,420,{mat:'white',cols:1,noHandle:true,rc:{tl:30,tr:30},lab:'seat',dim:true});
+ A(R,'S','cushion',350,860,380,70,420,{});
+ A(R,'S','cushion',370,820,460,400,80,{});
+ R.wallH={N:0,E:0};
+ R.vd={E:[[0,1000,'1000']],S:[[0,450,'450']],W:[[900,2100,'window'],[0,DH,'2100']]};
  R.spec=[
-  ['Lobby','Common corridor outside the main door, 1500 wide, about 2700 long. Opposite the door is a low parapet (about 1000) open to the OTS, not a full wall. North of the door is a louvred uPVC window with its sill at about 1000.'],
-  ['Shoe rack','Under the window, on the door wall: about 1240 wide, 350 deep, 900 high, so it stays below the sill. Two columns of two tilt-out flaps, each flap holding two tiers of shoes: 4 tiers, about 24 to 28 pairs. The top is a ledge for keys. White matte, brushed-aluminium bar handles, ventilation slots in the flaps.'],
-  ['Seat','Against the parapet, facing the door: about 1140 long, 420 deep, 450 to the cushion top, white box with storage, fabric seat cushion and a back cushion resting on the parapet. Rounded outer edges.'],
-  ['Clearance','The rack and seat sit on opposite walls but do not overlap along the corridor, so about 1150 stays clear past each. About 1080 clear in front of the door.'],
-  ['Check','Exact parapet height and the size of the concrete box in the corner; if it stays, the seat shortens to fit beside it. Society rules on fixtures in the common lobby.']];
+  ['Lobby','Common corridor outside the main door, about 1500 wide. It is open: it carries on north towards F35, and opposite the door there is only a waist-high block (about 1000) with open space beyond. North of the door is a uPVC window (louvred section next to the door, fixed pane beyond), sill about 900.'],
+  ['Shoe rack','Against the block, opposite the door: about 1230 wide, 350 deep, 1000 high so its top lines up with the block. 4 rows of tilt-out flaps in 2 columns, about 24 pairs. The top works as a ledge for keys. White matte, brushed-aluminium bar handles, ventilation slots in the flaps.'],
+  ['Seat','On the 1500 end wall, between the door and the rack: about 860 long, 420 deep, 450 to the cushion top, white box with storage, fabric seat and back cushions. It starts about 400 from the door wall so the door stays clear.'],
+  ['Clearance','About 1150 clear between the rack and the door wall. The rack and seat stay inside F34\'s frontage, so the corridor towards F35 is untouched.'],
+  ['Check','Exact block size and height on site. Society rules on fixtures in the common lobby.']];
  ROOMS['entrance']=R}
 
 /* Handle for shutter j,i of a unit: [u-centre, y-centre, length, 'v'|'h'] (mm). Bar handles, 30 from the opening edge. */
@@ -426,7 +428,7 @@ let build3D=()=>{};
     const W=mm(R.W),D=mm(R.D),H=mm(CEIL);
     const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.floor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D/2); fl.receiveShadow=true; G.add(fl);
     const walls=[[W,0,W/2,0,0],[W,Math.PI,W/2,D,0],[D,-Math.PI/2,W,D/2,1],[D,Math.PI/2,0,D/2,1]];
-    walls.forEach(([len,ry,x,z],k)=>{const h=mm((R.wallH||{})['NSEW'[k]]||CEIL);const p=new THREE.Mesh(new THREE.PlaneGeometry(len,h),MAT.wall);p.rotation.y=ry;p.position.set(x,h/2,z);p.receiveShadow=true;G.add(p)});
+    walls.forEach(([len,ry,x,z],k)=>{const h=mm((R.wallH||{})['NSEW'[k]]??CEIL); if(!h)return;const p=new THREE.Mesh(new THREE.PlaneGeometry(len,h),MAT.wall);p.rotation.y=ry;p.position.set(x,h/2,z);p.receiveShadow=true;G.add(p)});
     for(const it of R.items){
       const m=it.chg?MAT.accent:(MAT[it.mat]||MAT.wood);
       if(it.loose){
