@@ -117,9 +117,9 @@ const ROOMS={};
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
  A(R,'W','unit',1150,550,0,750,600,{mat:'wood',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
  A(R,'W','open',1300,400,1350,1050,400,{shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
- A(R,'W','unit',1300,900,2400,500,600,{mat:'wood',cols:1});
- A(R,'W','unit',1700,1500,0,2400,600,{mat:'wood',cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
- A(R,'W','unit',2200,1000,2400,500,600,{mat:'wood',cols:2});
+ A(R,'W','unit',1300,900,2400,500,600,{mat:'white',cols:1});
+ A(R,'W','unit',1700,1500,0,2400,600,{mat:'white',ward:true,cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
+ A(R,'W','unit',2200,1000,2400,500,600,{mat:'white',cols:2});
  A(R,'E','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Two large framed photos above the headboard (Aravindh 20 Nov): 600 × 800 each, 100 apart, 1350–2150, thin black frames, white mats. */
  [950,1650].forEach(u=>A(R,'E','frame',u,600,1350,800,30,{}));
@@ -192,7 +192,10 @@ var XOPEN=window.XOPEN||(window.XOPEN={
    const o=new THREE.Mesh(g,m.f); o.castShadow=o.receiveShadow=true; grp.add(o);
    const t=new THREE.Mesh(new THREE.BoxGeometry(.17,.05,.1),m.t); t.position.set((c)/1000,ty/1000,.085); grp.add(t)}
   const rod=new THREE.Mesh(new THREE.BoxGeometry((it.uw-80)/1000,.02,.02),m.t); rod.position.set((it.u0+it.uw/2)/1000,(top-20)/1000,.09); grp.add(rod);
-  const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)}});
+  const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)},
+ // wardrobe finish (22 Nov, Aravindh ref photo): white matte shutters with a light warm-grey band on the lower third
+ band(R,it,wbox){const g=XOPEN._g||(XOPEN._g=new THREE.MeshStandardMaterial({color:0xd3cec7,roughness:.8})),cols=it.cols||1,cw=it.uw/cols;
+  for(let j=0;j<cols;j++)wbox(R,it,it.u0+j*cw+4,cw-8,it.y0+4,(it.band||800)-4,(it.t0||0)+it.td+1,4,g,false)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -267,6 +270,7 @@ function drawElev(R,wall,letter,title){
       case 'loose': rect(u0,y0,uw,h,'none',it.chg?6:3,{stroke,'stroke-dasharray':'18 12'});break;
       case 'bed':{const D={'stroke-dasharray':'18 12'},pw=Math.min(760,uw/2-70),gp=(uw-2*pw)/3;rect(u0,y0,uw,300,'none',3,{...D,rx:40});rect(u0+20,y0+280,uw-40,h-280,'none',3,{...D,rx:80});[u0+gp,u0+2*gp+pw].forEach(x=>rect(x,y0+h-20,pw,210,'none',3,{...D,rx:95}));break}
     }
+    if(it.kind==='unit'&&it.ward){const cols=it.cols||1,cw=uw/cols;for(let j=0;j<cols;j++)rect(u0+j*cw+8,y0+8,cw-16,(it.band||800)-8,'#d6d1ca',2,{stroke:c('fg')})}
     if(it.lab){
       let ty=y0+h/2-14; if(it.kind==='tv')ty=y0+h/2-14; if(it.kind==='board')ty=y0-120;
       if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40;
@@ -473,7 +477,7 @@ let build3D=()=>{};
         case 'plinth': wbox(R,it,u0,uw,y0,h,0,td,MAT.granite,false); break;
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
-        case 'unit':{
+        case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
           rwbox(R,it,u0,uw,y0,h,0,td-18,m,flip(it.wall,RC(it)),nAx(it.wall));
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rwbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,flip(it.wall,subRC(it,u0+j*cw+3,y0+i*rh+3,cw-6,rh-6,3)),nAx(it.wall));

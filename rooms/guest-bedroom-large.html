@@ -120,9 +120,9 @@ const ROOMS={};
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
  A(R,'N','open',2320,350,1200,1200,400,{shelves:3,lab:'open',dim:true,prc:{fl:60}});
- A(R,'N','unit',2670,1900,0,2400,600,{mat:'wood',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
- A(R,'N','unit',2320,825,2400,500,600,{mat:'wood',cols:1});
- A(R,'N','unit',3145,1425,2400,500,600,{mat:'wood',cols:3,flip:true});
+ A(R,'N','unit',2670,1900,0,2400,600,{mat:'white',ward:true,cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'white',cols:1});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'white',cols:3,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
  A(R,'S','window',2470,1800,0,DH,40,{rail:true,dim:true});
@@ -191,7 +191,10 @@ var XOPEN=window.XOPEN||(window.XOPEN={
    const o=new THREE.Mesh(g,m.f); o.castShadow=o.receiveShadow=true; grp.add(o);
    const t=new THREE.Mesh(new THREE.BoxGeometry(.17,.05,.1),m.t); t.position.set((c)/1000,ty/1000,.085); grp.add(t)}
   const rod=new THREE.Mesh(new THREE.BoxGeometry((it.uw-80)/1000,.02,.02),m.t); rod.position.set((it.u0+it.uw/2)/1000,(top-20)/1000,.09); grp.add(rod);
-  const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)}});
+  const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)},
+ // wardrobe finish (22 Nov, Aravindh ref photo): white matte shutters with a light warm-grey band on the lower third
+ band(R,it,wbox){const g=XOPEN._g||(XOPEN._g=new THREE.MeshStandardMaterial({color:0xd3cec7,roughness:.8})),cols=it.cols||1,cw=it.uw/cols;
+  for(let j=0;j<cols;j++)wbox(R,it,it.u0+j*cw+4,cw-8,it.y0+4,(it.band||800)-4,(it.t0||0)+it.td+1,4,g,false)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}}
@@ -275,6 +278,7 @@ function drawElev(R,wall,letter,title){
       case 'loose': rect(u0,y0,uw,h,'none',it.chg?6:3,{stroke,'stroke-dasharray':'18 12'});break;
       case 'bed':{const D={'stroke-dasharray':'18 12'},pw=Math.min(760,uw/2-70),gp=(uw-2*pw)/3;rect(u0,y0,uw,300,'none',3,{...D,rx:40});rect(u0+20,y0+280,uw-40,h-280,'none',3,{...D,rx:80});[u0+gp,u0+2*gp+pw].forEach(x=>rect(x,y0+h-20,pw,210,'none',3,{...D,rx:95}));break}
     }
+    if(it.kind==='unit'&&it.ward){const cols=it.cols||1,cw=uw/cols;for(let j=0;j<cols;j++)rect(u0+j*cw+8,y0+8,cw-16,(it.band||800)-8,'#d6d1ca',2,{stroke:c('fg')})}
     if(it.lab){
       let ty=y0+h/2-14; if(it.kind==='tv')ty=y0+h/2-14; if(it.kind==='board')ty=y0-120;
       if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40; if(it.kind==='chair')ty=y0+h+90;
@@ -478,7 +482,7 @@ let build3D=()=>{};
         case 'plinth': wbox(R,it,u0,uw,y0,h,0,td,MAT.granite,false); break;
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
-        case 'unit':{
+        case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
           rbox(R,it,u0,uw,y0,h,0,td-18,m,it.rc||0);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,SRC(it.rc,j,i,cols,rows,3));
