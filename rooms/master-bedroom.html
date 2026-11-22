@@ -131,7 +131,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
  /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
- A(R,'E','unit',DESK_U,DESK_W,600,150,400,{mat:'wood',cols:2,flap:true,lab:'desk + TV console',dim:true}); // 400 deep (22 Nov) for about 670 clear to the bed foot
+ A(R,'E','unit',DESK_U,DESK_W,600,150,330,{mat:'wood',cols:2,flap:true,rf:30,lab:'desk + TV console',dim:true}); // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
  A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
@@ -195,7 +195,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
   ['Wardrobe','1600 (5′ toilet face) × 600 deep, 3 hinged shutters about 533 wide to 2400, loft to the ceiling.'],
   ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 400 × 150 (top at 750, outer edges rounded; about 670 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
+  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 330 × 150 (top at 750, rounded edges and rounded drawer fronts like the living TV unit, centred horizontal pull handles; about 740 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
@@ -273,8 +273,9 @@ function drawElev(R,wall,letter,title){
         const cols=it.cols||1, rows=it.rows||1, cw=uw/cols, rh=h/rows;
         for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
           const x=u0+j*cw, y=y0+i*rh;
-          rect(x+10,y+10,cw-20,rh-20,it.glass?c('glass'):fill,2,{...S});
-          if(rows>1||it.flap) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:c('alu'),'stroke-linecap':'round'});
+          rect(x+10,y+10,cw-20,rh-20,it.glass?c('glass'):fill,2,{...S,...(it.rf?{rx:it.rf}:{})});
+          if(it.flap&&rows===1) line(x+cw/2-60,y+rh/2,x+cw/2+60,y+rh/2,9,{stroke:c('alu'),'stroke-linecap':'round'});
+          else if(rows>1) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:c('alu'),'stroke-linecap':'round'});
           else if(y0>=2000){const hx=it.hs?(it.hs[j]==='L'?x+45:x+cw-45):(cols===1)?x+cw-45:(j%2===0?x+cw-45:x+45); line(hx,y+50,hx,y+210,9,{stroke:c('alu'),'stroke-linecap':'round'})} // loft: upright bar at the bottom corner on the opening side
           else {const hx=it.hs?(it.hs[j]==='L'?x+45:x+cw-45):(cols===1)?x+cw-45:(j%2===0?x+cw-45:x+45); const hy=Math.min(y+rh/2,1100); line(hx,hy-120,hx,hy+120,9,{stroke:c('alu'),'stroke-linecap':'round'})}
         }
@@ -523,10 +524,11 @@ let build3D=()=>{};
         case 'unit':{
           if(!it.noCarc)wbox(R,it,u0,uw,y0,it.carcH||h,t0||0,td-18,m,false,25);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
-          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,(t0||0)+td-18,18,it.glass?MAT.glass:m,true,0);
+          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,(t0||0)+td-18,18,it.glass?MAT.glass:m,!it.rf,it.rf||0);
           const ht=(t0||0)+td;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){const x=u0+j*cw,y=y0+i*rh;
-            if(rows>1)wbox(R,it,x+cw/2-60,120,y+rh-60,14,ht,22,MAT.metal,false,5);
+            if(it.flap&&rows===1)wbox(R,it,x+cw/2-60,120,y+rh/2-7,14,ht,22,MAT.metal,false,5);   // pull handle, centred
+            else if(rows>1)wbox(R,it,x+cw/2-60,120,y+rh-60,14,ht,22,MAT.metal,false,5);
             else if(y0>=2000){const hx=it.hs?(it.hs[j]==='L'?x+41:x+cw-55):(cols===1)?x+cw-55:(j%2===0?x+cw-55:x+41);wbox(R,it,hx,14,y+40,160,ht,22,MAT.metal,false,5)}
             else{const hx=it.hs?(it.hs[j]==='L'?x+41:x+cw-55):(cols===1)?x+cw-55:(j%2===0?x+cw-55:x+41);wbox(R,it,hx,14,Math.min(y+rh/2,1100)-150,300,ht,22,MAT.metal,false,5)}}
           break}
