@@ -184,15 +184,19 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   box(TB_W,0,250,40,DH,750,MAT.door);
   box(BAY_X,0,RD,BAY_W,450,BAY_D,MAT.tile);
   box(BAY_X+30,450,RD+20,BAY_W-60,80,BAY_D-40,MAT.fabric,true,30);
-  box(BAY_X,450,RD+BAY_D-20,BAY_W,1700,20,MAT.glass);
-  box(BAY_X-120,0,RD,120,2230,BAY_D,MAT.wall,false); box(BAY_X+BAY_W-20,450,RD,20,1700,BAY_D,MAT.glass); // west side is brick wall (site photo 20 Nov), east side glass
+  const CLR=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.07,roughness:0,depthWrite:false}); // clear glass (22 Nov, Aravindh)
+  box(BAY_X,450,RD+BAY_D-20,BAY_W,1700,20,CLR);
+  box(BAY_X+BAY_W/2-25,450,RD+BAY_D-45,50,1700,45,MAT.white,false); box(BAY_X,1280,RD+BAY_D-45,BAY_W,50,45,MAT.white,false); // white uPVC mullion and transom (site photo)
+  box(BAY_X+BAY_W-45,1280,RD,45,50,BAY_D,MAT.white,false);
+  box(BAY_X-120,0,RD,120,2230,BAY_D,MAT.wall,false); box(BAY_X+BAY_W-20,450,RD,20,1700,BAY_D,CLR); // west side is brick wall (site photo 20 Nov), east side glass
   soft(BAY_X,530,RD+15,90,600,BAY_D-30,MAT.fabric,40,.08);              // half-height backrest cushion on the west wall
   box(BAY_X,2150,RD,BAY_W,80,BAY_D,MAT.white);
   [[BAY_X,0],[BAY_X+BAY_W-40,0]].forEach(([x])=>box(x,450,RD+BAY_D-40,40,1700,40,MAT.white,false));
   box(3200-750,1000,RD-12,700,1200,12,MAT.glass);
   // bay curtain (22 Nov, Aravindh): thin sheer only, sliding on a slim aluminium track that follows the bay (same as the entrance screens); no thick drapes
   const cz=RD+BAY_D-70, cx0=BAY_X+70, cx1=BAY_X+BAY_W-70;
-  XTRA.sheer(box,'x',cx0,cx1,cz-20,2120,560); XTRA.sheer(box,'z',RD+20,cz,cx1-20,2120,560);
+  box(cx0,2120,cz-40,cx1-cx0,25,40,XTRA.mats().alu,false); box(cx1-40,2120,RD+20,40,25,cz-RD-20,XTRA.mats().alu,false); // track along the long side and the leg side
+  XTRA.sheer(box,'x',cx0,cx0+380,cz-20,2120,560); XTRA.sheer(box,'x',cx1-420,cx1,cz-20,2120,560); XTRA.sheer(box,'z',RD+20,RD+280,cx1-20,2120,560); // slid open to the ends; none on the brick (cushion) side
  };
  /* Daylight through the bay (22 Nov, Aravindh): bright sky behind the glass, a warm sun patch falling into the room with curtain shadows, and soft fill near the window. */
  R.light=(G,mm)=>{
@@ -212,7 +216,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
-  ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Thin sheer curtain only, on a slim brushed-aluminium track that follows the bay just below the soffit, sliding open in one move and ending just above the cushion (no thick drapes, 22 Nov).'],
+  ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Clear glass with white uPVC frames (site photo). Thin sheer curtain only, on a slim brushed-aluminium track along the long glass side and the leg-side glass (none on the brick, cushion side), slides fully open to the ends, ending just above the cushion (no thick drapes, 22 Nov).'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
   ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; loft shutters get a short upright bar at the bottom corner on the opening side, matching the wardrobe door below. The fold-down study table gets a finger pull at its front edge.'],
   ['Open points','Passage depth, plug point position and height, bay width. All sizes to be measured.']];
