@@ -132,13 +132,13 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  [-830,-250,330].forEach(d=>A(R,'W','frame',RD-BED_Z+d,500,1400,700,30,{}));
  A(R,'W','panel',MAIN-600,600,0,CEIL,10,{mat:'wood',lab:'wardrobe side',elevOnly:true});
  A(R,'W','gap',MAIN,TB_D,0,CEIL,0,{lab:'toilet',elevOnly:true});
- L(R,'bed',60,BED_Z-915,2030,1830,0,500,{on:['W'],lab:'king bed 1830 × 2030'});
+ L(R,'bed',60,BED_Z-915,2074,1830,0,500,{on:['W'],lab:'king bed, 7 ft overall'}); // 22 Nov: cot + headrest cushions make it about 7 ft (2134) from the wall
  L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'wood',on:['W']});
  /* East wall (u from the north/passage end). Plug board low at about 550, near the middle of the wall (site photo 20 Nov, estimated).
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
  /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
- A(R,'E','unit',DESK_U,DESK_W,600,150,450,{mat:'wood',cols:2,flap:true,lab:'desk + TV console',dim:true});
+ A(R,'E','unit',DESK_U,DESK_W,600,150,400,{mat:'wood',cols:2,flap:true,lab:'desk + TV console',dim:true}); // 400 deep (22 Nov) for about 670 clear to the bed foot
  A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
@@ -201,8 +201,8 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
   ['Wardrobe','1600 (5′ toilet face) × 600 deep, 3 hinged shutters about 533 wide to 2400, loft to the ceiling.'],
-  ['Bed','King 1830 × 2030 centred on the west wall, headboard panel 2230 × 1200. One side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 450 × 150 (top at 750) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
+  ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
+  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 400 × 150 (top at 750, outer edges rounded; about 670 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
