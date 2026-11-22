@@ -11,15 +11,15 @@
 /* Layout: single column drawing sheet; elevation, then 3D, then spec list */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --ebony:#3b2d25; --ivory:#efe9dc; --rose:#c48a7c; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
+  --wood:#d8c3a3; --ebony:#5a463b; --ivory:#efe9dc; --rose:#c48a7c; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ebony:#2e231d; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
+  --wood:#8a7458; --ebony:#3f3129; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ebony:#2e231d; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
+  --wood:#8a7458; --ebony:#3f3129; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -223,7 +223,7 @@ let build3D=()=>{};
   const wood=M(0xd2b994), woodD=M(0xb99c74), wall=M(0xf1efea), floor=M(0xe4e0d8), gran=M(0x2e2d2b,{roughness:.35}),
         glass=new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.3,roughness:.05}),
         panel=M(0xe8e3da), metal=M(0x9c8150,{metalness:.6,roughness:.4}), alu=M(0x1d1d1b,{roughness:.6}), white=M(0xfafaf8), fabric=M(0xbdb8ad,{roughness:.95}),
-        tableM=M(0x3b2d25,{roughness:.8}), ebony=M(0x3b2d25,{roughness:.85}), ebonyD=M(0x2c221c,{roughness:.85}), ivory=M(0xefe9dc,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+        tableM=M(0x5a463b,{roughness:.8}), ebony=M(0x5a463b,{roughness:.8}), ebonyD=M(0x4d3c32,{roughness:.8}), ivory=M(0xefe9dc,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
   const mm=v=>v/1000;
   let G=scene;
   function slab(x,y,z,w,h,d,rad,m,parent){ // rounded-corner slab in plan

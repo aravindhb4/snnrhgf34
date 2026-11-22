@@ -130,8 +130,8 @@ const ROOMS={};
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
  /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 x 460 (2 shelves) with a thin cushion; 365 deep; ends 300 short of the opened main door */
- A(R,'W','unit',2920,400,0,910,365,{mat:'emerald',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
- A(R,'W','unit',3320,500,0,460,365,{mat:'emerald',cols:1,rc:{tr:30},lab:'bench',dim:true});
+ A(R,'W','unit',2920,400,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3320,500,0,460,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3320,500,460,50,365,{});
  L(R,'loose',0,1650,820,2920,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 2920',skip3d:true});
  L(R,'loose',0,1650,360,2920,420,590,{mat:'sofa',skip3d:true});
@@ -147,7 +147,7 @@ const ROOMS={};
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. All 5 seats the same, about 600 wide; depth about 820 as drawn on the sale-agreement plan. Long side about 2920 on the west wall: arm 150, 3 seats, curved corner. Short side about 2320 on the south wall: corner, 2 seats, arm, ending at the passage to the bedrooms. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, emerald green super matt shutters, matt black handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, ebony wood carcass with ivory super matt shutters (like the product photo), matt black handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
@@ -251,7 +251,7 @@ function drawElev(R,wall,letter,title){
           const ir=rx?Math.max(0,rx-8):0, l=j===0&&ir, r=j===cols-1&&ir;
           if(ir&&(l||r)){const x0=x+8,x1=x+cw-8,yt=Y(y+rh-8),yb=Y(y+8);
             el('path',{d:`M${x0+(l?ir:0)} ${yt} H${x1-(r?ir:0)} ${r?`A${ir} ${ir} 0 0 1 ${x1} ${yt+ir} V${yb-ir} A${ir} ${ir} 0 0 1 ${x1-ir} ${yb}`:`V${yb}`} H${x0+(l?ir:0)} ${l?`A${ir} ${ir} 0 0 1 ${x0} ${yb-ir} V${yt+ir} A${ir} ${ir} 0 0 1 ${x0+ir} ${yt}`:`V${yt}`} Z`,fill,stroke:S.stroke,'stroke-width':3})}
-          else rect(x+8,y+8,cw-16,rh-16,it.glass?c('glass'):fill,3,S);
+          else rect(x+8,y+8,cw-16,rh-16,it.glass?c('glass'):(it.front?c(it.front):fill),3,S);
           if(rows>1||it.flap) line(x+cw/2-80,y+rh-55,x+cw/2+80,y+rh-55,12,{'stroke-linecap':'round',stroke:c('alu')});
           else {const hx=(cols===1)?x+cw-45:(j%2===0?x+cw-45:x+45); const hy=Math.min(y+rh/2,1100); line(hx,hy-120,hx,hy+120,7)}
         }
@@ -524,7 +524,7 @@ let build3D=()=>{};
             break}
           wbox(R,it,u0,uw,y0,h,0,td-18,m,false);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
-          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m);
+          for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:(MAT[it.front]||m));
           break}
         case 'open': wbox(R,it,u0,uw,y0,h,0,20,MAT.panel);
           wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
