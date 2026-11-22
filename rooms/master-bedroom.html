@@ -115,11 +115,11 @@ const MAIN=4110, TB_W=1600, TB_D=1200, TB_LEN=2440, BAY_X=150, BAY_W=2000, BAY_D
 const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
 {const R=room({id:'bedroom-1',name:'Master Bedroom',W:3200,D:RD,top:1300,mk:{N:0.62},hole:{x0:BAY_X,x1:BAY_X+BAY_W,y0:450,y1:2150},
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
-  elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','Desk and 43″ TV'],['S','D','Bay window and dresser']]});
+  elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','TV and ledge'],['S','D','Bay window and dresser']]});
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
- // wardrobe (22 Nov, Aravindh ref photo IMG_3117): one tall unit, no loft. Warm-grey base drawers 450 (same grey as the other wardrobes' lower band), then 3 full-height shutters to the ceiling; more shelves inside
- A(R,'N','unit',0,TB_W,0,450,600,{t0:TB_D,mat:'wgrey',cols:2,drw:true,round:'bottom',carcH:2900});
- A(R,'N','unit',0,TB_W,450,CEIL-450,600,{t0:TB_D,mat:'white',cols:3,hs:['L','R','L'],lab:'wardrobe',dim:true,round:'top',noCarc:true});
+ // wardrobe (22 Nov evening, Aravindh): 2 doors of about 2'6" (800 each, fills the 5' toilet face) to 2400, loft to the ceiling, no base drawers
+ A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'white',cols:2,hs:['R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2900});
+ A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'white',cols:2,hs:['R','L'],round:'top',noCarc:true});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
@@ -132,7 +132,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
  /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
- A(R,'E','unit',DESK_U,DESK_W,600,150,330,{mat:'white',cols:2,flap:true,rf:30,lab:'desk + TV console',dim:true}); // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
+ A(R,'E','panel',DESK_U,DESK_W,710,40,200,{mat:'white',lab:'TV ledge',dim:true}); // 22 Nov evening (Aravindh): plain 200-deep ledge under the TV, no storage below; was a 330-deep drawer desk. // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
  A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
@@ -203,15 +203,15 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep, one tall unit with no loft: 2 warm-grey base drawers 800 × 450 (same grey as the other wardrobes), then 3 full-height white hinged shutters about 533 wide from 450 to the ceiling. Inside: hanging on one side, shelves on the rest, high shelves up to the ceiling for less-used items.'],
+  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 2 white hinged doors of about 2′6″ (800 each) to 2400, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
   ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One white side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed white floating desk 1200 × 330 × 150 (top at 750, rounded edges and rounded drawer fronts like the living TV unit, centred horizontal pull handles; about 740 clear to the foot of the bed) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
+  ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain white floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, white matte to match the wardrobe. Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
   ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Clear glass with white uPVC frames (site photo). Thin sheer curtain only, on a slim brushed-aluminium track along the long glass side and the leg-side glass (none on the brick, cushion side), slides fully open to the ends, ending just above the cushion (no thick drapes, 22 Nov).'],
-  ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe base drawers and tall shutters read as one block; shutters and drawer fronts are plain where they meet.'],
-  ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; wardrobe base drawers get a horizontal pull on the top edge. The fold-down study table gets a finger pull at its front edge.'],
+  ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
+  ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; loft shutters get a short upright bar at the bottom corner on the opening side, matching the door below.'],
   ['Open points','Passage depth, plug point position and height, bay width. All sizes to be measured.']];
  ROOMS['bedroom-1']=R}
 
