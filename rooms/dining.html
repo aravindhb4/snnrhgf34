@@ -11,15 +11,15 @@
 /* Layout: single column drawing sheet; elevation, then 3D, then spec list */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
+  --wood:#d8c3a3; --ebony:#3b2d25; --ivory:#efe9dc; --rose:#c48a7c; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
+  --wood:#8a7458; --ebony:#2e231d; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
+  --wood:#8a7458; --ebony:#2e231d; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -72,9 +72,10 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
       <dt>Wall</dt><dd>About 13′ (3960) from the balcony corner to the passage. Ceiling taken as 2900, beam soffit about 2500, beam about 230 wide (estimated from photos).</dd>
       <dt>Balcony pelmet</dt><dd>Wooden pelmet over the balcony sliding door on the side wall, from the door head (about 2100) to the ceiling, 180 deep and about 2700 long (150 past each side of the opening), hiding the curtain track; same style as the bedroom pelmets. Door position estimated from the site photo.</dd>
       <dt>Dining</dt><dd>Zone of 9′ (2743). Wall art above the bench: layered, multicolour elephant family (from your reference photo), about 1100 × 940, centred on the bench, bottom at 1450, about 20 off the wall. Loose, movable bench about 5′3″ (1600) × 420 deep × 450 high on legs, with a seat cushion and its own backrest, fully upholstered in one long cushion like the seat (no wood showing) (nothing fixed to the wall), so the whole bench moves as one piece. About 1′10″ clear at each end. Table 1600 × 800 (5′3″ × 2′7″), same length as the bench, rounded corners, 2 chairs opposite.</dd>
-      <dt>Crockery</dt><dd>About 1′9″ (537) wide, single glass door, glass upper 1300–2500, top storage above to the ceiling that also covers the beam. Charging socket in the open gap.</dd>
-      <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200) with jaali doors, top level with the crockery. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
+      <dt>Crockery</dt><dd>About 1′9″ (537) wide, single door, upper 1300–2500 in ebony matte with vertical transparent fluted glass and a rose gold rim; stops at 2500, nothing above it (beam left exposed). Charging socket in the open gap.</dd>
+      <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200), top level with the crockery, ebony matte with two doors of vertical transparent fluted glass and rose gold rims. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
       <dt>Version 2</dt><dd>Tall crockery: one full-height unit, pull-outs at the bottom and the glass door running straight from 670 to 2500, no gap and no granite on the crockery, 450 deep throughout. Only the pooja keeps the granite and the gap for the switch board. The charging socket moves to the pooja gap or the bench side.</dd>
+      <dt>Finishes</dt><dd>Decided 22 Nov: crockery and pooja in ebony wood matte; base unit in ivory super matte with black granite on top; all handles black. The bench frame, table and chairs are shown in ebony matte as standalone furniture.</dd>
       <dt>Base</dt><dd>One granite top at 690 (lowered so the gap below the uppers is 2′) across crockery and pooja (1217 long), 450 deep, rounded front corners, pull-outs below. Only the outer corners of each run of units are rounded; where units touch they merge as one block with square joints. Handles are slim brushed aluminium bar handles (drawers, glass and pooja doors, top storage).</dd>
       <dt>Open points</dt><dd>Measure wall length, beam position, beam soffit height and switch board height; the temple tip is set from the beam soffit.</dd>
     </dl>
@@ -114,6 +115,7 @@ function drawElev(L){
   function line(x1,y1,x2,y2,sw=3,extra={}){return el('line',{x1,y1:Y(y1),x2,y2:Y(y2),stroke:c('fg'),'stroke-width':sw,...extra})}
   function text(x,y,t,anchor='middle',size=46,fill=c('muted')){const e=el('text',{x,y:Y(y),'text-anchor':anchor,'font-size':size,fill,'font-family':'Inter,system-ui,sans-serif'});e.textContent=t;return e}
   const muted={stroke:c('muted')};
+  const flutes=(x,y,w,h)=>{const g=el('g',{stroke:c('muted'),'stroke-width':2,opacity:.7});for(let xx=x+22;xx<x+w-12;xx+=26)el('line',{x1:xx,y1:Y(y+h-14),x2:xx,y2:Y(y+14)},g)};
   const {P0,P1}=L;
 
   line(-120,0,WALL+120,0,3,muted); line(-120,CEIL,WALL+120,CEIL,3,muted);
@@ -124,8 +126,8 @@ function drawElev(L){
   
 
   // bench + table
-  rect(BEN0,SEATH-100,BEN1-BEN0,40,c('wood'),3);
-  [BEN0+40,BEN1-90].forEach(x=>rect(x,0,50,SEATH-100,c('wood'),3));
+  rect(BEN0,SEATH-100,BEN1-BEN0,40,c('ebony'),3);
+  [BEN0+40,BEN1-90].forEach(x=>rect(x,0,50,SEATH-100,c('ebony'),3));
   rect(BEN0-10,SEATH-60,BEN1-BEN0+20,60,c('fabric'),4);
   text((BEN0+BEN1)/2,SEATH-260,'loose bench (movable)','middle',30);
   // layered elephant wall art above the bench (from Aravindh's reference photo)
@@ -141,7 +143,7 @@ function drawElev(L){
   // base
   rect(C0+30,0,P1-C0-60,PL,c('panel'),3);
   const drawers=(x,w,cols,rows)=>{const h=BASE-PL,cw=w/cols;for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){const dx=x+j*cw;
-    rect(dx+8,PL+i*h/rows+8,cw-16,h/rows-16,c('wood'),3,{r:[0,0,(i===0&&dx+cw>=P1-1)?40:0,(i===0&&dx<=C0+1)?40:0]});line(dx+cw/2-40,PL+(i+1)*h/rows-50,dx+cw/2+40,PL+(i+1)*h/rows-50,7,{stroke:'#8f959b'})}};
+    rect(dx+8,PL+i*h/rows+8,cw-16,h/rows-16,c('ivory'),3,{r:[0,0,(i===0&&dx+cw>=P1-1)?40:0,(i===0&&dx<=C0+1)?40:0]});line(dx+cw/2-40,PL+(i+1)*h/rows-50,dx+cw/2+40,PL+(i+1)*h/rows-50,7,{stroke:'#1d1d1b'})}};
   drawers(C0,C1-C0,1,2); if(L.niche)drawers(B0,B1-B0,1,1); drawers(P0,P1-P0,L.pCols,2);
   const G0=L.tall?P0:C0-15; rect(G0,BASE,P1-G0,GR+10,c('granite'),3,{rx:12});
   const CU=L.tall?PL:UP;
@@ -158,32 +160,29 @@ function drawElev(L){
 
   // crockery upper
   const GU=L.tall?BASE:UP;
-  rect(C0,GU,C1-C0,BSOF-GU,c('wood'),4,{r:[0,0,0,L.tall?0:40]});
+  rect(C0,GU,C1-C0,BSOF-GU,c('ebony'),4,{r:[0,0,0,L.tall?0:40]});
   const nd=(C1-C0)>700?2:1, dW=(C1-C0-50)/nd;
-  for(let k=0;k<nd;k++){const x=C0+25+k*dW;rect(x+(k?5:0),GU+25,dW-5,BSOF-GU-50,c('glass'),4);
-    line(x+dW-45,1450,x+dW-45,1750,8,{stroke:'#8f959b'})}
+  for(let k=0;k<nd;k++){const x=C0+25+k*dW;rect(x+(k?5:0),GU+25,dW-5,BSOF-GU-50,c('glass'),10,{stroke:c('rose')});flutes(x+(k?5:0),GU+25,dW-5,BSOF-GU-50);
+    line(x+dW-45,1450,x+dW-45,1750,8,{stroke:'#1d1d1b'})}
   (L.tall?[1300,1700,2100]:[1700,2100]).forEach(y=>line(C0+35,y,C1-35,y,3,{'stroke-dasharray':'14 10',stroke:c('muted')}));
   if(L.tall)rect(C0,0,C1-C0,BASE,'none',5);
-  rect(C0,BSOF,B1-C0,CEIL-BSOF,c('wood'),4);line(B0,BSOF,B0,CEIL,3);text((C0+B1)/2,BSOF+250,'top storage (wraps beam)','middle',30);line(B0-40,BSOF+40,B0-40,BSOF+140,7,{stroke:'#8f959b'});
 
   // pooja temple upper
   const pw=P1-P0,pil=pw>800?55:45;
-  rect(P0,UP,pw,PTOP-UP,c('wood'),4,{r:[0,0,40,0]});
-  rect(P0,UP,pil,PTOP-UP,c('wood'),4); rect(P1-pil,UP,pil,PTOP-UP,c('wood'),4,{r:[0,0,40,0]});
+  rect(P0,UP,pw,PTOP-UP,c('ebony'),4,{r:[0,0,40,0]});
+  rect(P0,UP,pil,PTOP-UP,c('ebony'),4); rect(P1-pil,UP,pil,PTOP-UP,c('ebony'),4,{r:[0,0,40,0]});
   const dw=(pw-2*pil)/2;
-  [P0+pil,P0+pil+dw].forEach(x=>{rect(x+8,UP+20,dw-16,PTOP-UP-40,c('glass'),4);
-    const g=el('g',{fill:'none',stroke:c('muted'),'stroke-width':2});
-    for(let yy=UP+80;yy<PTOP-40;yy+=70)for(let xx=x+50;xx<x+dw-30;xx+=70)el('circle',{cx:xx,cy:Y(yy),r:20},g)});
-  line(P0+pil+dw-30,1780,P0+pil+dw-30,1980,8,{stroke:'#8f959b'}); line(P0+pil+dw+30,1780,P0+pil+dw+30,1980,8,{stroke:'#8f959b'});
-  rect(P0-15,PTOP,pw+15,40,c('wood'),4,{r:[0,20,0,0]});
+  [P0+pil,P0+pil+dw].forEach(x=>{rect(x+8,UP+20,dw-16,PTOP-UP-40,c('glass'),10,{stroke:c('rose')});flutes(x+8,UP+20,dw-16,PTOP-UP-40)});
+  line(P0+pil+dw-30,1780,P0+pil+dw-30,1980,8,{stroke:'#1d1d1b'}); line(P0+pil+dw+30,1780,P0+pil+dw+30,1980,8,{stroke:'#1d1d1b'});
+  rect(P0-15,PTOP,pw+15,40,c('ebony'),4,{r:[0,20,0,0]});
   const cx=(P0+P1)/2;
   // gopuram-style temple top: 4 tapering tiers with kudu arches, stupi, kalasam
   for(let i=0;i<TIERS;i++){const y0=PTOP+40+i*TH, wb=pw-120-i*TSTEP, wt=wb-TSTEP*0.45;
-    el('path',{d:`M${cx-wb/2} ${Y(y0)} L${cx-wt/2} ${Y(y0+TH)} L${cx+wt/2} ${Y(y0+TH)} L${cx+wb/2} ${Y(y0)} Z`,fill:c('wood'),stroke:c('fg'),'stroke-width':3});
+    el('path',{d:`M${cx-wb/2} ${Y(y0)} L${cx-wt/2} ${Y(y0+TH)} L${cx+wt/2} ${Y(y0+TH)} L${cx+wb/2} ${Y(y0)} Z`,fill:c('ebony'),stroke:c('fg'),'stroke-width':3});
     const n=Math.max(1,Math.round(wt/110)); for(let k=0;k<n;k++){const ax=cx-wt/2+(k+0.5)*wt/n;
-      el('path',{d:`M${ax-16} ${Y(y0+8)} L${ax-16} ${Y(y0+TH-28)} A 16 16 0 0 1 ${ax+16} ${Y(y0+TH-28)} L${ax+16} ${Y(y0+8)}`,fill:'none',stroke:c('fg'),'stroke-width':2})}}
+      el('path',{d:`M${ax-16} ${Y(y0+8)} L${ax-16} ${Y(y0+TH-28)} A 16 16 0 0 1 ${ax+16} ${Y(y0+TH-28)} L${ax+16} ${Y(y0+8)}`,fill:'none',stroke:c('rose'),'stroke-width':2})}}
   const sy=PTOP+40+TIERS*TH;
-  el('path',{d:`M${cx-STW/2} ${Y(sy)} A ${STW/2} ${STH} 0 0 1 ${cx+STW/2} ${Y(sy)} Z`,fill:c('wood'),stroke:c('fg'),'stroke-width':3});
+  el('path',{d:`M${cx-STW/2} ${Y(sy)} A ${STW/2} ${STH} 0 0 1 ${cx+STW/2} ${Y(sy)} Z`,fill:c('ebony'),stroke:c('fg'),'stroke-width':3});
   el('circle',{cx,cy:Y(sy+STH+KB),r:KB,fill:c('granite')});
   el('path',{d:`M${cx-KC} ${Y(sy+STH+KB*1.6)} L${cx} ${Y(ROOF)} L${cx+KC} ${Y(sy+STH+KB*1.6)} Z`,fill:c('granite')});
   line(P0-60,BSOF,P0+40,BSOF,2,{stroke:c('muted')});
@@ -223,8 +222,8 @@ let build3D=()=>{};
   const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.75,...o});
   const wood=M(0xd2b994), woodD=M(0xb99c74), wall=M(0xf1efea), floor=M(0xe4e0d8), gran=M(0x2e2d2b,{roughness:.35}),
         glass=new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.3,roughness:.05}),
-        panel=M(0xe8e3da), metal=M(0x9c8150,{metalness:.6,roughness:.4}), alu=M(0xe4e6e8,{metalness:0,roughness:.35,emissive:0x6a6d70}), white=M(0xfafaf8), fabric=M(0xbdb8ad,{roughness:.95}),
-        tableM=M(0x8f7556), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+        panel=M(0xe8e3da), metal=M(0x9c8150,{metalness:.6,roughness:.4}), alu=M(0x1d1d1b,{roughness:.6}), white=M(0xfafaf8), fabric=M(0xbdb8ad,{roughness:.95}),
+        tableM=M(0x3b2d25,{roughness:.8}), ebony=M(0x3b2d25,{roughness:.85}), ebonyD=M(0x2c221c,{roughness:.85}), ivory=M(0xefe9dc,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
   const mm=v=>v/1000;
   let G=scene;
   function slab(x,y,z,w,h,d,rad,m,parent){ // rounded-corner slab in plan
@@ -241,6 +240,9 @@ let build3D=()=>{};
     return s}
   function rgeo(W,H,D,R,hole){const g=new THREE.ExtrudeGeometry(pshape(W,H,R,hole),{depth:D,bevelEnabled:false,curveSegments:8});g.translate(0,0,-D/2);return g}
   // rad: number (all corners) or [tl,tr,br,bl] in mm; only outer corners of a run are rounded. Fabric is soft-rounded by default.
+  function fluted(x,y,w,h,z){const pts=[];for(let xx=x+22;xx<x+w-12;xx+=26)pts.push(mm(xx),mm(y+14),mm(z),mm(xx),mm(y+h-14),mm(z));
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));G.add(new THREE.LineSegments(g,fluteM));
+    box(x,y,z-6,w,12,10,rose,false);box(x,y+h-12,z-6,w,12,10,rose,false);box(x,y,z-6,12,h,10,rose,false);box(x+w-12,y,z-6,12,h,10,rose,false)}
   function box(x,y,z,w,h,d,m,edge=true,rad=null,hole=null){
     if(rad===null&&m===fabric)rad=Math.min(50,w/4,h/4);
     const R=rad===null?null:(Array.isArray(rad)?rad:[rad,rad,rad,rad]);
@@ -260,8 +262,8 @@ let build3D=()=>{};
    [BD0,(2*BD0+BD1)/3,(BD0+2*BD1)/3,BD1-60].forEach(z=>box(-80,0,z,60,BDH,60,fm,false));
    box(0,BDH,PEL.z0,PEL.d,CEIL-BDH,PEL.z1-PEL.z0,wood,true);}
   box(B0,BSOF,0,B1-B0,CEIL-BSOF,3050,wall,true);
-  box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,wood);
-  [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SEATD-75],[BEN1-85,BZ0+SEATD-75]].forEach(([x,z])=>box(x,0,z,45,SEATH-100,45,woodD,false));
+  box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,ebony);
+  [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SEATD-75],[BEN1-85,BZ0+SEATD-75]].forEach(([x,z])=>box(x,0,z,45,SEATH-100,45,ebony,false));
   box(BEN0-10,SEATH-60,BZ0,BEN1-BEN0+20,60,SEATD+10,fabric);
   box(BEN0-10,SEATH,BZ0,BEN1-BEN0+20,580,110,fabric);
   slab(TBL.x0,TBL.h-40,TBL.z0,TBL.x1-TBL.x0,40,TBL.z1-TBL.z0,TBL.r,tableM,scene);
@@ -271,8 +273,8 @@ let build3D=()=>{};
     const pl=new THREE.Mesh(new THREE.PlaneGeometry(mm(ART.w),mm(ART.h)),mat); pl.position.set(mm(ax),mm(ART.y+ART.h/2),mm(22));
     pl.castShadow=true; pl.customDepthMaterial=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking,map:tx,alphaTest:.3}); scene.add(pl);}
   [[TBL.x0+80,TBL.z0+60],[TBL.x1-130,TBL.z0+60],[TBL.x0+80,TBL.z1-110],[TBL.x1-130,TBL.z1-110]].forEach(([x,z])=>box(x,0,z,50,TBL.h-40,50,tableM,false));
-  [1071,1671].forEach(cx=>{box(cx-220,420,TBL.z1+120,440,40,440,wood,true,20);box(cx-220,460,TBL.z1+520,440,420,40,wood,true,40);
-    [[cx-210,TBL.z1+130],[cx+170,TBL.z1+130],[cx-210,TBL.z1+510],[cx+170,TBL.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,woodD,false))});
+  [1071,1671].forEach(cx=>{box(cx-220,420,TBL.z1+120,440,40,440,ebony,true,20);box(cx-220,460,TBL.z1+520,440,420,40,ebony,true,40);
+    [[cx-210,TBL.z1+130],[cx+170,TBL.z1+130],[cx-210,TBL.z1+510],[cx+170,TBL.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,ebonyD,false))});
 
   let grp=null;
   build3D=function(L){
@@ -281,35 +283,32 @@ let build3D=()=>{};
     const {P0,P1}=L, BD=450;
     box(C0+30,0,10,P1-C0-60,PL,BD-50,woodD,false);
     const drawers=(x,w,cols,rows)=>{const h=BASE-PL,cw=w/cols;for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){const dx=x+j*cw;
-      box(dx+4,PL+i*h/rows+4,0,cw-8,h/rows-8,BD,wood,true,[0,0,(i===0&&dx+cw>=P1-1)?50:0,(i===0&&dx<=C0+1)?50:0]);box(dx+cw/2-50,PL+(i+1)*h/rows-55,BD,100,14,16,alu,false)}};
+      box(dx+4,PL+i*h/rows+4,0,cw-8,h/rows-8,BD,ivory,true,[0,0,(i===0&&dx+cw>=P1-1)?50:0,(i===0&&dx<=C0+1)?50:0]);box(dx+cw/2-50,PL+(i+1)*h/rows-55,BD,100,14,16,alu,false)}};
     drawers(C0,C1-C0,1,2); if(L.niche)drawers(B0,B1-B0,1,1); drawers(P0,P1-P0,L.pCols,2);
     const G0=L.tall?P0:C0-15; slab(G0,BASE,0,P1-G0,GR,BD+25,30,gran);
     if(!L.tall)box(C0,CT,0,C1-C0,UP-CT,10,panel,false); box(P0,CT,0,P1-P0,UP-CT,10,panel,false);
     if(L.niche){box(B0,CT,0,B1-B0,BSOF-CT,10,panel,false);[1500,1900,2200].forEach(y=>box(B0+15,y,0,B1-B0-30,20,250,wood))}
     if(!L.tall)box((C0+C1)/2-45,CT+120,10,90,90,8,white); box(SB.x0,SB.y-45,10,SB.x1-SB.x0,90,8,white);
     const CD=L.tall?BD:350, cw=C1-C0, GU=L.tall?BASE:UP;
-    box(C0,GU,0,cw,BSOF-GU,18,wood,false);
-    box(C0,GU,0,cw,BSOF-GU,CD,wood,true,[0,0,0,L.tall?0:50],[18,18,18,18]);
+    box(C0,GU,0,cw,BSOF-GU,18,ebony,false);
+    box(C0,GU,0,cw,BSOF-GU,CD,ebony,true,[0,0,0,L.tall?0:50],[18,18,18,18]);
     (L.tall?[1300,1700,2100]:[1700,2100]).forEach(y=>box(C0+18,y,18,cw-36,8,CD-40,glass,false));
-    const nd=cw>700?2:1,dW=(cw-30)/nd;for(let k=0;k<nd;k++)box(C0+15+k*dW+(k?4:0),GU+15,CD-4,dW-4,BSOF-GU-30,6,glass);
-    box(C0,BSOF,0,B1-C0,CEIL-BSOF,CD,wood);
-    box(B0-46,BSOF+40,CD,12,100,14,alu,false);
-    box(C1-62,1450,CD+2,12,300,14,alu,false);
+    const nd=cw>700?2:1,dW=(cw-30)/nd;for(let k=0;k<nd;k++){box(C0+15+k*dW+(k?4:0),GU+15,CD-4,dW-4,BSOF-GU-30,6,glass);fluted(C0+15+k*dW+(k?4:0),GU+15,dW-4,BSOF-GU-30,CD+3)}
+    box(C1-62,1450,CD+8,12,300,14,alu,false);
     const PD=400, pw=P1-P0;
-    box(P0,UP,0,pw,PTOP-UP,18,wood,false);
-    box(P0,UP,0,pw,PTOP-UP,PD,wood,true,[0,0,50,0],[45,45,18,1]);
+    box(P0,UP,0,pw,PTOP-UP,18,ebony,false);
+    box(P0,UP,0,pw,PTOP-UP,PD,ebony,true,[0,0,50,0],[45,45,18,1]);
     box(P0+50,UP+15,PD-4,pw/2-55,PTOP-UP-30,6,glass); box(P0+pw/2+5,UP+15,PD-4,pw/2-55,PTOP-UP-30,6,glass);
-    const dg=new THREE.CircleGeometry(mm(18),16);
-    for(let yy=UP+80;yy<PTOP-40;yy+=70)for(let xx=P0+95;xx<P1-70;xx+=70){if(Math.abs(xx-(P0+pw/2))<35)continue;const dd=new THREE.Mesh(dg,woodD);dd.position.set(mm(xx),mm(yy),mm(PD+3));grp.add(dd)}
-    box(P0-15,PTOP,0,pw+15,40,PD+20,wood,true,[0,20,0,0]);
-    box(P0+pw/2-36,1780,PD+2,12,200,14,alu,false); box(P0+pw/2+24,1780,PD+2,12,200,14,alu,false);
+    fluted(P0+50,UP+15,pw/2-55,PTOP-UP-30,PD+3); fluted(P0+pw/2+5,UP+15,pw/2-55,PTOP-UP-30,PD+3);
+    box(P0-15,PTOP,0,pw+15,40,PD+20,ebony,true,[0,20,0,0]);
+    box(P0+pw/2-36,1780,PD+8,12,200,14,alu,false); box(P0+pw/2+24,1780,PD+8,12,200,14,alu,false);
     const pcx=mm(P0+pw/2), pcz=mm(PD/2);
     for(let i=0;i<TIERS;i++){const y0=PTOP+40+i*TH, wb=pw-120-i*TSTEP, wt=wb-TSTEP*0.45, db=PD-60-i*55, dt=db-25;
       const g=new THREE.CylinderGeometry(mm(wt/2)*Math.SQRT2,mm(wb/2)*Math.SQRT2,mm(TH),4,1); g.rotateY(Math.PI/4);
-      const t=new THREE.Mesh(g,i%2?wood:woodD); t.scale.z=((db+dt)/2)/((wb+wt)/2); t.position.set(pcx,mm(y0+TH/2),pcz); t.castShadow=true; grp.add(t);
+      const t=new THREE.Mesh(g,i%2?ebony:ebonyD); t.scale.z=((db+dt)/2)/((wb+wt)/2); t.position.set(pcx,mm(y0+TH/2),pcz); t.castShadow=true; grp.add(t);
       const e=new THREE.LineSegments(new THREE.EdgesGeometry(g),lineM); e.scale.copy(t.scale); e.position.copy(t.position); grp.add(e)}
     const sy=PTOP+40+TIERS*TH;
-    const stupi=new THREE.Mesh(new THREE.SphereGeometry(mm(STW/2),24,12,0,Math.PI*2,0,Math.PI/2),wood);
+    const stupi=new THREE.Mesh(new THREE.SphereGeometry(mm(STW/2),24,12,0,Math.PI*2,0,Math.PI/2),ebony);
     stupi.scale.set(1,STH/(STW/2),0.75); stupi.position.set(pcx,mm(sy),pcz); stupi.castShadow=true; grp.add(stupi);
     const bulb=new THREE.Mesh(new THREE.SphereGeometry(mm(KB),20,14),metal); bulb.position.set(pcx,mm(sy+STH+KB),pcz); grp.add(bulb);
     const kal=new THREE.Mesh(new THREE.ConeGeometry(mm(KC),mm(ROOF-sy-STH-KB*1.6),16),metal); kal.position.set(pcx,mm((ROOF+sy+STH+KB*1.6)/2),pcz); grp.add(kal);

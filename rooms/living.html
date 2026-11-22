@@ -11,17 +11,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#2f5e4b; --ebony:#3a2c25; --handle:#1c1c1c;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --paper2:#b3c4ad; --alu:#a3a7aa; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#2a4a3d; --ebony:#2a201b; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --paper2:#66785f; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#2a4a3d; --ebony:#2a201b; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --paper2:#66785f; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -117,7 +117,7 @@ const ROOMS={};
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
  A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
  A(R,'N','panel',1250,2470,0,CEIL,3,{mat:'paper',lab:'wallpaper',dim:true});
- A(R,'N','unit',1435,2100,250,300,420,{mat:'white',cols:3,flap:true,lab:'floating console',dim:true,round:75});
+ A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
  A(R,'N','tv',1765,1440,950,830,80,{lab:'65″ TV'});
  A(R,'N','board',2160,500,350,90,10,{lab:'existing sockets'});
  A(R,'N','door',3770,900,0,DH,40,{lab:'bedroom 3',swing:null,dim:true});
@@ -130,8 +130,8 @@ const ROOMS={};
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
  /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 x 460 (2 shelves) with a thin cushion; 365 deep; ends 300 short of the opened main door */
- A(R,'W','unit',2920,400,0,910,365,{mat:'white',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
- A(R,'W','unit',3320,500,0,460,365,{mat:'white',cols:1,rc:{tr:30},lab:'bench',dim:true});
+ A(R,'W','unit',2920,400,0,910,365,{mat:'emerald',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3320,500,0,460,365,{mat:'emerald',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3320,500,460,50,365,{});
  L(R,'loose',0,1650,820,2920,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 2920',skip3d:true});
  L(R,'loose',0,1650,360,2920,420,590,{mat:'sofa',skip3d:true});
@@ -142,12 +142,12 @@ const ROOMS={};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
   ['Wallpaper','Washable vinyl on the whole solid TV wall (about 2470 wide) floor to ceiling. Sage green with a soft tone-on-tone leaf pattern: a cool accent against the dark brown sofa and doors that also sets off the white console and black TV. No fluted panel.'],
-  ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, white matt.'],
-  ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, brushed aluminium. Same handle on every storage unit in the flat.'],
+  ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
+  ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. All 5 seats the same, about 600 wide; depth about 820 as drawn on the sale-agreement plan. Long side about 2920 on the west wall: arm 150, 3 seats, curved corner. Short side about 2320 on the south wall: corner, 2 seats, arm, ending at the passage to the bedrooms. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, white shutters, brushed-aluminium handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, emerald green super matt shutters, matt black handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
@@ -384,7 +384,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={ivory:M(0xe8e1d4,{roughness:1}),emerald:M(0x2f5e4b,{roughness:1}),ebony:M(0x3a2c25,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#8fa58a';x.fillRect(0,0,256,256);x.strokeStyle='#b9c9b3';x.lineWidth=5;
@@ -520,7 +520,7 @@ let build3D=()=>{};
             const o=new THREE.Mesh(g,m); o.position.set(mm(u0),mm(y0),0); o.castShadow=o.receiveShadow=true; G.add(o);
             const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),lineM); e.position.copy(o.position); G.add(e);
             const cols=it.cols||1; for(let j=1;j<cols;j++)wbox(R,it,u0+j*uw/cols-3,6,y0+10,h-20,td,2,MAT.granite,false);
-            for(let j=0;j<cols;j++)wbox(R,it,u0+(j+.5)*uw/cols-80,160,y0+h-62,14,td,18,MAT.alu,false);
+            for(let j=0;j<cols;j++)wbox(R,it,u0+(j+.5)*uw/cols-80,160,y0+h-62,14,td,18,MAT.handle,false);
             break}
           wbox(R,it,u0,uw,y0,h,0,td-18,m,false);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;

@@ -11,17 +11,17 @@
 <style>
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --ivory:#ebe5da; --glow:#d9a94a;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --ivory:#ebe5da; --glow:#d9a94a; --emerald:#2f5e4b; --ebony:#3a2c25; --handle:#1c1c1c;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --alu:#a3a7aa; --accent:#b4612b; --sofa:#8a4a2c;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#2a4a3d; --ebony:#2a201b; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#2a4a3d; --ebony:#2a201b; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5;margin:0}
 main{max-width:1100px;margin:0 auto;padding-block:32px 48px;
@@ -126,29 +126,30 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
   elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','TV and ledge'],['S','D','Bay window and dresser']]});
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
+ // finishes (22 Nov designer meeting): wardrobes ivory super-matt, storage units emerald green super-matt, ledges/standalone furniture ebony wood matt, handles black.
  // wardrobe (22 Nov evening, Aravindh): 2 doors of about 2'6" (800 each, fills the 5' toilet face) to 2400, loft to the ceiling, no base drawers
- A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'white',cols:2,hs:['R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2900});
- A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'white',cols:2,hs:['R','L'],round:'top',noCarc:true});
+ A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:2,hs:['R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2900});
+ A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'ivory',cols:2,hs:['R','L'],round:'top',noCarc:true});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
  [-830,-250,330].forEach(d=>A(R,'W','frame',RD-BED_Z+d,500,1400,700,30,{}));
- A(R,'W','panel',MAIN-600,600,0,CEIL,10,{mat:'white',lab:'wardrobe side',elevOnly:true});
+ A(R,'W','panel',MAIN-600,600,0,CEIL,10,{mat:'ivory',lab:'wardrobe side',elevOnly:true});
  A(R,'W','gap',MAIN,TB_D,0,CEIL,0,{lab:'toilet',elevOnly:true});
  L(R,'bed',60,BED_Z-915,2074,1830,0,500,{on:['W'],lab:'king bed, 7 ft overall'}); // 22 Nov: cot + headrest cushions make it about 7 ft (2134) from the wall
- L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'white',on:['W']});
+ L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'ebony',on:['W']});
  /* East wall (u from the north/passage end). Plug board low at about 550, near the middle of the wall (site photo 20 Nov, estimated).
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
  /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
- A(R,'E','panel',DESK_U,DESK_W,710,40,200,{mat:'white',lab:'TV ledge',dim:true}); // 22 Nov evening (Aravindh): plain 200-deep ledge under the TV, no storage below; was a 330-deep drawer desk. // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
+ A(R,'E','panel',DESK_U,DESK_W,710,40,200,{mat:'ebony',lab:'TV ledge',dim:true}); // 22 Nov evening (Aravindh): plain 200-deep ledge under the TV, no storage below; was a 330-deep drawer desk. // 330 deep (22 Nov, Aravindh) for about 740 clear to the bed foot; rounded drawer fronts, centred pull handles
  A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
  A(R,'E','door',0,900,0,DH,40,{lab:'room door (open)',elevOnly:true});
  /* Mirror dresser (Aravindh's reference photo, 20 Nov): ivory; storage tower on the left (corner side): 3 drawers, open backlit shelves above, top level with the mirror door;
     tall mirror door on the right, hinged on its right edge, handle on the left edge, storage behind. */
- A(R,'S','vanity',0,950,0,2150,400,{mat:'white',sw:380,dim:true});
+ A(R,'S','vanity',0,950,0,2150,400,{mat:'emerald',sw:380,dim:true});
  A(R,'S','panel',3200-BAY_X-BAY_W,BAY_W,420,30,10,{mat:'tile',lab:'',elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-BAY_W,BAY_W,450,80,10,{elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-100,110,530,600,10,{elevOnly:true}); // backrest cushion on the bay's west (brick) side
@@ -212,15 +213,15 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 2 white hinged doors of about 2′6″ (800 each) to 2400, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
-  ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One white side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain white floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
+  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 2 ivory super-matt hinged doors of about 2′6″ (800 each) to 2400, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
+  ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One ebony-wood side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
+  ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain ebony-wood matt floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, white matte to match the wardrobe. Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
+  ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, emerald green super-matt. Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
   ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Clear glass with white uPVC frames (site photo). Thin sheer curtain only, on a slim brushed-aluminium track along the long glass side and the leg-side glass (none on the brick, cushion side), slides fully open to the ends, ending just above the cushion (no thick drapes, 22 Nov).'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
-  ['Handles','Slim brushed aluminium bar handles: vertical 300 bars on wardrobe shutters at 1100, short horizontal pulls on drawers; loft shutters get a short upright bar at the bottom corner on the opening side, matching the door below.'],
+  ['Handles','Slim matt black bar handles everywhere: vertical 300 bars on wardrobe doors at 1100, short horizontal pulls on drawers, short upright bar at the bottom corner of loft shutters on the opening side.'],
   ['Open points','Passage depth, plug point position and height, bay width. All sizes to be measured.']];
  ROOMS['bedroom-1']=R}
 
@@ -288,27 +289,23 @@ const ROOMS={};
 {const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
- A(R,'N','open',2320,350,1200,1200,400,{mat:'white',shelves:3,lab:'open',dim:true,prc:{fl:60}});
- A(R,'N','unit',2670,1900,0,2400,600,{mat:'white',ward:true,cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
- A(R,'N','unit',2320,825,2400,500,600,{mat:'white',cols:1});
- A(R,'N','unit',3145,1425,2400,500,600,{mat:'white',cols:3,flip:true});
+ A(R,'N','open',2320,350,1200,1200,400,{mat:'ebony',shelves:3,lab:'open',dim:true,prc:{fl:60}});
+ A(R,'N','unit',2670,1900,0,2400,600,{mat:'ivory',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'ivory',cols:1});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'ivory',cols:3,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
  A(R,'S','window',2470,1800,0,DH,40,{rail:true,dim:true});
  A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
  A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
- /* Bookshelf (Aravindh, 21 Nov): L in the NW corner beside the bed, running to the open shelf and matching it, 1200-2400, 300 deep, 3 compartments of 400.
-    West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
- A(R,'W','open',2750,450,1200,1200,300,{mat:'white',shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
- A(R,'N','open',300,2020,1200,1200,300,{mat:'white',shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
- /* Books on the bookshelf, for representation only (21 Nov): seeded random spines per compartment, about 75% full, upright, muted colours.
-    Each book: [u, width, y, height, depth, colour index]. Renderers draw it.books in the elevation and 3D. */
- R.items.filter(it=>it.kind==='open'&&/book/.test(it.lab||'')).forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
-  const n=it.shelves||3,step=(it.h-18)/n,B=[];
-  for(let i=0;i<n;i++){const y=it.y0+i*step+18,ch=step-18;let u=it.u0+(it.noL?0:18)+15;const end=it.u0+it.uw-(it.noR?0:18)-15;
-   while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
-    const w=18+rnd()*30;if(u+w>end)break;const bh=Math.min(ch-30,ch*(0.55+rnd()*0.35));B.push([u,w,y,bh,150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}}
+ /* Book ledges (Aravindh, 22 Nov, designer meeting): bookshelf no longer L-shaped; long north wall only, no closed units or back panels.
+    Three floating ebony ledges, corner to the open shelf, 250 deep, 36 thick, tops at 1236 / 1636 / 2036. Books stand on top (representation only). */
+ [1200,1600,2000].forEach((y,k)=>A(R,'N','ledge',0,2320,y,36,250,{mat:'ebony',lab:k===1?'book ledges':null,dim:k===0}));
+ R.items.filter(it=>it.kind==='ledge').forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const B=[],y=it.y0+it.h,ch=360;let u=it.u0+40;const end=it.u0+it.uw-40;
+  while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
+   const w=18+rnd()*30;if(u+w>end)break;B.push([u,w,y,Math.min(330,ch*(0.55+rnd()*0.35)),150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}
   it.books=B});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
@@ -327,14 +324,15 @@ const ROOMS={};
   ['Open shelves','350 wide × 400 deep, 3 open compartments from 1200 to 2400, floor below clear. Right after the bed foot, for quick-access items.'],
   ['Wardrobe','4 doors of about 475, total 1900, running to the bathroom wall, 600 deep. Same overall run as before (shelves + wardrobe = 2250). Mirror covers almost the full first door (about 395 × 1800), next to the open shelves.'],
   ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
-  ['Handles','Slim vertical bar handles, brushed aluminium, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
+  ['Finishes','Super matt: wardrobe and its lofts in ivory. Normal matt: open shelves and book ledges in ebony wood (22 Nov). No separate closed storage units in this room, so no emerald here.'],
+  ['Handles','Slim vertical bar handles, matt black, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
   ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
   ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Bookshelf','L-shaped open bookshelf in the north-west corner beside the bed, for 100+ books (Aravindh, 21 Nov). Runs along the wall right up to the open shelf and matches it: 1200 to 2400, 3 compartments of 400 (fits tall hardbacks), 300 deep. West leg 450 (headboard end to corner), north leg 2020 to the open shelf. Shelves run straight round the corner with no divider. About 7.4 m of shelf, roughly 180 to 220 books. Top shelf at about 2000, reachable standing. Only the free end on the bed wall is rounded. No doors, so no handles.'],
+  ['Book ledges','Three floating ebony ledges on the long north wall only (no L, no closed units, no back panel), from the corner to the open shelf, 2320 long, 250 deep, 36 thick, at 1200 / 1600 / 2000. Concealed brackets. About 7 m of shelf, roughly 170 to 200 books.'],
   ['TV','None.'],
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
@@ -376,21 +374,21 @@ const ROOMS={};
   elevs:[['W','A','Wardrobe and room door'],['E','B','Bed wall'],['S','C','Window wall'],['N','D','Study wall']]});
  A(R,'W','door',200,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
- A(R,'W','unit',1150,550,0,750,600,{mat:'white',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
- A(R,'W','open',1300,400,1350,1050,400,{mat:'white',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
- A(R,'W','unit',1300,900,2400,500,600,{mat:'white',cols:1});
- A(R,'W','unit',1700,1500,0,2400,600,{mat:'white',ward:true,cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
- A(R,'W','unit',2200,1000,2400,500,600,{mat:'white',cols:2});
+ A(R,'W','unit',1150,550,0,750,600,{mat:'emerald',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
+ A(R,'W','open',1300,400,1350,1050,400,{mat:'ebony',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
+ A(R,'W','unit',1300,900,2400,500,600,{mat:'ivory',cols:1});
+ A(R,'W','unit',1700,1500,0,2400,600,{mat:'ivory',cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
+ A(R,'W','unit',2200,1000,2400,500,600,{mat:'ivory',cols:2});
  A(R,'E','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Two large framed photos above the headboard (Aravindh 20 Nov): 600 × 800 each, 100 apart, 1350–2150, thin black frames, white mats. */
  [950,1650].forEach(u=>A(R,'E','frame',u,600,1350,800,30,{}));
  L(R,'bed',1980,840,2030,1520,0,500,{on:['E'],lab:'queen bed 1520 × 2030',head:'E'});
- L(R,'loose',3610,390,400,450,0,500,{mat:'wood',on:['E']});
- L(R,'loose',3610,2360,400,450,0,500,{mat:'wood',on:['E']});
+ L(R,'loose',3610,390,400,450,0,500,{mat:'ebony',on:['E']});
+ L(R,'loose',3610,2360,400,450,0,500,{mat:'ebony',on:['E']});
  A(R,'S','window',110,1550,750,1350,40,{dim:true});
  A(R,'S','pelmet',10,1750,2100,CEIL-2100,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',385,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
- A(R,'N','unit',2000,1000,725,25,450,{mat:'wood',rows:1,noHandle:true,rc:{tl:40,tr:40,bl:40,br:40},lab:'fold-down table',dim:true});
+ A(R,'N','unit',2000,1000,725,25,450,{mat:'ebony',rows:1,noHandle:true,rc:{tl:40,tr:40,bl:40,br:40},lab:'fold-down table',dim:true});
  L(R,'loose',2000,0,1000,20,300,450,{on:['N'],ghost:true,lab:'folded'});
  A(R,'E','board',300,90,400,90,10,{lab:'socket'});
  A(R,'E','board',2450,260,400,90,10,{lab:'switch + socket'});
@@ -406,7 +404,8 @@ const ROOMS={};
   ['Base unit','550 wide × 600 deep × 750 high, 2 pull-out drawers, under the open shelf and running to the door frame. Top doubles as a ledge.'],
   ['Switch','Existing board just right of the door frame at about 1200 (photo 19 Nov). Sits between the door frame and the open shelf.'],
   ['Edges','Units on the door wall read as one block: only its outer exposed corners are rounded (drawer unit top corner by the door, open shelf bottom corner). Where units touch, or meet the floor, ceiling or a wall, they join square. Side tables rounded all round.'],
-  ['Handles','Slim brushed-aluminium bar handles: 300 vertical on wardrobe doors (about 1050 high, at the opening edge), 160 at the bottom of each loft door, 200 horizontal on each drawer and side-table drawer.'],
+  ['Finish','Decided 22 Nov: super-matt ivory for the wardrobe and lofts; super-matt emerald green for the 2-drawer storage unit; normal-matt ebony wood for the open shelf, fold-down table and side tables.'],
+  ['Handles','Slim black bar handles: 300 vertical on wardrobe doors (about 1050 high, at the opening edge), 160 at the bottom of each loft door, 200 horizontal on each drawer and side-table drawer.'],
   ['Bed','Queen 1520 × 2030 on the east wall, headboard panel 2200 × 1200, two side tables.'],
   ['Window','On the south wall towards the bed side. Sill taken as 750.'],
   ['Study','Wall-mounted fold-down table on the wall beside the bed, its left end almost in line with the foot of the bed (Aravindh, 20 Nov): 1000 × 450, top at 750 when open, folds flat to the wall (300–750). No chair: sit on the bed edge, which is about 390 from the open table. Clear of the side table and the wardrobe.'],
@@ -471,7 +470,7 @@ const ROOMS={};
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
  A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
  A(R,'N','panel',1250,2470,0,CEIL,3,{mat:'paper',lab:'wallpaper',dim:true});
- A(R,'N','unit',1435,2100,250,300,420,{mat:'white',cols:3,flap:true,lab:'floating console',dim:true,round:75});
+ A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
  A(R,'N','tv',1765,1440,950,830,80,{lab:'65″ TV'});
  A(R,'N','board',2160,500,350,90,10,{lab:'existing sockets'});
  A(R,'N','door',3770,900,0,DH,40,{lab:'bedroom 3',swing:null,dim:true});
@@ -484,8 +483,8 @@ const ROOMS={};
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
  /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 x 460 (2 shelves) with a thin cushion; 365 deep; ends 300 short of the opened main door */
- A(R,'W','unit',2920,400,0,910,365,{mat:'white',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
- A(R,'W','unit',3320,500,0,460,365,{mat:'white',cols:1,rc:{tr:30},lab:'bench',dim:true});
+ A(R,'W','unit',2920,400,0,910,365,{mat:'emerald',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3320,500,0,460,365,{mat:'emerald',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3320,500,460,50,365,{});
  L(R,'loose',0,1650,820,2920,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 2920',skip3d:true});
  L(R,'loose',0,1650,360,2920,420,590,{mat:'sofa',skip3d:true});
@@ -496,12 +495,12 @@ const ROOMS={};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
   ['Wallpaper','Washable vinyl on the whole solid TV wall (about 2470 wide) floor to ceiling. Sage green with a soft tone-on-tone leaf pattern: a cool accent against the dark brown sofa and doors that also sets off the white console and black TV. No fluted panel.'],
-  ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, white matt.'],
-  ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, brushed aluminium. Same handle on every storage unit in the flat.'],
+  ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
+  ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. All 5 seats the same, about 600 wide; depth about 820 as drawn on the sale-agreement plan. Long side about 2920 on the west wall: arm 150, 3 seats, curved corner. Short side about 2320 on the south wall: corner, 2 seats, arm, ending at the passage to the bedrooms. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, white shutters, brushed-aluminium handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, emerald green super matt shutters, matt black handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
@@ -574,43 +573,43 @@ const ROOMS={};
  A(R,'S','gap',2590,1220,0,DH,0,{lab:'entrance',dim:true});
  A(R,'S','board',2180,160,1150,90,10,{});
  /* W wall, u from south (entrance end) */
- A(R,'W','unit',250,450,150,650,450,{mat:'white',cols:1,hand:'L',lab:'basin vanity',dim:true});
+ A(R,'W','unit',250,450,150,650,450,{mat:'emerald',cols:1,hand:'L',lab:'basin vanity',dim:true});
  A(R,'W','counter',250,450,800,20,470,{});
  A(R,'W','sink',290,370,806,14,360,{});
  A(R,'W','glassp',290,370,1150,700,10,{lab:'mirror'});
- A(R,'W','unit',730,600,100,2050,600,{mat:'wood2',cols:1,rows:3,open:'door',lab:'tall unit',dim:true});
- A(R,'W','unit',730,600,2150,700,600,{mat:'wood2',cols:1});
- A(R,'W','wicker',1330,670,100,730,580,{mat:'sage',lab:'wicker baskets',dim:true});
- A(R,'W','unit',2000,600,100,730,580,{mat:'sage',rows:3,dim:true});
+ A(R,'W','unit',730,600,100,2050,600,{mat:'emerald',cols:1,rows:3,open:'door',lab:'tall unit',dim:true});
+ A(R,'W','unit',730,600,2150,700,600,{mat:'emerald',cols:1});
+ A(R,'W','wicker',1330,670,100,730,580,{mat:'emerald',topDrawer:true,lab:'wicker baskets',dim:true});
+ A(R,'W','unit',2000,600,100,730,580,{mat:'emerald',rows:3,dim:true});
  A(R,'W','plinth',1330,1870,0,100,560,{});
  A(R,'W','counter',1330,1270,830,20,620,{});
  A(R,'W','tile',1330,1870,850,600,10,{lab:'dado 600'});
- A(R,'W','unit',1330,1520,1450,700,350,{mat:'white',cols:2,lab:'L corner'});
- A(R,'W','unit',1330,1270,2150,700,600,{mat:'white',cols:2});
+ A(R,'W','unit',1330,1520,1450,700,350,{mat:'emerald',cols:2,lab:'L corner'});
+ A(R,'W','unit',1330,1270,2150,700,600,{mat:'emerald',cols:2});
  /* N wall, u from west. Run ends at the pillar in front of the recessed window wall. */
- A(R,'N','unit',0,600,100,730,580,{mat:'sage',cols:1,lab:'corner unit',dim:true});
- A(R,'N','unit',600,550,100,730,580,{mat:'sage',rows:3,dim:true});
- A(R,'N','unit',1150,200,100,730,580,{mat:'sage',cols:1,open:'pullout',lab:'oil',dim:true});
- A(R,'N','unit',1350,1000,100,730,580,{mat:'sage',rows:3,lab:'hob drawers',dim:true});
- A(R,'N','unit',2350,1000,100,730,580,{mat:'sage',cols:2,lab:'sink',dim:true});
- A(R,'N','unit',3350,160,100,730,580,{mat:'sage',cols:1,open:'pullout',lab:'towel',dim:true});
+ A(R,'N','unit',0,600,100,730,580,{mat:'emerald',cols:1,lab:'corner unit',dim:true});
+ A(R,'N','unit',600,200,100,730,580,{mat:'emerald',cols:1,open:'pullout',lab:'oil',dim:true});
+ A(R,'N','unit',800,750,100,730,580,{mat:'emerald',rows:3,lab:'hob drawers',dim:true});
+ A(R,'N','unit',1550,800,100,730,580,{mat:'emerald',rows:3,dim:true});
+ A(R,'N','unit',2350,1000,100,730,580,{mat:'emerald',cols:2,lab:'sink',dim:true});
+ A(R,'N','unit',3350,160,100,730,580,{mat:'emerald',cols:1,open:'pullout',lab:'towel',dim:true});
  A(R,'N','plinth',0,3510,0,100,560,{});
  A(R,'N','counter',0,3510,830,20,620,{});
  A(R,'N','tile',0,3510,850,600,10,{lab:'dado / backsplash 600'});
- A(R,'N','hob',1480,740,850,25,500,{lab:'hob'});
+ A(R,'N','hob',830,690,850,25,500,{lab:'hob'});
  A(R,'N','sink',2410,880,836,14,460,{});
- A(R,'N','hoodslant',1400,900,1600,550,480,{lab:'slant chimney 90'});
+ A(R,'N','hood',800,750,1600,550,500,{lab:'T chimney 75'});
  /* first row: clear glass only on the two shutters beside the chimney, plain white for the rest (Aravindh 21 Nov) */
- A(R,'N','unit',0,900,1450,700,350,{mat:'white',cols:2});
- A(R,'N','unit',900,450,1450,700,350,{mat:'white',glass:true,cols:1,hand:'L'});
- A(R,'N','unit',2350,580,1450,700,350,{mat:'white',glass:true,cols:1});
- A(R,'N','unit',2930,580,1450,700,350,{mat:'white',cols:1,hand:'L'});
- A(R,'N','unit',0,3510,2150,700,600,{mat:'white',cols:6,lab:'top shutters'});
- A(R,'N','board',900,160,1150,90,10,{});
+ A(R,'N','unit',0,350,1450,700,350,{mat:'emerald',cols:1});
+ A(R,'N','unit',350,400,1450,700,350,{mat:'emerald',glass:true,cols:1,hand:'L'});
+ A(R,'N','unit',1600,580,1450,700,350,{mat:'emerald',glass:true,cols:1});
+ A(R,'N','unit',2180,1330,1450,700,350,{mat:'emerald',cols:2});
+ A(R,'N','unit',0,3510,2150,700,600,{mat:'emerald',cols:6,lab:'top shutters'});
+ A(R,'N','board',350,160,1150,90,10,{});
  A(R,'N','board',3250,160,1150,90,10,{});
  A(R,'N','panel',3510,300,0,CEIL,620,{mat:'tile',lab:'pillar',dim:true});
  /* E wall (window, recessed behind the pillar): one double-door unit next to the pillar (shaft), under the window */
- A(R,'E','unit',620,1100,100,730,560,{mat:'sage',cols:2,lab:'corner unit',dim:true});
+ A(R,'E','unit',620,1100,100,730,560,{mat:'emerald',cols:2,lab:'corner unit',dim:true});
  A(R,'E','plinth',620,1100,0,100,540,{});
  A(R,'E','counter',620,1100,830,20,600,{});
  A(R,'E','tile',2100,1100,0,1200,10,{marble:true});
@@ -626,17 +625,17 @@ const ROOMS={};
   ['Washbasin','450 floating vanity (smaller basin) on the left wall, about 250 in from the entrance so the doorway stays clear. Top at 800, mirror above. Water and drain from the common toilet basin behind this wall; check the line with the builder.'],
   ['Appliances','Your models: Samsung RT28C3053S8 fridge, silver, 555 W × 637 D × 1545 H (100 left, ~300 right, 50 behind for heat). Bosch WAJ24266IN 7 kg front-load, silver, 598 W × 550 D × 848 H. Bosch 13-place freestanding dishwasher, white, 600 W × 600 D × 845 H. Sizes from standard specs, check against the listings.'],
   ['Counter','On the left wall and the cooking wall (about 3510 up to the pillar). 850 high, 600 deep, granite. Plinth 100.'],
-  ['Base units','Sage green shutters (as in your reference photo), including the window-wall unit and the wicker frame. Tall unit unchanged.'],
+  ['Base units','Finishes (designer meeting, 22 Nov): all storage units in emerald green, super matt, including the tall unit, uppers, washbasin vanity and window-wall unit. Open shelves and ledges, if any, in ebony wood, normal matt.'],
   ['Window wall','Recessed behind the pillar (shaft) at the end of the cooking wall. One double-door unit, about 1100 long, in the recess right after the pillar, continuing from the sink side under the window. Granite on top. No overlap with the sink run.'],
   ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
-  ['Hob base','1000 wide drawer unit under the hob, so a larger hob fits later.'],
-  ['Chimney','Slanted (angled glass) chimney, 90 cm, centred on the 1000 hob base. Glass face 1600–2050, about 750 above the counter; slim duct cover above it to the top row. 90 cm confirmed by Aravindh; ducted, filterless auto-clean, BLDC recommended.'],
-  ['Uppers','First row 350 deep, 1450–2150. Clear glass shutters in a brushed-aluminium profile, light inside and a glass shelf, only on the two shutters beside the chimney; plain white shutters for the rest. Left-wall uppers run into the corner to meet the cooking-wall uppers (L corner, no gap); hinged top row 2150–2850 is 600 deep, flush with the tall unit, for more storage. All uppers white.'],
+  ['Hob base','750 wide drawer unit under the hob (reduced from 1000), moved left: corner unit, 200 oil pull-out, 750 hob base, then an 800 drawer unit before the sink. This gives more counter between the hob and the sink. A 750 base takes a 3-burner hob up to about 75 cm; a 4-burner 90 cm hob no longer fits.'],
+  ['Chimney','T-shaped chimney, 75 cm, centred on the 750 hob base, bottom about 750 above the counter; duct cover up to the top row. Ducted, filterless auto-clean, BLDC recommended.'],
+  ['Uppers','First row 350 deep, 1450–2150, emerald. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2850, 600 deep, flush with the tall unit.'],
   ['Tall unit','600 wide, to the ceiling, on the left wall right after the washbasin.'],
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
-  ['Oil pull-out','200 wide tall pull-out for oil bottles and spices, immediately left of the hob drawers. The drawer unit to its left is 550.'],
-  ['Left wall','From the entrance: washbasin, tall unit, wicker basket unit (670, open frame, two split pull-out baskets), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
-  ['Handles','Slim brushed-aluminium bars placed by how each front opens: top edge on drawers and the oil pull-out, a short upright bar at the bottom corner of the top shutters on the opening side (as in the other rooms), upright on the opening side of doors (tall unit boxes on the side), meeting in the middle on double doors. None on the dishwasher and washing machine.'],
+  ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
+  ['Left wall','From the entrance: washbasin, tall unit, wicker unit (670: a closed pull-out drawer on top, two medium wicker baskets below, open frame), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
+  ['Handles','Slim black bars (designer meeting, 22 Nov) placed by how each front opens: top edge on drawers and the oil pull-out, a short upright bar at the bottom corner of the top shutters on the opening side (as in the other rooms), upright on the opening side of doors (tall unit boxes on the side), meeting in the middle on double doors. None on the dishwasher and washing machine.'],
   ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
  ROOMS.kitchen=R}
 
@@ -910,21 +909,21 @@ let focusRoom=()=>{}, setWalls=()=>{};
   Object.assign(sun.shadow.camera,{left:-12,right:12,top:12,bottom:-12,far:60}); sun.target.position.set(7.4,0,6.4); scene.add(sun,sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
   const BOOKM=[0x8a6f5a,0x5f6b6d,0xa89a82,0x6f7d68,0xb7a58a,0x4f4b47,0x9a6b5b,0xc9bfae].map(col=>M(col,{roughness:.8}));
-  const MAT={wgrey:M(0xd3cec7,{roughness:.8}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),sofaF:M(0x5c301c,{roughness:.95}),
+  const MAT={emerald:M(0x2f5e4b,{roughness:1}),ebony:M(0x3a2c25,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wgrey:M(0xd3cec7,{roughness:.8}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),sofaF:M(0x5c301c,{roughness:.95}),
     quilt:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d');x.fillStyle='#6b3820';x.fillRect(0,0,128,128);
       x.strokeStyle='#b8876a';x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(0,0);x.lineTo(128,128);x.moveTo(128,0);x.lineTo(0,128);x.moveTo(64,0);x.lineTo(128,64);x.lineTo(64,128);x.lineTo(0,64);x.closePath();x.stroke();
       const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(3,3);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),
     tuft:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#5c301c';x.fillRect(0,0,256,256);
       x.strokeStyle='#b07a58';x.lineWidth=2;x.setLineDash([6,5]);for(let i=0;i<=256;i+=64){x.beginPath();x.moveTo(i,0);x.lineTo(i,256);x.moveTo(0,i);x.lineTo(256,i);x.stroke()}
       x.setLineDash([]);x.fillStyle='#e8e8ea';for(let i=32;i<256;i+=64)for(let j=32;j<256;j+=64){x.beginPath();x.arc(i,j,6,0,7);x.fill()}
-      return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:.9})})(),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),ivory:M(0xe8e1d4,{roughness:.6}),glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd28a,emissiveIntensity:.7}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+      return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:.9})})(),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),ivory:M(0xe8e1d4,{roughness:1}),glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd28a,emissiveIntensity:.7}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     clear:new THREE.MeshStandardMaterial({color:0xe8f2f4,transparent:true,opacity:.12,roughness:.02,depthWrite:false}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xd9e4e7,{metalness:.6,roughness:.1}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#8fa58a';x.fillRect(0,0,256,256);x.strokeStyle='#b9c9b3';x.lineWidth=5;
       const leaf=(cx,cy)=>{x.beginPath();x.moveTo(cx,cy+75);x.bezierCurveTo(cx-55,cy+20,cx-45,cy-55,cx,cy-85);x.bezierCurveTo(cx+45,cy-55,cx+55,cy+20,cx,cy+75);x.moveTo(cx,cy+75);x.lineTo(cx,cy-60);x.stroke()};
       [[64,64],[192,64],[0,192],[128,192],[256,192]].forEach(([a,b])=>leaf(a,b));
-      const t=new THREE.CanvasTexture(cv);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(5,6);return M(0xffffff,{map:t,roughness:.95})})(),alu:M(0xd9dcde,{metalness:.1,roughness:.4}),
+      const t=new THREE.CanvasTexture(cv);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(5,6);return M(0xffffff,{map:t,roughness:.95})})(),alu:M(0x1c1c1c,{roughness:.55}),black:M(0x1c1c1c,{roughness:.55}),rose:M(0xb7787a,{metalness:.6,roughness:.3}),
     sofa:M(0x6b3820,{roughness:.95}),sofaQ:M(0x5c301c,{roughness:.9}),chrome:M(0xd0d2d4,{metalness:.2,roughness:.3}),smoke:new THREE.MeshStandardMaterial({color:0x4a3628,transparent:true,opacity:.55,roughness:.05}),tableM:M(0x8f7556),
     wall:M(0xf1efea,{roughness:.9}),floor:M(0xe4e0d8),woodfloor:(()=>{const cv=document.createElement('canvas');cv.width=1024;cv.height=512;const g=cv.getContext('2d'); // planks 1200 × 200, 2400 × 1200 tile (as Master Bedroom page)
       const tones=['#7a5a43','#6f513d','#836149','#74563f','#6a4c39','#7d5d45'];let n=0;
@@ -1013,15 +1012,15 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'grommet':{const b=W2R(R,it.wall,u0,uw,t0,td); cyl(b.x+b.w/2,y0,b.z+b.d/2,36,4,MAT.silver||MAT.white); cyl(b.x+b.w/2,y0+1,b.z+b.d/2,25,5,new THREE.MeshBasicMaterial({color:0x0b0b0b})); break}
         case 'unit':{
           if(it.ward&&window.XOPEN)XOPEN.band(R,it,wbox);
-          if(it.rf&&it.flap&&window.XDESK){XDESK(R,it,G,mm,m,MAT.alu,lineM);break}
+          if(it.rf&&it.flap&&window.XDESK){XDESK(R,it,G,mm,m,MAT.handle,lineM);break}
           wbox(R,it,u0,uw,y0,h,t0,td-18,m);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
             const fm=it.glass?MAT.glass:(it.mirrorCol===j?MAT.mirror:m);
             wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,t0+td-18,18,fm);
-            const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,t0+td,16,MAT.alu,false)}}
+            const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,t0+td,16,MAT.handle,false)}}
           break}
-        case 'open': wbox(R,it,u0,uw,y0,h,t0,20,MAT.panel);
+        case 'open': if(!it.noBack)wbox(R,it,u0,uw,y0,h,t0,20,MAT[it.mat]||MAT.panel);
           if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood)); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood));
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,(MAT[it.mat]||MAT.wood));
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,t0+20,bd,BOOKM[ci],false));break;
@@ -1037,7 +1036,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'vanity':{const sw=it.sw,I=MAT.ivory,ST=h,m=u0+sw,mw=uw-sw,dh=800/3;
           wbox(R,it,u0,uw,0,80,0,td-40,MAT.panel,false);                               // recessed plinth
           wbox(R,it,u0,sw,80,800,0,td-18,I,false);                                     // drawer carcass
-          for(let i=0;i<3;i++){const y=80+i*dh; wbox(R,it,u0+3,sw-6,y+3,dh-6,td-18,18,I); wbox(R,it,u0+sw/2-60,120,y+dh-60,14,td,22,MAT.metal,false,5)}
+          for(let i=0;i<3;i++){const y=80+i*dh; wbox(R,it,u0+3,sw-6,y+3,dh-6,td-18,18,I); wbox(R,it,u0+sw/2-60,120,y+dh-60,14,td,22,MAT.handle,false,5)}
           wbox(R,it,u0,sw,880,20,0,td,I); wbox(R,it,u0,sw,ST-20,20,0,td,I);              // counter top and tower top
           wbox(R,it,u0,18,900,ST-920,0,td,I,false); wbox(R,it,u0+sw-18,18,900,ST-920,0,td,I,false);
           wbox(R,it,u0+18,sw-36,900,ST-920,0,12,MAT.glow,false);                        // lit back panel
@@ -1045,7 +1044,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
           wbox(R,it,m,mw,80,h-80,0,td-18,I,false); wbox(R,it,m+3,mw-6,83,h-86,td-18,18,I);  // mirror cabinet and door
           wbox(R,it,m+60,mw-120,160,h-240,td,4,MAT.mirror,false);
           [[m+66,8,170,h-260],[m+mw-74,8,170,h-260],[m+66,mw-132,170,8],[m+66,mw-132,h-98,8]].forEach(([a,w,y,hh])=>wbox(R,it,a,w,y,hh,td+4,3,MAT.glow,false)); // LED frame
-          wbox(R,it,m+35,14,980,240,td,22,MAT.metal,false,5);                           // door handle, opening (left) edge
+          wbox(R,it,m+35,14,980,240,td,22,MAT.handle,false,5);                           // door handle, opening (left) edge
           break}
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
         case 'door': if(it.swing&&!it.elevOnly){const hu=it.swing==='L'?u0:u0+uw,H=P(R,it.wall,hu,0),E=P(R,it.wall,hu,uw),T=40; // leaf shown open, as the plan's swing
@@ -1108,26 +1107,30 @@ let focusRoom=()=>{}, setWalls=()=>{};
     gl.position.set(mm(T.x),mm(T.h-5),mm(T.z)); G.add(gl);
   }
   function sofa(R){if(R.sofa)sofa3D(R.sofa)}
-  function dining(){const {C0,P0,BD,BEN0,BEN1,TZ0,TZ1}=DW, W=DIN.WALL;
-    box(C0,80,0,W-C0,590,BD,MAT.wood); box(C0-15,670,0,W-C0+15,20,BD+25,MAT.granite); // granite top at 690
-    box(C0,1300,0,P0-C0,1200,350,MAT.wood); box(C0+20,1320,350,P0-C0-40,1160,6,MAT.glass); box(C0,2500,0,P0-C0,400,350,MAT.wood);
-    // pooja: upper 1300-2460 level with the crockery top, jaali doors, handles mid-height; gopuram top to the kalasam tip at 2880
+  function dining(){const {C0,P0,BD,BEN0,BEN1,TZ0,TZ1}=DW, W=DIN.WALL, E=MAT.ebony;
+    // fluted glass door: clear glass, vertical flutes, rose gold rim (designer meeting 22 Nov)
+    const fl=(x,y,w,h,z)=>{box(x,y,z,w,h,6,MAT.glass,false); for(let xx=x+20;xx<x+w-12;xx+=26)box(xx,y+12,z+6,8,h-24,4,MAT.glass,false);
+      box(x,y,z+4,w,12,10,MAT.rose,false); box(x,y+h-12,z+4,w,12,10,MAT.rose,false); box(x,y,z+4,12,h,10,MAT.rose,false); box(x+w-12,y,z+4,12,h,10,MAT.rose,false)};
+    box(C0,80,0,W-C0,590,BD,MAT.ivory); box(C0-15,670,0,W-C0+15,20,BD+25,MAT.granite); // ivory base, black granite top at 690
+    box(C0,1300,0,P0-C0,1200,350,E); fl(C0+20,1320,P0-C0-40,1160,350);                  // crockery: ebony, stops at 2500 (beam left exposed)
+    box(C0+40,1700,370,14,200,14,MAT.handle,false);
+    // pooja: upper 1300-2460 level with the crockery top, fluted glass doors, handles mid-height; gopuram top to the kalasam tip at 2880
     {const pw=W-P0, cx=P0+pw/2;
-     box(P0,1300,0,pw,1160,400,MAT.wood); box(P0+50,1315,396,pw/2-55,1130,6,MAT.glass,false); box(cx+5,1315,396,pw/2-55,1130,6,MAT.glass,false);
-     box(cx-36,1780,402,12,200,14,MAT.alu,false); box(cx+24,1780,402,12,200,14,MAT.alu,false);
-     box(P0-15,2460,0,pw+15,40,420,MAT.wood);
-     box(P0+60,2500,30,pw-120,80,340,MAT.wood,false); box(P0+125,2580,57,pw-250,80,286,MAT.wood,false);
-     cyl(cx,2660,200,120,70,MAT.wood); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
+     box(P0,1300,0,pw,1160,400,E); fl(P0+50,1315,pw/2-55,1130,396); fl(cx+5,1315,pw/2-55,1130,396);
+     box(cx-36,1780,412,12,200,14,MAT.handle,false); box(cx+24,1780,412,12,200,14,MAT.handle,false);
+     box(P0-15,2460,0,pw+15,40,420,E);
+     box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
+     cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
     box(2920,2500,350,270,400,9470-DIN.X-350,MAT.wall,false); box(3040,2500,3120,150,400,940,MAT.wall,false); box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
-     box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.wood,false);
-     [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SD-75],[BEN1-85,BZ0+SD-75]].forEach(([x,z])=>box(x,0,z,45,SH-100,45,MAT.wood2,false));
+     box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.ebony,false);
+     [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SD-75],[BEN1-85,BZ0+SD-75]].forEach(([x,z])=>box(x,0,z,45,SH-100,45,MAT.ebony,false));
      rbox(BEN0-10,SH-60,BZ0,BEN1-BEN0+20,60,SD+10,MAT.fabric,30); rbox(BEN0-10,SH,BZ0,BEN1-BEN0+20,580,110,MAT.fabric,40);
-     rbox(T.x0,T.h-40,T.z0,T.x1-T.x0,40,T.z1-T.z0,MAT.tableM,15);
-     [[T.x0+80,T.z0+60],[T.x1-130,T.z0+60],[T.x0+80,T.z1-110],[T.x1-130,T.z1-110]].forEach(([x,z])=>box(x,0,z,50,T.h-40,50,MAT.tableM,false));
-     [1071,1671].forEach(cx=>{rbox(cx-220,420,T.z1+120,440,40,440,MAT.wood,15);rbox(cx-220,460,T.z1+520,440,420,40,MAT.wood,15);
-       [[cx-210,T.z1+130],[cx+170,T.z1+130],[cx-210,T.z1+510],[cx+170,T.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,MAT.wood2,false))});}
+     rbox(T.x0,T.h-40,T.z0,T.x1-T.x0,40,T.z1-T.z0,MAT.ebony,15);
+     [[T.x0+80,T.z0+60],[T.x1-130,T.z0+60],[T.x0+80,T.z1-110],[T.x1-130,T.z1-110]].forEach(([x,z])=>box(x,0,z,50,T.h-40,50,MAT.ebony,false));
+     [1071,1671].forEach(cx=>{rbox(cx-220,420,T.z1+120,440,40,440,MAT.ebony,15);rbox(cx-220,460,T.z1+520,440,420,40,MAT.ebony,15);
+       [[cx-210,T.z1+130],[cx+170,T.z1+130],[cx-210,T.z1+510],[cx+170,T.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,MAT.ebony,false))});}
     {const ART={w:1100,h:937,y:1450}; // layered elephant wall art above the bench, about 20 off the wall (dining page)
      if(ELART){const ax=(BEN0+BEN1)/2, tx=new THREE.TextureLoader().load(ELART);
       const mat=new THREE.MeshStandardMaterial({map:tx,transparent:true,alphaTest:.3,roughness:.8,side:THREE.DoubleSide});
@@ -1184,9 +1187,9 @@ let focusRoom=()=>{}, setWalls=()=>{};
    for(let y=Wn.y0+60;y<Wn.y1-50;y+=70)box(10930,y,zm+20,60,30,Wn.z1-zm-60,MAT.white,false);                                                 // louvred section next to the door
    box(12505,1000,2000,135,20,1410,MAT.granite,false);                                                                    // block top
    const B=LOBBY.bench,Mi=LOBBY.mirror,bx=B.x1-B.d,BL=B.z1-B.z0,ez=3290;
-   box(bx,0,B.z0,B.d,B.h,18,W,false); box(B.x1-18,0,B.z0,18,B.h,BL,MAT.panel,false);                                    // bench along the block: end panel, back panel
-   for(const y of [0,(B.h-25)/3,2*(B.h-25)/3])box(bx,y,B.z0,B.d,18,BL,W,false);                                         // three open rows of about 200 for daily footwear
-   rbox(bx,B.h-25,B.z0,B.d,25,BL,W,12);                                                                                    // top, 600 high, no cushions
+   box(bx,0,B.z0,B.d,B.h,18,MAT.ebony,false); box(B.x1-18,0,B.z0,18,B.h,BL,MAT.ebony,false);                                    // bench along the block: end panel, back panel
+   for(const y of [0,(B.h-25)/3,2*(B.h-25)/3])box(bx,y,B.z0,B.d,18,BL,MAT.ebony,false);                                         // three open rows of about 200 for daily footwear
+   rbox(bx,B.h-25,B.z0,B.d,25,BL,MAT.ebony,12);                                                                                    // top, 600 high, no cushions
    XENT.mirror(G,mm,11760,1600,ez,300,-1); XENT.board(G,mm,11760,1150,ez,700,150,-1,'Priya & Aravindh')}   // round mirror centred on the end wall, name board below
   // entrance curtains and the key holder are drawn by the room pages (living, kitchen, bedroom-1) through R.three
   walls();

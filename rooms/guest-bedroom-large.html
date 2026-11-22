@@ -11,17 +11,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea;
+  --wood:#d8c3a3; --ivory:#efe8d6; --emerald:#2f6b55; --ebony:#3b2c24; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#2f6b55; --ebony:#3b2c24; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#2f6b55; --ebony:#3b2c24; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -119,27 +119,23 @@ const ROOMS={};
 {const R=room({id:'bedroom-2',name:'Summary',W:4570,D:3200,
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
- A(R,'N','open',2320,350,1200,1200,400,{mat:'white',shelves:3,lab:'open',dim:true,prc:{fl:60}});
- A(R,'N','unit',2670,1900,0,2400,600,{mat:'white',ward:true,cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
- A(R,'N','unit',2320,825,2400,500,600,{mat:'white',cols:1});
- A(R,'N','unit',3145,1425,2400,500,600,{mat:'white',cols:3,flip:true});
+ A(R,'N','open',2320,350,1200,1200,400,{mat:'ebony',shelves:3,lab:'open',dim:true,prc:{fl:60}});
+ A(R,'N','unit',2670,1900,0,2400,600,{mat:'ivory',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'ivory',cols:1});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'ivory',cols:3,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
  A(R,'S','window',2470,1800,0,DH,40,{rail:true,dim:true});
  A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
  A(R,'S','door',20,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
- /* Bookshelf (Aravindh, 21 Nov): L in the NW corner beside the bed, running to the open shelf and matching it, 1200-2400, 300 deep, 3 compartments of 400.
-    West leg 450 owns the corner; the north leg has open ends so the shelves run straight on round the corner and into the open shelf. Only the west leg's free end is rounded. */
- A(R,'W','open',2750,450,1200,1200,300,{mat:'white',shelves:3,lab:'books',dim:true,rc:{tl:60,bl:60},noR:true});
- A(R,'N','open',300,2020,1200,1200,300,{mat:'white',shelves:3,lab:'bookshelf',dim:true,noL:true,noR:true});
- /* Books on the bookshelf, for representation only (21 Nov): seeded random spines per compartment, about 75% full, upright, muted colours.
-    Each book: [u, width, y, height, depth, colour index]. Renderers draw it.books in the elevation and 3D. */
- R.items.filter(it=>it.kind==='open'&&/book/.test(it.lab||'')).forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
-  const n=it.shelves||3,step=(it.h-18)/n,B=[];
-  for(let i=0;i<n;i++){const y=it.y0+i*step+18,ch=step-18;let u=it.u0+(it.noL?0:18)+15;const end=it.u0+it.uw-(it.noR?0:18)-15;
-   while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
-    const w=18+rnd()*30;if(u+w>end)break;const bh=Math.min(ch-30,ch*(0.55+rnd()*0.35));B.push([u,w,y,bh,150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}}
+ /* Book ledges (Aravindh, 22 Nov, designer meeting): bookshelf no longer L-shaped; long north wall only, no closed units or back panels.
+    Three floating ebony ledges, corner to the open shelf, 250 deep, 36 thick, tops at 1236 / 1636 / 2036. Books stand on top (representation only). */
+ [1200,1600,2000].forEach((y,k)=>A(R,'N','ledge',0,2320,y,36,250,{mat:'ebony',lab:k===1?'book ledges':null,dim:k===0}));
+ R.items.filter(it=>it.kind==='ledge').forEach((it,k)=>{let sd=7+k*131;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const B=[],y=it.y0+it.h,ch=360;let u=it.u0+40;const end=it.u0+it.uw-40;
+  while(u<end){if(rnd()<0.07){u+=60+rnd()*120;continue}
+   const w=18+rnd()*30;if(u+w>end)break;B.push([u,w,y,Math.min(330,ch*(0.55+rnd()*0.35)),150+rnd()*80,Math.floor(rnd()*8)]);u+=w+1}
   it.books=B});
  L(R,'loose',2580,2700,1000,500,0,745,{mat:'wood',on:['S'],desk:true,lab:'study table 1000 × 500 (own)'});
  /* Study chair: The Sleep Company SmartGRID ergonomic chair (Aravindh, 20 Nov), ~650 × 650, facing the study table (south), partly tucked under it. */
@@ -158,14 +154,15 @@ const ROOMS={};
   ['Open shelves','350 wide × 400 deep, 3 open compartments from 1200 to 2400, floor below clear. Right after the bed foot, for quick-access items.'],
   ['Wardrobe','4 doors of about 475, total 1900, running to the bathroom wall, 600 deep. Same overall run as before (shelves + wardrobe = 2250). Mirror covers almost the full first door (about 395 × 1800), next to the open shelves.'],
   ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
-  ['Handles','Slim vertical bar handles, brushed aluminium, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
+  ['Finishes','Super matt: wardrobe and its lofts in ivory. Normal matt: open shelves and book ledges in ebony wood (22 Nov). No separate closed storage units in this room, so no emerald here.'],
+  ['Handles','Slim vertical bar handles, matt black, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
   ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
   ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Bookshelf','L-shaped open bookshelf in the north-west corner beside the bed, for 100+ books (Aravindh, 21 Nov). Runs along the wall right up to the open shelf and matches it: 1200 to 2400, 3 compartments of 400 (fits tall hardbacks), 300 deep. West leg 450 (headboard end to corner), north leg 2020 to the open shelf. Shelves run straight round the corner with no divider. About 7.4 m of shelf, roughly 180 to 220 books. Top shelf at about 2000, reachable standing. Only the free end on the bed wall is rounded. No doors, so no handles.'],
+  ['Book ledges','Three floating ebony ledges on the long north wall only (no L, no closed units, no back panel), from the corner to the open shelf, 2320 long, 250 deep, 36 thick, at 1200 / 1600 / 2000. Concealed brackets. About 7 m of shelf, roughly 170 to 200 books.'],
   ['TV','None.'],
   ['Check on site','Bathroom door frame looks about 550 from the north corner; the wardrobe end may need to be 550 deep there. Window, door and switch positions to be measured.']];
  ROOMS['bedroom-2']=R}
@@ -202,7 +199,7 @@ function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS
 /* book spine colours: muted, few hues */
 const BOOKC=['#8a6f5a','#5f6b6d','#a89a82','#6f7d68','#b7a58a','#4f4b47','#9a6b5b','#c9bfae'];
 /* ---------- elevation ---------- */
-const ORDER={frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+const ORDER={ledge:3,frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
   const L0=wlen(R,wall);
   const s=document.createElementNS(NS,'svg');
@@ -246,11 +243,13 @@ function drawElev(R,wall,letter,title){
           const x=u0+j*cw, y=y0+i*rh;
           rrect(x+8,y+8,cw-16,rh-16,it.glass?c('glass'):fill,3,S,SRC(it.rc,j,i,cols,rows,8));
           if(it.mirrorCol===j){rect(x+40,y0+250,cw-80,1800,c('glass'),3,{rx:20});text(x+cw/2,y0+1100,'mirror','middle',36)}
-          if(rows>1||it.flap) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:'#a9acaf','stroke-linecap':'round'});
-          else {const hx=(cols===1)?x+cw-45:((j+(it.flip?1:0))%2===0?x+cw-45:x+45); if(y>=2000){line(hx,y+50,hx,y+210,9,{stroke:'#a9acaf','stroke-linecap':'round'});continue} /* loft: upright bar at the bottom corner, opening side */ const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; line(hx,hy-120,hx,hy+120,9,{stroke:'#a9acaf','stroke-linecap':'round'})}
+          if(rows>1||it.flap) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:'#1d1d1b','stroke-linecap':'round'});
+          else {const hx=(cols===1)?x+cw-45:((j+(it.flip?1:0))%2===0?x+cw-45:x+45); if(y>=2000){line(hx,y+50,hx,y+210,9,{stroke:'#1d1d1b','stroke-linecap':'round'});continue} /* loft: upright bar at the bottom corner, opening side */ const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; line(hx,hy-120,hx,hy+120,9,{stroke:'#1d1d1b','stroke-linecap':'round'})}
         }
         break}
-      case 'open': rrect(u0,y0,uw,h,c('panel'),4,S,it.rc);
+      case 'ledge': rect(u0,y0,uw,h,fill,3,S);
+        (it.books||[]).forEach(([bu,bw,by,bh,,ci])=>rect(bu,by,bw,bh,BOOKC[ci],1.5,{stroke:c('muted')}));break;
+      case 'open': rrect(u0,y0,uw,h,it.mat?fill:c('panel'),4,S,it.rc);
         for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);
         (it.books||[]).forEach(([bu,bw,by,bh,,ci])=>rect(bu,by,bw,bh,BOOKC[ci],1.5,{stroke:c('muted')}));break;
       case 'door':
@@ -346,7 +345,7 @@ function drawPlan(R){
       if(it.lab){const t=text(b.x+b.w/2,b.z+b.d/2+35,it.lab.split(' (')[0],'middle',95,it.chg?c('accent'):c('muted'));}
       continue;
     }
-    {const fillc=c(it.kind==='counter'?'granite':it.kind==='open'?'panel':(it.mat||'wood'));
+    {const fillc=c(it.kind==='counter'?'granite':it.kind==='open'&&!it.mat?'panel':(it.mat||'wood'));
      if(it.wall&&it.prc){const q=(u,t)=>P(R,it.wall,u,t).join(' '),u0=it.u0,u1=it.u0+it.uw,t1=it.td,fl=it.prc.fl||0,fr=it.prc.fr||0;
        const d=`M${q(u0,0)} L${q(u1,0)} L${q(u1,t1-fr)} Q${q(u1,t1)} ${q(u1-fr,t1)} L${q(u0+fl,t1)} Q${q(u0,t1)} ${q(u0,t1-fl)} Z`;
        el('path',{d,fill:fillc,stroke:c('fg'),'stroke-width':6});}
@@ -381,7 +380,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={ivory:M(0xefe8d6,{roughness:.95}),emerald:M(0x2f6b55,{roughness:.95}),ebony:M(0x3b2c24,{roughness:.85}),handle:M(0x1d1d1b,{roughness:.45}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xd4d6d8,{metalness:0,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),
@@ -489,11 +488,13 @@ let build3D=()=>{};
           if(it.mirrorCol!=null)rbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+250,1800,td,6,MAT.mirror,20);
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){ // handles: slim rounded bars, same logic as elevations
             const x=u0+j*cw, y=y0+i*rh;
-            if(rows>1||it.flap) rbox(R,it,x+cw/2-60,120,y+rh-60,16,td,22,MAT.metal,8);
-            else{const hx=(cols===1)?x+cw-55:((j+(it.flip?1:0))%2===0?x+cw-55:x+39); if(y>=2000){rbox(R,it,hx,16,y+40,160,td,22,MAT.metal,8);continue} const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; rbox(R,it,hx,16,hy-120,240,td,22,MAT.metal,8)}
+            if(rows>1||it.flap) rbox(R,it,x+cw/2-60,120,y+rh-60,16,td,22,MAT.handle,8);
+            else{const hx=(cols===1)?x+cw-55:((j+(it.flip?1:0))%2===0?x+cw-55:x+39); if(y>=2000){rbox(R,it,hx,16,y+40,160,td,22,MAT.handle,8);continue} const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; rbox(R,it,hx,16,hy-120,240,td,22,MAT.handle,8)}
           }
           break}
-        case 'open': rbox(R,it,u0,uw,y0,h,0,20,MAT.panel,it.rc||0);
+        case 'ledge': wbox(R,it,u0,uw,y0,h,0,td,MAT[it.mat]||MAT.wood);
+          (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
+        case 'open': rbox(R,it,u0,uw,y0,h,0,20,MAT[it.mat]||MAT.panel,it.rc||0);
           if(!it.noL)wbox(R,it,u0,18,y0,h,0,td,(MAT[it.mat]||MAT.wood)); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,0,td,(MAT[it.mat]||MAT.wood)); /* noL/noR: open end that runs on into the next unit (L corner) */
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,(MAT[it.mat]||MAT.wood));
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
