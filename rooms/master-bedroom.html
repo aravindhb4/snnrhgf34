@@ -115,7 +115,7 @@ const MAIN=4110, TB_W=1600, TB_D=1200, TB_LEN=2440, BAY_X=150, BAY_W=2000, BAY_D
 const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
 {const R=room({id:'bedroom-1',name:'Master Bedroom',W:3200,D:RD,top:1300,mk:{N:0.62},hole:{x0:BAY_X,x1:BAY_X+BAY_W,y0:450,y1:2150},
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
-  elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','Study table, later TV'],['S','D','Bay window and dresser']]});
+  elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','Desk and 43″ TV'],['S','D','Bay window and dresser']]});
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
  A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'wood',cols:3,hs:['L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2900});
  A(R,'N','unit',0,TB_W,2400,500,600,{t0:TB_D,mat:'wood',cols:3,hs:['L','R','L'],round:'top',noCarc:true});
@@ -130,7 +130,9 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  /* East wall (u from the north/passage end). Plug board low at about 550, near the middle of the wall (site photo 20 Nov, estimated).
     Study table between the plug board and the dresser, nearly centred on the bed (50 towards the dresser), per Aravindh 20 Nov. */
  const PLUG_U=2600, PLUG_W=260, DESK_W=1200, DESK_U=BED_Z+50-DESK_W/2;
- A(R,'E','flap',DESK_U,DESK_W,720,30,450,{mat:'wood',lab:'foldable study table',dim:true});
+ /* 22 Nov (Aravindh): 43" TV above the table. Foldable table replaced by a fixed floating desk with two drawers that also holds the TV items. */
+ A(R,'E','unit',DESK_U,DESK_W,600,150,450,{mat:'wood',cols:2,flap:true,lab:'desk + TV console',dim:true});
+ A(R,'E','tv',DESK_U+DESK_W/2-480,960,1150,560,40,{lab:'43″ TV'});
  A(R,'E','board',PLUG_U,PLUG_W,550,0,10,{lab:'plug point',dim:true});
  A(R,'E','ac',DESK_U+DESK_W/2-500,1000,2350,300,230,{lab:'AC'}); // wall split AC centred over the study table (20 Nov)
  A(R,'E','door',0,900,0,DH,40,{lab:'room door (open)',elevOnly:true});
@@ -145,7 +147,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   A(R,'S','curtain',u,BAY_W,bot,top-bot,10,{sheer:true,elevOnly:true});
   [0,BAY_W/3-130,2*BAY_W/3-130,BAY_W-260].forEach(d=>A(R,'S','curtain',u+d,260,bot,top-bot,10,{elevOnly:true}));
   A(R,'S','board',u-30,BAY_W+60,top,0,10,{elevOnly:true,rod:true,lab:'curtain rod along the bay'});}
- R.vd={N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']],E:[[0,550,'550'],[0,750,'750']],S:[[0,900,'900'],[0,2150,'2150'],[0,450,'450'],[450,2100,'1650']]};
+ R.vd={N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']],E:[[0,550,'550'],[0,750,'750'],[1150,1710,'560']],S:[[0,900,'900'],[0,2150,'2150'],[0,450,'450'],[450,2100,'1650']]};
  R.plan=(el,text)=>{
   // toilet: part inside the room, rest continues outside (dashed)
   el('rect',{x:0,y:0,width:TB_W,height:TB_D,fill:c('panel'),stroke:'none'});
@@ -193,7 +195,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
   ['Wardrobe','1600 (5′ toilet face) × 600 deep, 3 hinged shutters about 533 wide to 2400, loft to the ceiling.'],
   ['Bed','King 1830 × 2030 centred on the west wall, headboard panel 2230 × 1200. One side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
-  ['Study table','Wall-mounted foldable table 1200 × 450, top at 750, between the existing plug point and the dresser on the wall opposite the bed, almost centred on the bed. The plug point sits low (about 550, below the table top) near the middle of the wall, not centred on the bed (site photo, 20 Nov; position estimated). Can later serve as the TV base.'],
+  ['Desk + TV','43″ TV (about 960 × 560) wall-mounted at 1150–1710, centred over a fixed floating desk 1200 × 450 × 150 (top at 750) with two drawers for the set-top box, remotes and cables; the desk still works as a study table, with 400 clear between the desk top and the TV. Replaces the foldable table. Existing plug point stays low (about 550, below the desk); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Dresser','Mirror dresser 950 × 400 × 2150 in the south-east corner, ivory (as in the reference photo). Left (corner side): 380 tower with 3 drawers to 880, a top at 900, and open shelves with warm back lighting to 2150, level with the mirror door. Right: 570 tall mirror door with a rounded warm LED frame, hinged on its right edge, brushed-aluminium handle on its left edge, shelves behind. Plain fronts, no fluting.'],
