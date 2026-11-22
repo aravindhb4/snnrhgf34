@@ -728,7 +728,7 @@ SPACES.push(
 const MASS=[{x0:10350,z0:6610,x1:11970,z1:6820},{x0:12510,z0:2000,x1:12810,z1:3410,h:1000},{x0:10890,z0:600,x1:11010,z1:650},{x0:10890,z0:1840,x1:11010,z1:2040},{x0:10890,z0:650,x1:11010,z1:1840,h:900},{x0:10890,z0:650,x1:11010,z1:1840,y0:2100}]; // + lobby: waist-high block opposite the door (site photos 22 Nov), door wall north of the main door with a uPVC window (sill 900); corridor open to the north (towards F35) and beyond the block
 /* Lobby outside the main door (Aravindh 22 Nov): the end wall beside the door has only ~100 of wall, so the tall shoe rack goes on the wall opposite the door
    (floor to ceiling, 350 deep, about 1150 clear in front of the door) and the seat on the longer door-side wall north of the door, facing the rack */
-const LOBBY={rack:{x1:12510,z0:2060,z1:3290,d:350,h:1000},seat:{x0:11200,x1:11700,z1:3290,d:420,h:450},win:{z0:650,z1:1840,y0:900,y1:2100}}; // rack on the low block opposite the door, seat on the 1500 end wall (Aravindh 22 Nov)
+const LOBBY={rack:{x0:11460,x1:12510,z1:3290,d:350},bench:{x1:12510,z0:2000,z1:3290,d:400,h:600},win:{z0:650,z1:1840,y0:900,y1:2100}}; // closed rack on the 1500 end wall (450 clear of the door wall), open-shelf bench along the block in an L (Aravindh 22 Nov)
 const GROUPS={'shaft':'bedroom-1','recess':'living','livingB':'living','strip':'living','passage':'bedroom-1','toilet1':'bedroom-1','toilet2':'bedroom-2','balcony':'dining'};
 
 /* openings: {o:'x'|'z' (direction the wall runs), a0,a1 along it, c across (wall line), y0,y1, kind} */
@@ -786,8 +786,8 @@ function drawPlan(){
   for(const k of SCREENS){const L=k.a1-k.a0,n=Math.round(L/120);let d='';for(let i=0;i<=n;i++){const a=k.a0+L*i/n,w=(i%2?25:-25);d+=(i?'L':'M')+(k.o==='x'?`${a} ${k.c+w}`:`${k.c+w} ${a}`)}
     el('path',{d,fill:'none',stroke:c('muted'),'stroke-width':10})}
   text(9250,9130,'sheer screen','end',100,c('muted')); text(5640,5470,'sheer screen','middle',100,c('muted'));
-  {const K=LOBBY.rack,S=LOBBY.seat; el('rect',{x:K.x1-K.d,y:K.z0,width:K.d,height:K.z1-K.z0,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text(K.x1-K.d-60,(K.z0+K.z1)/2-200,'shoe rack','end',90,c('muted'));
-   el('rect',{x:S.x0,y:S.z1-S.d,width:S.x1-S.x0,height:S.d,rx:30,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text((S.x0+S.x1)/2,S.z1-S.d-60,'seat','middle',90,c('muted')); text(11760,-500,'to F35','middle',90,c('muted'))}
+  {const K=LOBBY.rack,S=LOBBY.bench; el('rect',{x:K.x0,y:K.z1-K.d,width:K.x1-K.x0,height:K.d,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text((K.x0+K.x1)/2,K.z1-K.d-60,'shoe rack','middle',90,c('muted'));
+   el('rect',{x:S.x1-S.d,y:S.z0,width:S.d,height:S.z1-S.z0,fill:c('white'),stroke:c('fg'),'stroke-width':8}); text(S.x1-S.d-60,(S.z0+S.z1)/2,'bench','end',90,c('muted')); text(11760,-500,'to F35','middle',90,c('muted'))}
   el('rect',{x:KEYS.x,y:KEYS.z,width:KEYS.w,height:30,fill:c('fg')}); text(KEYS.x+KEYS.w/2,KEYS.z+130,'key holder','middle',100,c('muted'));
   {const P=PHOTO2; for(const [dx,,w] of P.F)el('rect',{x:P.xc+dx-w/2,y:P.z-30,width:w,height:30,fill:c('fg')});
    text(P.xc,P.z-90,'photo wall','middle',110,c('muted'))}
@@ -1161,18 +1161,21 @@ let focusRoom=()=>{}, setWalls=()=>{};
    box(X0,1030,PZ+45,X1-X0,40,60,MAT.sage,false); box(X0,330,PZ+60,X1-X0,25,30,MAT.sage,false); // top and bottom rails
    for(let x=X0+90;x<X1-40;x+=115)box(x,355,PZ+67,16,675,16,MAT.sage,false);           // bars
    const sl=new THREE.SpotLight(0xfff4e0,0.45,0,0.6,0.7,1); sl.position.set(7.8,2.6,13.6); sl.target.position.set(7.8,0,8.4); sl.castShadow=true; sl.shadow.mapSize.set(2048,2048); sl.shadow.bias=-0.0005; scene.add(sl,sl.target);}
-  {const K=LOBBY.rack,S=LOBBY.seat,Wn=LOBBY.win,W=MAT.white,L=K.z1-K.z0,cw=L/2,x0=K.x1-K.d,fr=x0-18,rh=(K.h-100)/4,zm=Wn.z0+(Wn.z1-Wn.z0)*0.54;
+  {const K=LOBBY.rack,Wn=LOBBY.win,W=MAT.white,zm=Wn.z0+(Wn.z1-Wn.z0)*0.54;
    box(10930,Wn.y0,Wn.z0,40,Wn.y1-Wn.y0,Wn.z1-Wn.z0,MAT.white,false); box(10935,Wn.y0+40,Wn.z0+40,30,Wn.y1-Wn.y0-80,zm-Wn.z0-60,MAT.glass,false); // uPVC window: frame, fixed pane (north)
    for(let y=Wn.y0+60;y<Wn.y1-50;y+=70)box(10930,y,zm+20,60,30,Wn.z1-zm-60,MAT.white,false);                                                 // louvred section next to the door
    box(12510,1000,2000,300,20,1410,MAT.granite,false);                                                                    // block top
-   box(x0+50,0,K.z0+20,K.d-50,100,L-40,MAT.wgrey||MAT.panel,false);                                                       // recessed plinth
-   rbox(x0,100,K.z0,K.d,K.h-100,L,W,30);                                                                                  // rack carcass, top level with the block
-   for(let j=0;j<2;j++){const z=K.z0+j*cw;
-     for(let i=0;i<4;i++){const y=100+i*rh; box(fr,y+3,z+3,18,rh-6,cw-6,W); box(fr-14,y+rh-40,z+cw/2-80,14,14,160,MAT.alu,false)}} // 4 rows of tilt-out shoe flaps
-   const sz=S.z1-S.d;
-   rbox(S.x0,0,sz,S.x1-S.x0,S.h-70,S.d,W,30);                                                                             // seat box on the end wall
-   soft(S.x0+10,S.h-70,sz+10,S.x1-S.x0-20,70,S.d-20,MAT.fabric,30,.12);                                                   // seat cushion
-   soft(S.x0+20,S.h+10,S.z1-90,S.x1-S.x0-40,400,80,MAT.fabric,35,.1)}                                                      // back cushion on the end wall
+   const L=K.x1-K.x0,cw=L/2,zf=K.z1-K.d,fr=zf-18,B=LOBBY.bench,bx=B.x1-B.d,BL=B.z1-B.z0,Ll=bx-K.x0;
+   box(K.x0+20,0,zf+50,Ll-40,100,K.d-50,MAT.wgrey||MAT.panel,false);                                                    // recessed plinth
+   rbox(K.x0,100,zf,Ll,500,K.d,W,30); rbox(K.x0,600,zf,L,CEIL-600,K.d,W,30);                                            // rack: narrower below 600 so the bench runs under it into the corner
+   box(K.x0+3,103,fr,Ll-6,494,18,W); box(K.x0+Ll/2-80,560,fr-14,160,14,14,MAT.alu,false);                                // low tilt flap (2 tiers)
+   for(let j=0;j<2;j++){const x=K.x0+j*cw;
+     for(let i=0;i<2;i++){const y=600+i*400; box(x+3,y+3,fr,cw-6,394,18,W); box(x+cw/2-80,y+360,fr-14,160,14,14,MAT.alu,false)} // 2 rows of tilt flaps above the bench
+     box(x+3,1403,fr,cw-6,894,18,W); box(x+3,2303,fr,cw-6,CEIL-2306,18,W);                                              // shutter, loft
+     const hx=j?x+40:x+cw-54; box(hx,1450,fr-14,14,300,14,MAT.alu,false); box(hx,2340,fr-14,14,160,14,MAT.alu,false)}
+   box(bx,0,B.z0,B.d,B.h,18,W,false); box(B.x1-18,0,B.z0,18,B.h,BL,MAT.panel,false);                                         // bench end panel, back panel
+   for(const y of [0,B.h/2-9])box(bx,y,B.z0,B.d,18,BL,W,false);                                                           // bottom and middle shelf: two open rows for daily footwear
+   rbox(bx,B.h-25,B.z0,B.d,25,BL,W,12)}                                                                                    // bench top, 600 high, no cushions
   // entrance curtains and the key holder are drawn by the room pages (living, kitchen, bedroom-1) through R.three
   walls();
   // daylight through every window (Aravindh 22 Nov: doors open, light coming through wherever possible)
