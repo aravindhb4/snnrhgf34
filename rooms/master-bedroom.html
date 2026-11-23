@@ -574,7 +574,9 @@ let build3D=()=>{};
         case 'flap': wbox(R,it,u0,uw,y0,h,0,td,m,false,12); wbox(R,it,u0+uw/2-60,120,y0-14,14,td,22,MAT.metal,false,5); wbox(R,it,u0+uw/2-30,60,y0-400,400,0,40,m,false,8); break;
         case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
           if(it.rf&&it.flap){XDESK(R,it,G,mm,m,MAT.metal,lineM);break}
-          if(!it.noCarc)wbox(R,it,u0,uw,y0,it.carcH||h,t0||0,td-18,m,false,25);
+          if(!it.noCarc){const H=it.carcH||h,T=t0||0;
+            if(y0+H>=CEIL-5){wbox(R,it,u0,18,y0,H,T,td-18,m,false);wbox(R,it,u0+uw-18,18,y0,H,T,td-18,m,false);wbox(R,it,u0,uw,y0,H,T,18,m,false);wbox(R,it,u0,uw,y0,18,T,td-18,m,false)} // 23 Nov: reaches the ceiling, so no top panel (ceiling closes it); hollow from above
+            else wbox(R,it,u0,uw,y0,H,T,td-18,m,false,25)}
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,(t0||0)+td-18,18,it.glass?MAT.glass:m,!it.rf,it.rf||0);
           const ht=(t0||0)+td;

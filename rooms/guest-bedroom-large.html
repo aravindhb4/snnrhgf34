@@ -157,7 +157,7 @@ const ROOMS={};
   ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
   ['Finishes','Ivory and grey, all matt (23 Nov): wardrobe fully ivory (no frame or band styling); lofts (top storage) grey. Open shelf and book ledges stay ebony wood. Handles black.'],
   ['Handles','Slim vertical bar handles, matt black, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
-  ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
+  ['Loft','No top panel: the ceiling closes it. To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear. All doors are drawn open (23 Nov); the bathroom door opens into the bathroom.'],
@@ -484,7 +484,11 @@ let build3D=()=>{};
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
         case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
-          rbox(R,it,u0,uw,y0,h,0,td-18,it.carcass?MAT[it.carcass]:m,it.rc||0);
+          if(y0+h>=CEIL-1){ /* ceiling-height unit: no top panel, the ceiling closes it (Aravindh 23 Nov), so it reads hollow from above */
+            const cm=it.carcass?MAT[it.carcass]:m,dd=td-18;
+            wbox(R,it,u0,uw,y0,h,0,18,cm); wbox(R,it,u0,uw,y0,18,0,dd,cm);
+            wbox(R,it,u0,18,y0,h,0,dd,cm); wbox(R,it,u0+uw-18,18,y0,h,0,dd,cm);
+          } else rbox(R,it,u0,uw,y0,h,0,td-18,it.carcass?MAT[it.carcass]:m,it.rc||0);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,SRC(it.rc,j,i,cols,rows,3));
           if(it.mirrorCol!=null)rbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+(it.band?it.band+50:250),it.band?2400-it.band-130:1800,td+4,6,MAT.mirror,20);

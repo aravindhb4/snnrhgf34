@@ -483,7 +483,10 @@ let build3D=()=>{};
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
         case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
-          rwbox(R,it,u0,uw,y0,h,0,td-18,m,flip(it.wall,RC(it)),nAx(it.wall));
+          if(y0+h>=CEIL-5){const t=18,D=td-18; // ceiling is the top (23 Nov): open-top carcass, hollow from above
+            wbox(R,it,u0,uw,y0,h,0,t,m); wbox(R,it,u0,t,y0,h,0,D,m); wbox(R,it,u0+uw-t,t,y0,h,0,D,m); wbox(R,it,u0,uw,y0,t,0,D,m);
+            const cols0=it.cols||1; for(let j=1;j<cols0;j++)wbox(R,it,u0+j*uw/cols0-t/2,t,y0,h,0,D,m);
+          } else rwbox(R,it,u0,uw,y0,h,0,td-18,m,flip(it.wall,RC(it)),nAx(it.wall));
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rwbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:(it.colMat&&it.colMat[j]?MAT[it.colMat[j]]:m),flip(it.wall,subRC(it,u0+j*cw+3,y0+i*rh+3,cw-6,rh-6,3)),nAx(it.wall));
           if(it.strip)it.strip.cols.forEach(j=>rwbox(R,it,u0+j*cw+3,cw-6,it.strip.y,it.strip.h,td,2,MAT[it.strip.mat],0,nAx(it.wall)));
