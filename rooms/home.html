@@ -1239,7 +1239,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
   {const pane=(x0,x1,z)=>{box(x0,0,z,50,DH,30,MAT.white,false);box(x1-50,0,z,50,DH,30,MAT.white,false);box(x0+50,DH-60,z,x1-x0-100,60,30,MAT.white,false);box(x0+50,0,z,x1-x0-100,60,30,MAT.white,false);
      const gl=new THREE.Mesh(new THREE.BoxGeometry(mm(x1-x0-100),mm(DH-120),mm(8)),MAT.clear);gl.position.set(mm((x0+x1)/2),mm(DH/2),mm(z+15));G.add(gl)};
    box(6570,0,9810,40,DH,100,MAT.white,false); box(9030,0,9810,40,DH,100,MAT.white,false); box(6570,DH-40,9810,2500,40,100,MAT.white,false); box(6570,0,9810,2500,15,100,MAT.white,false); // aluminium frame
-   pane(6610,7840,9825); pane(6660,7890,9870);                                   // fixed panel + sliding panel parked over it: right half clear
+   pane(7403,8237,9825); pane(8217,9030,9825); pane(7423,8257,9870); // 3 panels: the one nearest the dining wall slid behind the middle one, first third clear (dining page v34)                                   // fixed panel + sliding panel parked over it: right half clear
    const X0=6290,X1=9350,PZ=11300;
    box(X0,0,PZ,X1-X0,250,150,MAT.wall,false); box(X0,250,PZ-10,X1-X0,25,170,MAT.granite,false); // parapet, granite top
    for(let x=X0+30;x<X1;x+=1000)box(x,275,PZ+55,40,790,40,MAT.sage,false);            // posts

@@ -122,7 +122,7 @@ function drawElev(L){
   line(0,0,0,CEIL,3,muted); line(WALL,0,WALL,CEIL,3,{...muted,'stroke-dasharray':'20 14'});
   // balcony pelmet in section on the side wall (door head to ceiling, 180 deep)
   rect(0,BDH,PEL.d,CEIL-BDH,c('wood'),4,{r:[0,0,12,0]}); text(PEL.d+30,BDH+60,'balcony pelmet','start',30);
-  line(0,BDH,0,0,10,{stroke:c('muted')}); text(40,BDH-120,'balcony door','start',30);
+  line(0,BDH,0,0,10,{stroke:c('muted')}); text(40,BDH-120,'balcony door (shown open)','start',30);
   
 
   // bench + table
@@ -257,9 +257,10 @@ let build3D=()=>{};
   // side wall with balcony sliding door (x=0), pelmet from door head to ceiling
   box(-100,0,0,100,CEIL,BD0,wall,false); box(-100,0,BD1,100,CEIL,3600-BD1,wall,false); box(-100,BDH,BD0,100,CEIL-BDH,BD1-BD0,wall,false);
   {const fm=M(0xf2f2f0),gl=new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05});
-   box(-70,0,BD0,40,BDH,BD1-BD0,gl,false);
+   // sliding door shown open: first panel slid behind the middle one, leaving the first third clear
+   {const P=(BD1-BD0)/3; box(-70,0,BD0+P,20,BDH,P,gl,false); box(-45,0,BD0+P-30,20,BDH,P+30,gl,false); box(-70,0,BD0+2*P,20,BDH,P,gl,false);}
    box(-80,0,BD0,60,60,BD1-BD0,fm,false); box(-80,BDH-60,BD0,60,60,BD1-BD0,fm,false);
-   [BD0,(2*BD0+BD1)/3,(BD0+2*BD1)/3,BD1-60].forEach(z=>box(-80,0,z,60,BDH,60,fm,false));
+   [BD0,(2*BD0+BD1)/3-30,(BD0+2*BD1)/3,BD1-60].forEach(z=>box(-80,0,z,60,BDH,60,fm,false));
    box(0,BDH,PEL.z0,PEL.d,CEIL-BDH,PEL.z1-PEL.z0,wood,true);}
   box(B0,BSOF,0,B1-B0,CEIL-BSOF,3050,wall,true);
   box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,ebony);
