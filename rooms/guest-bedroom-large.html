@@ -125,6 +125,7 @@ const ROOMS={};
  A(R,'N','unit',3145,1425,2400,500,600,{mat:'emerald',cols:3,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
+ A(R,'E','leaf',2310,860,0,2090,40,{}); // open room-door leaf resting on the bathroom wall, elevation only (23 Nov)
  A(R,'S','window',2470,1800,0,DH,40,{rail:true,dim:true});
  A(R,'S','pelmet',2370,2000,DH,CEIL-DH,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',2870,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
@@ -159,7 +160,7 @@ const ROOMS={};
   ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
-  ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear.'],
+  ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear. All doors are drawn open (23 Nov); the bathroom door opens into the bathroom.'],
   ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Book ledges','Three floating ebony ledges on the long north wall only (no L, no closed units, no back panel), from the corner to the open shelf, 2320 long, 250 deep, 36 thick, at 1200 / 1600 / 2000. Concealed brackets. About 7 m of shelf, roughly 170 to 200 books.'],
@@ -169,7 +170,7 @@ const ROOMS={};
 
 /* open room doors and daylight (Aravindh 22 Nov): room doors open by default, light comes in through the windows and open doors */
 var XOPEN=window.XOPEN||(window.XOPEN={
- room(it){return it.kind==='door'&&!it.elevOnly&&!/main|bath|toilet/i.test(it.lab||'')},
+ room(it){return it.kind==='door'&&!it.elevOnly},
  glow(R,it,G,mm,k){const u=it.u0+it.uw/2,a=W2R(R,it.wall,u,1,-150,1),b=W2R(R,it.wall,u,1,1800,1);
   const s=new THREE.SpotLight(0xfff4e0,k,0,.65,.85,1);s.position.set(mm(a.x),mm(Math.min(it.y0+it.h,2100)),mm(a.z));s.target.position.set(mm(b.x),0,mm(b.z));G.add(s,s.target)},
  door(R,it,wbox,G,mm,MAT){const {u0,uw}=it;
@@ -199,7 +200,7 @@ function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS
 /* book spine colours: muted, few hues */
 const BOOKC=['#8a6f5a','#5f6b6d','#a89a82','#6f7d68','#b7a58a','#4f4b47','#9a6b5b','#c9bfae'];
 /* ---------- elevation ---------- */
-const ORDER={ledge:3,frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+const ORDER={leaf:4,ledge:3,frame:6,pelmet:5,ac:6,chair:8,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
   const L0=wlen(R,wall);
   const s=document.createElementNS(NS,'svg');
@@ -252,11 +253,12 @@ function drawElev(R,wall,letter,title){
       case 'open': rrect(u0,y0,uw,h,it.mat?fill:c('panel'),4,S,it.rc);
         for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);
         (it.books||[]).forEach(([bu,bw,by,bh,,ci])=>rect(bu,by,bw,bh,BOOKC[ci],1.5,{stroke:c('muted')}));break;
-      case 'door':
-        rect(u0,y0,uw,h,c('door'),4,S);
-        el('circle',{cx:it.swing==='L'?u0+uw-80:u0+80,cy:Y(1000),r:16,fill:c('fg')});
+      case 'door': /* shown open (Aravindh 23 Nov): empty opening + frame; a leaf opening into the room shows edge-on at its hinge */
+        rect(u0,y0,uw,h,c('bg'),4,S); rect(u0+40,y0,uw-80,h-40,'none',2,{stroke:c('muted'),'stroke-dasharray':'14 10'});
+        if(it.swing){const hx=it.swing==='L'?u0:u0+uw-45; rect(hx,y0,45,h-10,c('door'),3,S)}
         if(it.mirror){rect(u0+150,y0+500,uw-300,1300,c('glass'),it.chg?6:3,S);text(u0+uw/2,y0+1150,'mirror','middle',38,it.chg?c('accent'):c('muted'))}
         break;
+      case 'leaf': rect(u0,y0,uw,h,c('door'),4,S); el('circle',{cx:u0+80,cy:Y(1000),r:16,fill:c('fg')}); break;
       case 'pelmet': rect(u0,y0,uw,h,c('wood'),4,{...S,rx:12});break;
       case 'ac': rect(u0,y0,uw,h,c('white'),4,{...S,rx:30}); line(u0+60,y0+70,u0+uw-60,y0+70,3,{stroke:c('muted')});break;
       case 'frame': rect(u0,y0,uw,h,c('white'),6,{stroke:'#1d1d1b'}); rect(u0+70,y0+70,uw-140,h-140,c('fabric'),1.5,{stroke:c('muted')});break;
@@ -331,7 +333,7 @@ function drawPlan(R){
       if(it.lab){const m=q(it.u0+it.uw/2,-260);text(m[0],m[1]+35,it.lab,'middle',90,it.chg?c('accent'):c('muted'))}
       continue;
     }
-    if(['board','hob','sink','tile','plinth','hood','cushion'].includes(it.kind)){
+    if(['board','hob','sink','tile','plinth','hood','cushion','leaf'].includes(it.kind)){
       if(it.kind==='hob'||it.kind==='sink')el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':5,rx:30});
       continue;}
     if(!it.loose&&it.y0>=1400)continue; // uppers and lofts not in plan

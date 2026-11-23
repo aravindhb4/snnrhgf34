@@ -127,7 +127,7 @@ const ROOMS={};
 {const R=room({id:'entrance',name:'Entrance lobby',W:1500,D:2690,
   note:'The corridor is open towards F35. A straight open bench for daily footwear runs along the block opposite the door, with a mirror on the 1500 end wall. Rarely used shoes go in the shoe cabinet inside, under the key holder.',
   elevs:[['E','A','Open bench (opposite the door)'],['S','B','Mirror (1500 end wall)'],['W','C','Main door and window']]});
- A(R,'W','door',100,1050,0,DH,40,{lab:'main door',swing:null,dim:true});
+ A(R,'W','door',100,1050,0,DH,40,{lab:'main door',swing:null,dim:true,open:true}); // 23 Nov: shown open (leaf swings into the house)
  /* uPVC window north of the door: louvred section next to the door, fixed pane beyond, sill about 900 (site photos 22 Nov) */
  A(R,'W','window',1450,1190,900,1200,120,{lab:'window'});
  /* waist-high block opposite the door (site photos); the corridor is open beyond it and to the north (towards F35) */
@@ -138,7 +138,7 @@ const ROOMS={};
  /* mirror at face height on the end wall, above the bench */
  A(R,'S','panel',450,600,1300,600,12,{mat:'mirror',lab:'round mirror ⌀600',dim:true,elevOnly:true});
  A(R,'S','panel',400,700,1075,150,20,{mat:'wood',lab:'name board',elevOnly:true});
- R.three=(box,MAT,G,mm)=>{XENT.mirror(G,mm,750,1600,2690,300,-1); XENT.board(G,mm,750,1150,2690,700,150,-1,'Priya & Aravindh')};
+ R.three=(box,MAT,G,mm)=>{box(-1050,0,R.D-1150,1050,DH,40,MAT.door); box(-1200,0,R.D-1200,1200,10,1100,MAT.floor||MAT.panel,false); XENT.mirror(G,mm,750,1600,2690,300,-1); XENT.board(G,mm,750,1150,2690,700,150,-1,'Priya & Aravindh')};
  R.wallH={N:0,E:0};
  R.vd={E:[[0,200,'200'],[200,400,'200'],[400,600,'200'],[0,1000,'block 1000']],S:[[1300,1900,'mirror ⌀600'],[1075,1225,'name board']],W:[[900,2100,'window'],[0,DH,'2100']]};
  R.spec=[
@@ -485,7 +485,7 @@ let build3D=()=>{};
         case 'open': wbox(R,it,u0,uw,y0,h,0,20,MAT.panel);
           wbox(R,it,u0,18,y0,h,0,td,(MAT[it.mat]||MAT.wood)); wbox(R,it,u0+uw-18,18,y0,h,0,td,(MAT[it.mat]||MAT.wood));
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,(MAT[it.mat]||MAT.wood));break;
-        case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
+        case 'door': if(it.open)break; if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
         case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); XOPEN.drape(R,it,wbox,G); break;
         case 'ac': wbox(R,it,u0,uw,y0,h,t0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,t0+td-10,14,MAT.granite,false); break;

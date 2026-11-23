@@ -126,7 +126,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
 {const R=room({id:'bedroom-1',name:'Master Bedroom',W:3200,D:RD,top:1300,mk:{N:0.62},hole:{x0:BAY_X,x1:BAY_X+BAY_W,y0:450,y1:2150},
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
   elevs:[['N','A','Toilet wall: wardrobe, passage and room door'],['W','B','Bed wall'],['E','C','TV and ledge'],['S','D','Bay window and dresser']]});
- A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
+ A(R,'N','door',2250,900,0,DH,40,{lab:'room door (open)',swing:'R',open:true,dim:true});
  // finishes (22 Nov designer meeting): wardrobes ivory super-matt, storage units emerald green super-matt, ledges/standalone furniture ebony wood matt, handles black.
  // wardrobe (22 Nov evening, Aravindh): 4 doors of 400 each (picked 22 Nov) on the 5' toilet face to 2400, loft to the ceiling, no base drawers
  A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2400});
@@ -185,7 +185,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  };
  R.three=(box,MAT,soft)=>{
   box(0,0,0,TB_W,CEIL,TB_D,MAT.wall);
-  box(TB_W,0,250,40,DH,750,MAT.door);
+  box(TB_W,0,250,6,DH,750,MAT.tile,false); box(TB_W,0,250,750,DH,40,MAT.door); // toilet door shown open (23 Nov): doorway, leaf swung out into the passage
   box(BAY_X,0,RD,BAY_W,450,BAY_D,MAT.tile);
   box(BAY_X+30,450,RD+20,BAY_W-60,80,BAY_D-40,MAT.fabric,true,30);
   const CLR=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.07,roughness:0,depthWrite:false}); // clear glass (22 Nov, Aravindh)
@@ -1184,7 +1184,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0,2460,0,pw,40,420,E);  // pooja cap stays on the pooja (no lip over the crockery)
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
-    box(2920,2500,350,270,400,9470-DIN.X-350,MAT.wall,false); box(3040,2500,3120,150,400,940,MAT.wall,false); box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
+    box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false); // beam runs right to the dining wall over the crockery (23 Nov); no bulkhead past the bath wall box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
      box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.ebony,false);
