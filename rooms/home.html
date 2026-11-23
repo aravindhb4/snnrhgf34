@@ -1029,7 +1029,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'unit':{
           if(it.ward&&window.XOPEN)XOPEN.band(R,it,wbox);
           if(it.rf&&it.flap&&window.XDESK){XDESK(R,it,G,mm,m,MAT.handle,lineM);break}
-          if(it.round&&it.wall==='N'){const r0=it.round,s=new THREE.Shape(),w=uw,hh=h;
+          if(typeof it.round==='number'&&it.wall==='N'){const r0=it.round,s=new THREE.Shape(),w=uw,hh=h;
             s.moveTo(r0,0);s.lineTo(w-r0,0);s.quadraticCurveTo(w,0,w,r0);s.lineTo(w,hh-r0);s.quadraticCurveTo(w,hh,w-r0,hh);
             s.lineTo(r0,hh);s.quadraticCurveTo(0,hh,0,hh-r0);s.lineTo(0,r0);s.quadraticCurveTo(0,0,r0,0);
             const g=new THREE.ExtrudeGeometry(s,{depth:td,bevelEnabled:false,curveSegments:10}); g.scale(.001,.001,.001);
