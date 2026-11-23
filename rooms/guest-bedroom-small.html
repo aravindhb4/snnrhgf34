@@ -253,6 +253,8 @@ function drawElev(R,wall,letter,title){
       case 'open': rrect(u0,y0,uw,h,RC(it),it.mat?fill:c('panel'),4,S);
         for(let i=1;i<(it.shelves||3);i++)rect(u0+10,y0+i*h/(it.shelves||3)-10,uw-20,20,fill,3);break;
       case 'door':
+        if(XOPEN.room(it)){ // open door (23 Nov): doorway with daylight, leaf swung back into the room, seen edge-on at the hinge
+          rect(u0,y0,uw,h,c('bg'),4,S); const hu=it.swing==='L'?u0:u0+uw-40; rect(hu,y0,40,Math.min(h,2100),c('door'),3,S); break}
         rect(u0,y0,uw,h,c('door'),4,S);
         el('circle',{cx:it.swing==='L'?u0+uw-80:u0+80,cy:Y(1000),r:16,fill:c('fg')});
         if(it.mirror){rect(u0+150,y0+500,uw-300,1300,c('glass'),it.chg?6:3,S);text(u0+uw/2,y0+1150,'mirror','middle',38,it.chg?c('accent'):c('muted'))}
