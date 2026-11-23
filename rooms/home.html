@@ -484,16 +484,16 @@ const ROOMS={};
  // photo wall on the common toilet wall, just before the Guest Bedroom Small door: 7 loose frames, same as the whole-home page
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
- /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 x 460 (2 shelves) with a thin cushion; 365 deep; ends 300 short of the opened main door */
- A(R,'W','unit',2920,400,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
- A(R,'W','unit',3320,500,0,460,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
- A(R,'W','cushion',3320,500,460,50,365,{});
+ /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 (2 shelves) with a thin cushion; 365 deep. 23 Nov: tall widened to 600, bench lowered to sofa seat height (420 to cushion top), ends 100 short of the opened main door */
+ A(R,'W','unit',2920,600,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3520,500,0,370,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
+ A(R,'W','cushion',3520,500,370,50,365,{});
  L(R,'loose',0,1650,820,2920,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 2920',skip3d:true});
  L(R,'loose',0,1650,360,2920,420,590,{mat:'sofa',skip3d:true});
  L(R,'loose',820,3750,1500,820,0,420,{mat:'sofa',lab:'2 seats',skip3d:true});
  L(R,'loose',1250,2450,800,800,0,420,{mat:'sofa',lab:'coffee table',round:true,skip3d:true});
  R.sofa={x:0,z:1650,d:820,len:2920,slen:2320,A:150,R:150,tbl:{x:1650,z:2850,r:400,h:420}};
- R.vd={W:[[0,510,'510'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
+ R.vd={W:[[0,420,'420'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
   ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide, double moulding 60 apart, painted wall colour. Washable vinyl inside the inner moulding only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
@@ -502,7 +502,7 @@ const ROOMS={};
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. All 5 seats the same, about 600 wide; depth about 820 as drawn on the sale-agreement plan. Long side about 2920 on the west wall: arm 150, 3 seats, curved corner. Short side about 2320 on the south wall: corner, 2 seats, arm, ending at the passage to the bedrooms. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 400 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 460 high with 2 shelves and a thin fabric seat cushion (510 to the top). 365 deep, ebony wood carcass with ivory super matt shutters (like the product photo), matt black handles, rounded outer edges only. The bench ends about 300 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the sofa end and the main door: a tall cabinet about 600 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 500 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters (like the product photo), matt black handles, rounded outer edges only. The bench ends about 100 short of the fully opened main door. The 1200-wide product itself does not fit (about 900 is free here), so this is a made-to-size version.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
