@@ -12,17 +12,17 @@
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
   --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --glow:#d9a94a;
-  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b; --alu:#1c1c1c; --emerald:#4a7d6b; --ebony:#5a463b;
+  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b; --alu:#1c1c1c; --emerald:#4a7d6b; --mauve:#8c746f; --ebony:#5a463b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#55524d; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --glow:#c99a45;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; --alu:#0a0a0a; --emerald:#3a6656; --ebony:#3f3129; color-scheme:dark}}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; --alu:#0a0a0a; --emerald:#3a6656; --mauve:#5e4e4a; --ebony:#3f3129; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#55524d; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --glow:#c99a45;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; --alu:#0a0a0a; --emerald:#3a6656; --ebony:#3f3129; color-scheme:dark}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; --alu:#0a0a0a; --emerald:#3a6656; --mauve:#5e4e4a; --ebony:#3f3129; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -120,7 +120,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  // finishes (22 Nov designer meeting): wardrobes ivory super-matt, storage units emerald green super-matt, ledges/standalone furniture ebony wood matt, handles black.
  // wardrobe (22 Nov evening, Aravindh): 4 doors of 400 each (picked 22 Nov) on the 5' toilet face to 2400, loft to the ceiling, no base drawers
  A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2400});
- A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'emerald',cols:4,hs:['R','L','R','L'],round:'top'});
+ A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'mauve',cols:4,hs:['R','L','R','L'],round:'top'});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
@@ -175,7 +175,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  };
  R.three=(box,MAT,soft)=>{
   box(0,0,0,TB_W,CEIL,TB_D,MAT.wall);
-  box(TB_W,0,250,6,DH,750,MAT.tile,false); box(TB_W,0,250,750,DH,40,MAT.door); // toilet door shown open (23 Nov): doorway, leaf swung out into the passage
+  box(TB_W,0,250,6,DH,750,MAT.tile,false); box(TB_W-40,0,250,46,DH,40,MAT.door,false); // toilet door open (23 Nov): opens INTO the toilet, so only the open doorway and the leaf edge at the hinge show
   box(BAY_X,0,RD,BAY_W,450,BAY_D,MAT.tile);
   box(BAY_X+30,450,RD+20,BAY_W-60,80,BAY_D-40,MAT.fabric,true,30);
   const CLR=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.07,roughness:0,depthWrite:false}); // clear glass (22 Nov, Aravindh)
@@ -204,7 +204,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 4 ivory super-matt hinged doors of 400 each (two pairs) to 2400, loft with 4 matching shutters in emerald green super-matt, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
+  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 4 ivory super-matt hinged doors of 400 each (two pairs) to 2400, loft with 4 matching shutters in mauve matte (ivory + mauve scheme, 23 Nov), loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
   ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One ebony-wood side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
   ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain ebony-wood matt floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
@@ -473,7 +473,7 @@ let build3D=()=>{};
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
   const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),wgrey:M(0xd3cec7,{roughness:.8}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
-    granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0x1c1c1c,{metalness:.1,roughness:.6}),emerald:M(0x4f8370,{roughness:.95}),ebony:M(0x5a463b,{roughness:.8}),
+    granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0x1c1c1c,{metalness:.1,roughness:.6}),mauve:M(0x8c746f,{roughness:.9}),emerald:M(0x4f8370,{roughness:.95}),ebony:M(0x5a463b,{roughness:.8}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),ivory:M(0xe8e1d4,{roughness:.95}),glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd28a,emissiveIntensity:.7}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),
     wall:new THREE.MeshStandardMaterial({color:0xf1efea,roughness:.9,side:THREE.FrontSide}),floor:(()=>{const cv=document.createElement('canvas');cv.width=1024;cv.height=512;const g=cv.getContext('2d'); // wood-look planks 1200 × 200, 2400 × 1200 tile

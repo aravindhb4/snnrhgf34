@@ -11,17 +11,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --ivory:#efe8d6; --emerald:#4a7d6b; --ebony:#5a463b; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea;
+  --wood:#d8c3a3; --ivory:#efe8d6; --emerald:#4a7d6b; --ebony:#5a463b; --grey:#9b9a95; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#4a7d6b; --ebony:#3f3129; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#4a7d6b; --ebony:#3f3129; --grey:#6f6e6a; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#4a7d6b; --ebony:#3f3129; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
+  --wood:#8a7458; --ivory:#cfc8b6; --emerald:#4a7d6b; --ebony:#3f3129; --grey:#6f6e6a; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -120,9 +120,9 @@ const ROOMS={};
   note:'Layout confirmed with Aravindh on 19 Nov: study table between window and room door, mirror on the first wardrobe door, open shelves beside the bed.',
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
  A(R,'N','open',2320,350,1200,1200,400,{mat:'ebony',shelves:3,lab:'open',dim:true,prc:{fl:60}});
- A(R,'N','unit',2670,1900,0,2400,600,{mat:'ivory',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
- A(R,'N','unit',2320,825,2400,500,600,{mat:'emerald',cols:1});
- A(R,'N','unit',3145,1425,2400,500,600,{mat:'emerald',cols:3,flip:true});
+ A(R,'N','unit',2670,1900,0,2400,600,{mat:'ivory',carcass:'grey',ward:true,band:450,cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'grey',cols:1});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'grey',cols:3,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
  A(R,'E','leaf',2310,860,0,2090,40,{}); // open room-door leaf resting on the bathroom wall, elevation only (23 Nov)
@@ -155,7 +155,7 @@ const ROOMS={};
   ['Open shelves','350 wide × 400 deep, 3 open compartments from 1200 to 2400, floor below clear. Right after the bed foot, for quick-access items.'],
   ['Wardrobe','4 doors of about 475, total 1900, running to the bathroom wall, 600 deep. Same overall run as before (shelves + wardrobe = 2250). Mirror covers almost the full first door (about 395 × 1800), next to the open shelves.'],
   ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
-  ['Finishes','Super matt: wardrobe doors in ivory; lofts (top storage above the wardrobe and open shelf) in emerald oasis (23 Nov). Normal matt: open shelves and book ledges in ebony wood.'],
+  ['Finishes','Ivory and grey, all matt (23 Nov, ref photo): wardrobe doors ivory; wardrobe frame, 450 base band and lofts grey. Open shelf and book ledges stay ebony wood. Handles black.'],
   ['Handles','Slim vertical bar handles, matt black, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
   ['Loft','To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
@@ -191,7 +191,7 @@ var XOPEN=window.XOPEN||(window.XOPEN={
   const rod=new THREE.Mesh(new THREE.BoxGeometry((it.uw-80)/1000,.02,.02),m.t); rod.position.set((it.u0+it.uw/2)/1000,(top-20)/1000,.09); grp.add(rod);
   const ROT={N:[0,0,0],E:[-Math.PI/2,R.W,0],S:[Math.PI,R.W,R.D],W:[Math.PI/2,0,R.D]}[it.wall]; grp.rotation.y=ROT[0]; grp.position.set(ROT[1]/1000,0,ROT[2]/1000); G.add(grp)},
  // wardrobe finish (22 Nov, Aravindh ref photo): white matte shutters with a light warm-grey band on the lower third
- band(R,it,wbox){const g=XOPEN._g||(XOPEN._g=new THREE.MeshStandardMaterial({color:0xd3cec7,roughness:.8})),cols=it.cols||1,cw=it.uw/cols;
+ band(R,it,wbox){const g=XOPEN._g||(XOPEN._g=new THREE.MeshStandardMaterial({color:0x9b9a95,roughness:.95})),cols=it.cols||1,cw=it.uw/cols;
   for(let j=0;j<cols;j++)wbox(R,it,it.u0+j*cw+4,cw-8,it.y0+4,(it.band||800)-4,(it.t0||0)+it.td+1,4,g,false)}});
 /* ---------- SVG helpers ---------- */
 const NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
@@ -238,12 +238,12 @@ function drawElev(R,wall,letter,title){
       case 'counter': rect(u0-10,y0,uw+20,h+10,c('granite'),3,{rx:8});break;
       case 'cushion': rect(u0+10,y0,uw-20,h,c('fabric'),3,{rx:20});break;
       case 'unit':{
-        rrect(u0,y0,uw,h,fill,4,S,it.rc);
+        rrect(u0,y0,uw,h,it.carcass?c(it.carcass):fill,4,S,it.rc);
         const cols=it.cols||1, rows=it.rows||1, cw=uw/cols, rh=h/rows;
         for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
           const x=u0+j*cw, y=y0+i*rh;
           rrect(x+8,y+8,cw-16,rh-16,it.glass?c('glass'):fill,3,S,SRC(it.rc,j,i,cols,rows,8));
-          if(it.mirrorCol===j){rect(x+40,y0+250,cw-80,1800,c('glass'),3,{rx:20});text(x+cw/2,y0+1100,'mirror','middle',36)}
+          if(it.mirrorCol===j){rect(x+40,y0+(it.band?it.band+50:250),cw-80,it.band?2400-it.band-130:1800,c('glass'),3,{rx:20});text(x+cw/2,y0+1100,'mirror','middle',36)}
           if(rows>1||it.flap) line(x+cw/2-50,y+rh-50,x+cw/2+50,y+rh-50,9,{stroke:'#1d1d1b','stroke-linecap':'round'});
           else {const hx=(cols===1)?x+cw-45:((j+(it.flip?1:0))%2===0?x+cw-45:x+45); if(y>=2000){line(hx,y+50,hx,y+210,9,{stroke:'#1d1d1b','stroke-linecap':'round'});continue} /* loft: upright bar at the bottom corner, opening side */ const hy=y<1400?Math.min(y+rh/2,1100):y+rh/2; line(hx,hy-120,hx,hy+120,9,{stroke:'#1d1d1b','stroke-linecap':'round'})}
         }
@@ -279,7 +279,7 @@ function drawElev(R,wall,letter,title){
       case 'loose': rect(u0,y0,uw,h,'none',it.chg?6:3,{stroke,'stroke-dasharray':'18 12'});break;
       case 'bed':{const D={'stroke-dasharray':'18 12'},pw=Math.min(760,uw/2-70),gp=(uw-2*pw)/3;rect(u0,y0,uw,300,'none',3,{...D,rx:40});rect(u0+20,y0+280,uw-40,h-280,'none',3,{...D,rx:80});[u0+gp,u0+2*gp+pw].forEach(x=>rect(x,y0+h-20,pw,210,'none',3,{...D,rx:95}));break}
     }
-    if(it.kind==='unit'&&it.ward){const cols=it.cols||1,cw=uw/cols;for(let j=0;j<cols;j++)rect(u0+j*cw+8,y0+8,cw-16,(it.band||800)-8,'#d6d1ca',2,{stroke:c('fg')})}
+    if(it.kind==='unit'&&it.ward){const cols=it.cols||1,cw=uw/cols;for(let j=0;j<cols;j++)rect(u0+j*cw+8,y0+8,cw-16,(it.band||800)-8,c('grey'),2,{stroke:c('fg')})}
     if(it.lab){
       let ty=y0+h/2-14; if(it.kind==='tv')ty=y0+h/2-14; if(it.kind==='board')ty=y0-120;
       if(it.kind==='loose'||it.kind==='bed')ty=y0+h+40; if(it.kind==='chair')ty=y0+h+90;
@@ -382,7 +382,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={ivory:M(0xefe8d6,{roughness:.95}),emerald:M(0x4a7d6b,{roughness:.95}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1d1d1b,{roughness:.45}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={grey:M(0x9b9a95,{roughness:.95}),ivory:M(0xefe8d6,{roughness:.95}),emerald:M(0x4a7d6b,{roughness:.95}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1d1d1b,{roughness:.45}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xd4d6d8,{metalness:0,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xe3ecef,{metalness:.15,roughness:.1}),accent:M(0xc77a43),frameK:M(0x1f1f1f,{roughness:.5}),photo:M(0x9aa39c,{roughness:.6}),chairF:M(0x2b2c2e,{roughness:.5}),chairG:M(0x4c4f53,{roughness:.9}),
@@ -484,10 +484,10 @@ let build3D=()=>{};
         case 'counter': wbox(R,it,u0-10,uw+20,y0,h,0,td,MAT.granite); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
         case 'unit':{ if(it.ward)XOPEN.band(R,it,wbox);
-          rbox(R,it,u0,uw,y0,h,0,td-18,m,it.rc||0);
+          rbox(R,it,u0,uw,y0,h,0,td-18,it.carcass?MAT[it.carcass]:m,it.rc||0);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++)rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,it.glass?MAT.glass:m,SRC(it.rc,j,i,cols,rows,3));
-          if(it.mirrorCol!=null)rbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+250,1800,td,6,MAT.mirror,20);
+          if(it.mirrorCol!=null)rbox(R,it,u0+it.mirrorCol*cw+40,cw-80,y0+(it.band?it.band+50:250),it.band?2400-it.band-130:1800,td+4,6,MAT.mirror,20);
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){ // handles: slim rounded bars, same logic as elevations
             const x=u0+j*cw, y=y0+i*rh;
             if(rows>1||it.flap) rbox(R,it,x+cw/2-60,120,y+rh-60,16,td,22,MAT.handle,8);

@@ -11,17 +11,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --emerald:#4a7d6b; --ivory:#f3eee0; --ebony:#2e2421;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --emerald:#4a7d6b; --taupe:#a39486; --ivory:#f3eee0; --ebony:#2e2421;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --emerald:#3a6656; --ivory:#4a463c; --ebony:#3a2f2b;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --emerald:#3a6656; --taupe:#6e645b; --ivory:#4a463c; --ebony:#3a2f2b;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --emerald:#3a6656; --ivory:#4a463c; --ebony:#3a2f2b;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --emerald:#3a6656; --taupe:#6e645b; --ivory:#4a463c; --ebony:#3a2f2b;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -156,26 +156,26 @@ const ROOMS={};
  A(R,'S','gap',2590,1220,0,DH,0,{lab:'entrance',dim:true});
  A(R,'S','board',2180,160,1150,90,10,{});
  /* W wall, u from south (entrance end) */
- A(R,'W','unit',250,450,150,650,450,{mat:'emerald',cols:1,hand:'L',lab:'basin vanity',dim:true});
+ A(R,'W','unit',250,450,150,650,450,{mat:'taupe',cols:1,hand:'L',lab:'basin vanity',dim:true});
  A(R,'W','counter',250,450,800,20,470,{});
  A(R,'W','sink',290,370,806,14,360,{});
  A(R,'W','glassp',290,370,1150,700,10,{lab:'mirror'});
  A(R,'W','unit',730,600,100,2050,600,{mat:'ivory',cols:1,rows:3,open:'door',lab:'tall unit',dim:true});
  A(R,'W','unit',730,600,2150,700,600,{mat:'ivory',cols:1});
- A(R,'W','wicker',1330,670,100,730,580,{mat:'emerald',topDrawer:true,lab:'wicker baskets',dim:true});
- A(R,'W','unit',2000,600,100,730,580,{mat:'emerald',rows:3,dim:true});
+ A(R,'W','wicker',1330,670,100,730,580,{mat:'taupe',topDrawer:true,lab:'wicker baskets',dim:true});
+ A(R,'W','unit',2000,600,100,730,580,{mat:'taupe',rows:3,dim:true});
  A(R,'W','plinth',1330,1870,0,100,560,{});
  A(R,'W','counter',1330,1270,830,20,620,{});
  A(R,'W','tile',1330,1870,850,600,10,{lab:'dado 600'});
  A(R,'W','unit',1330,1520,1450,700,350,{mat:'ivory',cols:2,lab:'L corner'});
  A(R,'W','unit',1330,1270,2150,700,600,{mat:'ivory',cols:2});
  /* N wall, u from west. Run ends at the pillar in front of the recessed window wall. */
- A(R,'N','unit',0,600,100,730,580,{mat:'emerald',cols:1,lab:'corner unit',dim:true});
- A(R,'N','unit',600,200,100,730,580,{mat:'emerald',cols:1,open:'pullout',lab:'oil',dim:true});
- A(R,'N','unit',800,750,100,730,580,{mat:'emerald',rows:3,lab:'hob drawers',dim:true});
- A(R,'N','unit',1550,800,100,730,580,{mat:'emerald',rows:3,dim:true});
- A(R,'N','unit',2350,1000,100,730,580,{mat:'emerald',cols:2,lab:'sink',dim:true});
- A(R,'N','unit',3350,160,100,730,580,{mat:'emerald',cols:1,open:'pullout',lab:'towel',dim:true});
+ A(R,'N','unit',0,600,100,730,580,{mat:'taupe',cols:1,lab:'corner unit',dim:true});
+ A(R,'N','unit',600,200,100,730,580,{mat:'taupe',cols:1,open:'pullout',lab:'oil',dim:true});
+ A(R,'N','unit',800,750,100,730,580,{mat:'taupe',rows:3,lab:'hob drawers',dim:true});
+ A(R,'N','unit',1550,800,100,730,580,{mat:'taupe',rows:3,dim:true});
+ A(R,'N','unit',2350,1000,100,730,580,{mat:'taupe',cols:2,lab:'sink',dim:true});
+ A(R,'N','unit',3350,160,100,730,580,{mat:'taupe',cols:1,open:'pullout',lab:'towel',dim:true});
  A(R,'N','plinth',0,3510,0,100,560,{});
  A(R,'N','counter',0,3510,830,20,620,{});
  A(R,'N','tile',0,3510,850,600,10,{lab:'dado / backsplash 600'});
@@ -192,7 +192,7 @@ const ROOMS={};
  A(R,'N','board',3250,160,1150,90,10,{});
  A(R,'N','panel',3510,300,0,CEIL,620,{mat:'tile',lab:'pillar',dim:true});
  /* E wall (window, recessed behind the pillar): one double-door unit next to the pillar (shaft), under the window */
- A(R,'E','unit',620,1100,100,730,560,{mat:'emerald',cols:2,lab:'corner unit',dim:true});
+ A(R,'E','unit',620,1100,100,730,560,{mat:'taupe',cols:2,lab:'corner unit',dim:true});
  A(R,'E','plinth',620,1100,0,100,540,{});
  A(R,'E','counter',620,1100,830,20,600,{});
  A(R,'E','tile',2100,1100,0,1200,10,{marble:true});
@@ -208,7 +208,7 @@ const ROOMS={};
   ['Washbasin','450 floating vanity (smaller basin) on the left wall, about 250 in from the entrance so the doorway stays clear. Top at 800, mirror above. Water and drain from the common toilet basin behind this wall; check the line with the builder.'],
   ['Appliances','Your models: Samsung RT28C3053S8 fridge, silver, 555 W × 637 D × 1545 H (100 left, ~300 right, 50 behind for heat). Bosch WAJ24266IN 7 kg front-load, silver, 598 W × 550 D × 848 H. Bosch 13-place freestanding dishwasher, white, 600 W × 600 D × 845 H. Sizes from standard specs, check against the listings.'],
   ['Counter','On the left wall and the cooking wall (about 3510 up to the pillar). 850 high, 600 deep, granite. Plinth 100.'],
-  ['Base units','Finishes (designer meeting, 22 Nov), super matt: base units in a lighter emerald green (including the washbasin vanity, wicker frame and window-wall unit); all other storage in ivory (tall unit, glass and plain uppers, top row).'],
+  ['Base units','Finishes (23 Nov), all matte: base units in taupe (including the washbasin vanity, wicker frame and window-wall unit); all other storage in ivory (tall unit, glass and plain uppers, top row). Black handles.'],
   ['Window wall','Recessed behind the pillar (shaft) at the end of the cooking wall. One double-door unit, about 1100 long, in the recess right after the pillar, continuing from the sink side under the window. Granite on top. No overlap with the sink run.'],
   ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
   ['Hob base','750 wide drawer unit under the hob (reduced from 1000), moved left: corner unit, 200 oil pull-out, 750 hob base, then an 800 drawer unit before the sink. This gives more counter between the hob and the sink. A 750 base takes a 3-burner hob up to about 75 cm; a 4-burner 90 cm hob no longer fits.'],
@@ -450,7 +450,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),emerald:M(0x4f8370,{roughness:.95}),ivory:M(0xf2ecdc,{roughness:.95}),ebony:M(0x2e2421,{roughness:.8}),black:M(0x1c1c1c,{roughness:.6}),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),sage:M(0x9db39a,{roughness:.45}),taupe:M(0xa59585,{roughness:.95}),emerald:M(0x4f8370,{roughness:.95}),ivory:M(0xf2ecdc,{roughness:.95}),ebony:M(0x2e2421,{roughness:.8}),black:M(0x1c1c1c,{roughness:.6}),silver:M(0xc4c7ca,{metalness:.3,roughness:.4}),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.22,roughness:.05,depthWrite:false}),
     mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),accent:M(0xc77a43),wicker:M(0xc58a4f,{roughness:.95}),alu:M(0xd9dcdf,{metalness:.15,roughness:.4,emissive:0x2a2b2c}),
