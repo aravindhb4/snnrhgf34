@@ -83,6 +83,7 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
 <script src="../js/three.min.js"></script>
 <script src="../js/OrbitControls.js"></script>
 <script>
+var PAPERL=[[0.882,0.451,25,1.0],[0.221,0.735,20,0.92],[0.764,0.139,-2,0.75],[0.621,0.56,10,1.04],[0.192,0.073,27,0.72],[0.512,0.085,32,0.97],[0.168,0.364,17,1.04],[0.761,0.785,33,0.71],[0.467,0.752,-39,0.73]]; // scattered gold leaves: [x frac, y frac from top, rot deg, scale]
 const CEIL=2900, DH=2100, NS='http://www.w3.org/2000/svg', c=n=>`var(--${n})`;
 const wlen=(R,w)=>(w==='N'||w==='S')?R.W:R.D;
 function P(R,w,u,t){switch(w){case'N':return[u,t];case'E':return[R.W-t,u];case'S':return[R.W-u,R.D-t];case'W':return[t,R.D-u]}}
@@ -921,10 +922,9 @@ let focusRoom=()=>{}, setWalls=()=>{};
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     clear:new THREE.MeshStandardMaterial({color:0xe8f2f4,transparent:true,opacity:.12,roughness:.02,depthWrite:false}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
-    mirror:M(0xd9e4e7,{metalness:.6,roughness:.1}),paper:(()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,256,256);x.strokeStyle='#b8995a';x.lineWidth=3;
-      const leaf=(cx,cy)=>{x.beginPath();x.moveTo(cx,cy+75);x.bezierCurveTo(cx-55,cy+20,cx-45,cy-55,cx,cy-85);x.bezierCurveTo(cx+45,cy-55,cx+55,cy+20,cx,cy+75);x.moveTo(cx,cy+75);x.lineTo(cx,cy-60);x.stroke()};
-      [[64,64],[192,64],[0,192],[128,192],[256,192]].forEach(([a,b])=>leaf(a,b));
-      const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(2230/420,1880/420);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),alu:M(0x1c1c1c,{roughness:.55}),black:M(0x1c1c1c,{roughness:.55}),rose:M(0xb7787a,{metalness:.6,roughness:.3}),
+    mirror:M(0xd9e4e7,{metalness:.6,roughness:.1}),paper:(()=>{const cv=document.createElement('canvas');cv.width=1115;cv.height=940;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,1115,940);x.strokeStyle='#b8995a';x.lineWidth=5;x.lineCap='round';
+      PAPERL.forEach(([fx,fy,ro,k])=>{x.save();x.translate(fx*1115,fy*940);x.rotate(ro*Math.PI/180);x.scale(k*.65,k*.65);x.beginPath();x.moveTo(0,150);x.bezierCurveTo(-110,40,-90,-110,0,-170);x.bezierCurveTo(90,-110,110,40,0,150);x.moveTo(0,150);x.lineTo(0,-120);x.moveTo(0,60);x.lineTo(-50,0);x.moveTo(0,0);x.lineTo(50,-60);x.moveTo(0,-60);x.lineTo(-35,-100);x.stroke();x.restore()});
+      const tx=new THREE.CanvasTexture(cv);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),alu:M(0x1c1c1c,{roughness:.55}),black:M(0x1c1c1c,{roughness:.55}),rose:M(0xb7787a,{metalness:.6,roughness:.3}),
     sofa:M(0x6b3820,{roughness:.95}),sofaQ:M(0x5c301c,{roughness:.9}),chrome:M(0xd0d2d4,{metalness:.2,roughness:.3}),smoke:new THREE.MeshStandardMaterial({color:0x4a3628,transparent:true,opacity:.55,roughness:.05}),tableM:M(0x8f7556),
     wall:M(0xf1efea,{roughness:.9}),floor:M(0xe4e0d8),woodfloor:(()=>{const cv=document.createElement('canvas');cv.width=1024;cv.height=512;const g=cv.getContext('2d'); // planks 1200 × 200, 2400 × 1200 tile (as Master Bedroom page)
       const tones=['#7a5a43','#6f513d','#836149','#74563f','#6a4c39','#7d5d45'];let n=0;
