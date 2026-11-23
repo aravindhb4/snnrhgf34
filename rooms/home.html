@@ -292,8 +292,8 @@ const ROOMS={};
   elevs:[['E','A','Bathroom door wall (photo IMG_3053)'],['N','B','Open shelves and wardrobe'],['S','C','Window, study table and room door'],['W','D','Bed wall']]});
  A(R,'N','open',2320,350,1200,1200,400,{mat:'ebony',shelves:3,lab:'open',dim:true,prc:{fl:60}});
  A(R,'N','unit',2670,1900,0,2400,600,{mat:'ivory',cols:4,mirrorCol:0,lab:'wardrobe 4 doors',dim:true,rc:{bl:60},prc:{fl:60}});
- A(R,'N','unit',2320,825,2400,500,600,{mat:'grey',cols:1});
- A(R,'N','unit',3145,1425,2400,500,600,{mat:'grey',cols:3,flip:true});
+ A(R,'N','unit',2320,825,2400,500,600,{mat:'grey',cols:1,noR:true});
+ A(R,'N','unit',3145,1425,2400,500,600,{mat:'grey',cols:3,noL:true,flip:true});
  A(R,'E','door',550,800,0,DH,40,{lab:'bathroom',swing:null,dim:true});
  A(R,'E','board',1450,120,1000,90,10,{lab:'existing switch'});
  A(R,'E','leaf',2310,860,0,2090,40,{}); // open room-door leaf resting on the bathroom wall, elevation only (23 Nov)
@@ -328,7 +328,7 @@ const ROOMS={};
   ['Edges','Shelves, wardrobe and lofts read as one block: rounded only on the free outer corners (the bed-side edges), flush and square where units meet each other, the ceiling or the bathroom wall.'],
   ['Finishes','Ivory and grey, all matt (23 Nov): wardrobe fully ivory (no frame or band styling); lofts (top storage) grey. Open shelf and book ledges stay ebony wood. Handles black.'],
   ['Handles','Slim vertical bar handles, matt black, rounded ends: on every wardrobe and loft shutter, paired at the meeting edges. Loft shutters get a short bar at the bottom corner on the opening side. Open shelves need none.'],
-  ['Loft','No top panel: the ceiling closes it. To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
+  ['Loft','No top panel: the ceiling closes it. No internal partitions: one single hollow space behind all 4 shutters. To the ceiling. One wide unit (825) spans the open shelves and the first wardrobe door; three single units over the other doors.'],
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear. All doors are drawn open (23 Nov); the bathroom door opens into the bathroom.'],
@@ -378,9 +378,9 @@ const ROOMS={};
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
  A(R,'W','unit',1150,550,0,750,600,{mat:'ivory',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
  A(R,'W','open',1300,400,1350,1050,400,{mat:'ebony',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
- A(R,'W','unit',1300,900,2400,500,600,{mat:'oak',cols:1});
+ A(R,'W','unit',1300,900,2400,500,600,{mat:'oak',joins:'R',cols:1});
  A(R,'W','unit',1700,1500,0,2400,600,{mat:'ivory',cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
- A(R,'W','unit',2200,1000,2400,500,600,{mat:'oak',cols:2});
+ A(R,'W','unit',2200,1000,2400,500,600,{mat:'oak',joins:'L',cols:2});
  A(R,'E','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Two large framed photos above the headboard (Aravindh 20 Nov): 600 × 800 each, 100 apart, 1350–2150, thin black frames, white mats. */
  [950,1650].forEach(u=>A(R,'E','frame',u,600,1350,800,30,{}));
@@ -643,7 +643,7 @@ const ROOMS={};
   ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
   ['Hob base','750 wide drawer unit under the hob (reduced from 1000), moved left: corner unit, 200 oil pull-out, 750 hob base, then an 800 drawer unit before the sink. This gives more counter between the hob and the sink. A 750 base takes a 3-burner hob up to about 75 cm; a 4-burner 90 cm hob no longer fits.'],
   ['Chimney','T-shaped chimney, 75 cm, centred on the 750 hob base, bottom about 750 above the counter; duct cover up to the top row. Ducted, filterless auto-clean, BLDC recommended.'],
-  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it).'],
+  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it) and no partitions inside: one hollow space behind the shutters.'],
   ['Tall unit','600 wide, to the ceiling, on the left wall right after the washbasin.'],
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
@@ -1210,7 +1210,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
             for(let j=0;j<cols;j++)wbox(R,it,u0+(j+.5)*uw/cols-80,160,y0+h-62,14,td,18,MAT.handle,false);
             break}
           {const cm=MAT[it.carcass]||m, D=td-18;
-           if(y0+h>=CEIL-60){wbox(R,it,u0,uw,y0,h,t0,18,cm); wbox(R,it,u0,18,y0,h,t0,D,cm); wbox(R,it,u0+uw-18,18,y0,h,t0,D,cm); wbox(R,it,u0,uw,y0,18,t0,D,cm); for(let j=1;j<(it.cols||1);j++)wbox(R,it,u0+j*uw/(it.cols||1)-9,18,y0,h,t0,D,cm)} // up to the ceiling: no top panel (the ceiling closes it), so it reads hollow from above (23 Nov)
+           if(y0+h>=CEIL-60){wbox(R,it,u0,uw,y0,h,t0,18,cm); if(!it.noL&&!/L/.test(it.joins||''))wbox(R,it,u0,18,y0,h,t0,D,cm); if(!it.noR&&!/R/.test(it.joins||''))wbox(R,it,u0+uw-18,18,y0,h,t0,D,cm); wbox(R,it,u0,uw,y0,18,t0,D,cm);} // up to the ceiling: no top panel (the ceiling closes it), so it reads hollow from above (23 Nov)
            else wbox(R,it,u0,uw,y0,h,t0,D,cm);}
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){

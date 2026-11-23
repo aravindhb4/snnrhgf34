@@ -213,7 +213,7 @@ const ROOMS={};
   ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
   ['Hob base','750 wide drawer unit under the hob (reduced from 1000), moved left: corner unit, 200 oil pull-out, 750 hob base, then an 800 drawer unit before the sink. This gives more counter between the hob and the sink. A 750 base takes a 3-burner hob up to about 75 cm; a 4-burner 90 cm hob no longer fits.'],
   ['Chimney','T-shaped chimney, 75 cm, centred on the 750 hob base, bottom about 750 above the counter; duct cover up to the top row. Ducted, filterless auto-clean, BLDC recommended.'],
-  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it).'],
+  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it) and no partitions inside: one hollow space behind the shutters.'],
   ['Tall unit','600 wide, to the ceiling, on the left wall right after the washbasin.'],
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
@@ -521,7 +521,7 @@ let build3D=()=>{};
             wbox(R,it,u0,uw,y0,h,0,12,m,false);                               // back
             wbox(R,it,u0,18,y0,h,0,td-18,m,false); wbox(R,it,u0+uw-18,18,y0,h,0,td-18,m,false); // sides
             wbox(R,it,u0,uw,y0,18,0,td-18,m,false);                           // bottom
-            const cols=it.cols||1; for(let j=1;j<cols;j++)wbox(R,it,u0+j*uw/cols-9,18,y0,h,0,td-18,m,false); // partitions
+            // no partitions: one hollow space behind the shutters (Aravindh 23 Nov)
           } else rbox(R,it,u0,uw,y0,h,0,td-18,m,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0));
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){if(it.glass){wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,cw-6,y0+(i+1)*rh-27,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+(j+1)*cw-27,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+27,cw-54,y0+i*rh+27,rh-54,td-14,6,MAT.glass,false)} else {const L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1; rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,m,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?57:0))}
