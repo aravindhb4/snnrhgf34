@@ -150,7 +150,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'E','door',0,900,0,DH,40,{lab:'room door (open)',elevOnly:true});
  /* Mirror dresser (Aravindh's reference photo, 20 Nov): ivory; storage tower on the left (corner side): 3 drawers, open backlit shelves above, top level with the mirror door;
     tall mirror door on the right, hinged on its right edge, handle on the left edge, storage behind. */
- A(R,'S','vanity',0,1050,0,2150,450,{mat:'ivory',sw:450,sd:300,niche:1250,dim:true}); // 22 Nov (Aravindh): 3.5 ft wall to the bay; tower 1.5 ft (drawers 450 deep, open shelves 300 deep), mirror unit 2 ft x 450 deep; ivory; empty niche with switch board above the counter
+ A(R,'S','vanity',0,1050,0,2150,450,{mat:'ivory',sw:450,sd:300,niche:1250,open:true,dim:true}); // 22 Nov (Aravindh): 3.5 ft wall to the bay; tower 1.5 ft (drawers 450 deep, open shelves 300 deep), mirror unit 2 ft x 450 deep; ivory; empty niche with switch board above the counter
  A(R,'S','panel',3200-BAY_X-BAY_W,BAY_W,420,30,10,{mat:'tile',lab:'',elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-BAY_W,BAY_W,450,80,10,{elevOnly:true});
  A(R,'S','cushion',3200-BAY_X-100,110,530,600,10,{elevOnly:true}); // backrest cushion on the bay's west (brick) side
@@ -219,7 +219,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain ebony-wood matt floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
-  ['Dresser','Mirror dresser 1050 × 2150 filling the 3.5′ wall from the corner to the bay, ivory super-matt. Left (corner side): 1.5′ (450) tower with 3 drawers to 880 at 450 deep and a counter at 900; above it an empty niche to 1250 with a switch board (hair dryer etc.); then backlit open shelves 300 (1′) deep with partitions at 1250, 1550 and 1850 up to 2150. Right: 2′ (600) mirror unit, 450 (1.5′) deep, tall mirror door with a rounded warm LED frame, hinged on its right edge, black handle on its left edge, shelves behind.'],
+  ['Dresser','Mirror dresser 1050 × 2150 filling the 3.5′ wall from the corner to the bay, ivory super-matt. Left (corner side): 1.5′ (450) tower with 3 drawers to 880 at 450 deep and a counter at 900; above it an empty niche to 1250 with a switch board (hair dryer etc.); then backlit open shelves 300 (1′) deep with no side panels (floating on the wall) with partitions at 1250, 1550 and 1850 up to 2150. Right: 2′ (600) mirror unit, 450 (1.5′) deep, tall mirror door with a rounded warm LED frame, hinged on its right edge, black handle on its left edge, shelves behind.'],
   ['Window','Existing bay with a plain tile top, about 2000 wide, 450 deep, at 450. Cushion on top. Glass on the front and the east side; the west side is a solid brick wall (site photo), with a half-height backrest cushion (530 to 1130) to lean against. Clear glass with white uPVC frames (site photo). Thin sheer curtain only, on a slim brushed-aluminium track along the long glass side and the leg-side glass (none on the brick, cushion side), slides fully open to the ends, ending just above the cushion (no thick drapes, 22 Nov).'],
   ['Edges','Rounded only on the outer edges of each unit or run. Wardrobe and loft read as one block; shutters and drawer fronts are plain where they meet.'],
   ['Handles','Slim matt black bar handles everywhere: vertical 300 bars on wardrobe doors at 1100, short horizontal pulls on drawers, short upright bar at the bottom corner of loft shutters on the opening side.'],
@@ -469,7 +469,7 @@ const ROOMS={};
   alc:{w:1250,d:600}, mark:{N:0.6},
   elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall'],['S','D','Sofa short wall and passage']]});
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
- A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
+ A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true,mainOpen:true});
  A(R,'N','panel',1408,2154,198,1804,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
  A(R,'N','mould',1310,2350,100,2000,20,{});
  A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
@@ -485,11 +485,11 @@ const ROOMS={};
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
  /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 (2 shelves) with a thin cushion; 365 deep. 23 Nov: tall widened to 600, bench lowered to sofa seat height (420 to cushion top), ends 100 short of the opened main door */
- A(R,'W','unit',3048,500,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3048,500,0,1215,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
  A(R,'W','unit',3548,470,0,370,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3548,470,370,50,365,{});
  /* carpet under the sofa front and the coffee table (23 Nov) */
- L(R,'rug',500,1950,2400,2200,0,12,{lab:'carpet 2400 × 2200',skip3d:true});
+ L(R,'rug',0,1522,2438,3048,0,25,{lab:'carpet 10 × 8 ft, furry',skip3d:true});
  /* gallery wall above the sofa (23 Nov, Aravindh refs): no putty box; mixed-size black frames with white mats, salon style with ~80 gaps,
     bottom at 1150 (about 140 above the headrests). Frames: [u from left of group, y from 1150, w, h]. Long wall group ~2400 wide centred on the sofa,
     short wall group ~1540 wide centred on the short side. */
@@ -501,18 +501,18 @@ const ROOMS={};
  L(R,'loose',820,3750,1618,820,0,420,{mat:'sofa',lab:'2 seats (8 ft side)',skip3d:true});
  L(R,'loose',1250,2450,800,800,0,420,{mat:'sofa',lab:'coffee table',round:true,skip3d:true});
  R.sofa={x:0,z:1522,d:820,len:3048,slen:2438,A:150,R:150,tbl:{x:1650,z:2850,r:400,h:420}};
- R.vd={W:[[0,420,'420'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
+ R.vd={W:[[0,420,'420'],[0,1215,'1215']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
   ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide: two thin moulding lines (about 20 wide) with a 70 gap between them, slightly rounded corners, painted wall colour. Washable vinyl inside the inner line only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
   ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
   ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
-  ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
+  ['Main door','In the recess left of the TV wall, opens into the room against the west wall. Shown open.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
-  ['Carpet','About 2400 × 2200 (8 × 7 ft), oatmeal / greige low-pile with a thin border, under the front legs of both sofa sides and the whole coffee table.'],
+  ['Carpet','10 × 8 ft (3048 × 2438), exactly the sofa footprint and not beyond it: from the corner along both walls, under the whole sofa and the coffee table. Soft furry (shaggy) pile in ivory / oatmeal.'],
   ['Photo wall','Gallery wall above the sofa, no moulding: a loose salon-style mix of black frames with white mats, portrait, landscape and square, about 80 apart. Bottom at about 1150 (about 140 above the headrests), top up to about 2150. Eight frames on the long wall (about 2400 wide, centred on the sofa), six on the short wall (about 1540 wide). Hang from a paper layout on the wall first.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 1215 high (4 ft) with 5 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
@@ -993,10 +993,13 @@ let focusRoom=()=>{}, setWalls=()=>{};
       if(it.elevOnly)continue;
       const m=MAT[it.mat]||MAT.wood;
       if(it.loose){
-        if(it.kind==='rug'){const b=it.b,cv=document.createElement('canvas');cv.width=480;cv.height=440;const x=cv.getContext('2d');
-          x.fillStyle='#b8ab98';x.fillRect(0,0,480,440);x.strokeStyle='#9c8160';x.lineWidth=4;x.strokeRect(16,16,448,408);x.lineWidth=1.5;x.strokeRect(26,26,428,388);
-          for(let n=0;n<4000;n++){x.fillStyle=`rgba(${150+Math.random()*60|0},${130+Math.random()*50|0},${100+Math.random()*40|0},.08)`;x.fillRect(Math.random()*480,Math.random()*440,2,2)}
-          box(b.x,0,b.z,b.w,it.h,b.d,new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:1}),false);continue}
+        if(it.kind==='rug'){const b=it.b,cv=document.createElement('canvas');cv.width=512;cv.height=640;const x=cv.getContext('2d');
+          x.fillStyle='#c4b8a3';x.fillRect(0,0,512,640);x.lineCap='round';
+          for(let n=0;n<26000;n++){const px=Math.random()*512,py=Math.random()*640,a=Math.random()*6.3,l=3+Math.random()*7,v=Math.random();
+            x.strokeStyle=v<.5?'rgba(250,246,238,.55)':v<.85?'rgba(205,193,172,.45)':'rgba(170,155,132,.35)';x.lineWidth=1+Math.random()*1.5;
+            x.beginPath();x.moveTo(px,py);x.quadraticCurveTo(px+Math.cos(a+1)*l*.6,py+Math.sin(a+1)*l*.6,px+Math.cos(a)*l,py+Math.sin(a)*l);x.stroke()}
+          const tx=new THREE.CanvasTexture(cv);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(2,2);
+          box(b.x,0,b.z,b.w,it.h,b.d,new THREE.MeshStandardMaterial({map:tx,bumpMap:tx,bumpScale:.004,roughness:1}),false);continue}
         const b=it.b; if(it.skip3d)continue;
         if(it.kind==='bed'){softBed(b,it.head||'W');
         } else if(it.kind==='chair'){ // ergonomic chair: 5-star base, gas lift, grid seat and high back, headrest, arms; built facing +x then turned
@@ -1070,7 +1073,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
           for(let i=0;i<3;i++){const y=80+i*dh; wbox(R,it,u0+3,sw-6,y+3,dh-6,td-18,18,I); wbox(R,it,u0+sw/2-60,120,y+dh-60,14,td,22,MAT.handle,false,5)}
           {const sd=it.sd||td,NT=it.niche||900;
           wbox(R,it,u0,sw,880,20,0,td,I); wbox(R,it,u0,sw,ST-20,20,0,sd,I);             // counter top (full depth) and tower top (shelf depth)
-          wbox(R,it,u0,18,900,ST-920,0,sd,I,false); wbox(R,it,u0+sw-18,18,900,ST-920,0,sd,I,false);
+          if(!it.open)wbox(R,it,u0,18,900,ST-920,0,sd,I,false),wbox(R,it,u0+sw-18,18,900,ST-920,0,sd,I,false); // 23 Nov: open section has no side panels
           wbox(R,it,u0+18,sw-36,NT,ST-20-NT,0,12,MAT.glow,false);                      // lit back panel behind the shelves
           if(NT>900){wbox(R,it,u0+18,sw-36,900,NT-900,0,6,MAT.panel,false); wbox(R,it,u0+sw/2-45,90,1020,90,6,12,MAT.white,false)} // empty niche with switch board
           (NT>900?[NT,1550,1850]:[1320,1740]).forEach(y=>wbox(R,it,u0+18,sw-36,y,18,0,sd-20,I));}
