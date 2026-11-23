@@ -119,8 +119,8 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door',swing:'R',dim:true});
  // finishes (22 Nov designer meeting): wardrobes ivory super-matt, storage units emerald green super-matt, ledges/standalone furniture ebony wood matt, handles black.
  // wardrobe (22 Nov evening, Aravindh): 4 doors of 400 each (picked 22 Nov) on the 5' toilet face to 2400, loft to the ceiling, no base drawers
- A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2900});
- A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],round:'top',noCarc:true});
+ A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2400});
+ A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'emerald',cols:4,hs:['R','L','R','L'],round:'top'});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
@@ -204,7 +204,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 4 ivory super-matt hinged doors of 400 each (two pairs) to 2400, loft with 4 matching shutters, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
+  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 4 ivory super-matt hinged doors of 400 each (two pairs) to 2400, loft with 4 matching shutters in emerald green super-matt, loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
   ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One ebony-wood side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
   ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain ebony-wood matt floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
