@@ -1117,7 +1117,10 @@ let focusRoom=()=>{}, setWalls=()=>{};
     // fluted glass door: clear glass, vertical flutes, rose gold rim (designer meeting 22 Nov)
     const fl=(x,y,w,h,z)=>{box(x,y,z,w,h,6,MAT.glass,false); for(let xx=x+20;xx<x+w-12;xx+=26)box(xx,y+12,z+6,8,h-24,4,MAT.glass,false);
       box(x,y,z+4,w,12,10,MAT.rose,false); box(x,y+h-12,z+4,w,12,10,MAT.rose,false); box(x,y,z+4,12,h,10,MAT.rose,false); box(x+w-12,y,z+4,12,h,10,MAT.rose,false)};
-    box(C0,80,0,W-C0,590,BD,MAT.ivory); box(C0-15,670,0,W-C0+15,20,BD+25,MAT.granite); // ivory base, black granite top at 690
+    box(C0+30,0,10,W-C0-60,80,BD-50,MAT.handle,false);                                   // recessed plinth
+    [[C0,P0],[P0,W]].forEach(([a,b])=>{const h=295;for(let i=0;i<2;i++){const y=80+i*h;     // ivory base: two pull-out drawers under crockery and under pooja
+      box(a+4,y+4,0,b-a-8,h-8,BD,MAT.ivory); box((a+b)/2-50,y+h-55,BD,100,14,16,MAT.handle,false)}});
+    box(C0-15,670,0,W-C0+15,20,BD+25,MAT.granite); // black granite top at 690
     box(C0,1300,0,P0-C0,1200,350,E); fl(C0+20,1320,P0-C0-40,1160,350);                  // crockery: ebony, stops at 2500 (beam left exposed)
     box(C0+40,1700,370,14,200,14,MAT.handle,false);
     // pooja: upper 1300-2460 level with the crockery top, fluted glass doors, handles mid-height; gopuram top to the kalasam tip at 2880
