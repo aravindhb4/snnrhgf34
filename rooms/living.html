@@ -123,7 +123,7 @@ const ROOMS={};
  A(R,'N','board',2160,500,350,90,10,{lab:'existing sockets'});
  A(R,'N','door',3770,900,0,DH,40,{lab:'bedroom 3',swing:null,dim:true});
  A(R,'S','gap',1150,1132,0,DH,0,{lab:'passage to bedrooms'});
- A(R,'W','board',320,200,750,90,10,{lab:'plug point (moved here)'});
+ A(R,'W','board',60,200,880,90,10,{lab:'plug point (corner)'});
  R.sgap={x0:2438,x1:3570};
  A(R,'E','gap',880,3190,0,DH,0,{lab:'open to dining'});
  R.egap={z0:880,z1:4070};
@@ -155,12 +155,12 @@ const ROOMS={};
   ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall. Shown open.'],
-  ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
+  ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward. The back is curved at the wall corner, leaving a flat top (about 700 high) to keep phones and small items.'],
   ['Carpet','10 × 8 ft (3048 × 2438), exactly the sofa footprint and not beyond it: from the corner along both walls, under the whole sofa and the coffee table. Soft furry (shaggy) pile in ivory / oatmeal.'],
   ['Photo wall','Gallery wall above the sofa, no moulding: a loose salon-style mix of black frames with white mats, portrait, landscape and square, about 80 apart. Bottom at about 1150 (about 140 above the headrests), top up to about 2150. Eight frames on the long wall (about 2400 wide, centred on the sofa), six on the short wall (about 1540 wide). Hang from a paper layout on the wall first.'],
   ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 1215 high (4 ft) with 5 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
-  ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
+  ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) right into the south-west corner, about 880 high just above the curved corner top of the sofa, so phones can charge there.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
   ['Open points','Openings read from the sale-agreement plan: passage to the bedrooms on the south wall about 2300 to 3500 from the west wall; the photo wall stretch (common bath wall) runs about 880 from the TV wall and ends where the common bath door starts; from there to about 4070 the living is open to the dining. Measure these, the recess, the TV wall and the door positions.']];
  ROOMS.living=R}
@@ -484,6 +484,10 @@ let build3D=()=>{};
     // frames
     box(x,0,z,d,180,lz1-z,F,false); cornerPiece(x,cz,x+d,R,end,sx0,0,180,F,0); box(sx0,0,cz,ex-sx0,180,d,F,false);
     box(x,180,z,BK,520,len,F,false); box(x+BK,180,end-BK,ex-x-BK,520,BK,F,false);
+    // curved corner back (23 Nov, Aravindh): the inside corner of the back is filled with a concave quarter curve (r 500), giving a flat top at 700 to keep phones etc.
+    {const f=500,cx=x+BK+f,cz2=end-BK-f,sh=new THREE.Shape();sh.moveTo(x,cz2);sh.lineTo(x+BK,cz2);sh.absarc(cx,cz2,f,Math.PI,Math.PI/2,true);sh.lineTo(cx,end);sh.lineTo(x,end);sh.lineTo(x,cz2);
+     const g=new THREE.ExtrudeGeometry(sh,{depth:520,bevelEnabled:false,curveSegments:16});g.rotateX(Math.PI/2);g.translate(0,700,0);g.scale(.001,.001,.001);
+     const o=new THREE.Mesh(g,F);o.castShadow=o.receiveShadow=true;G.add(o);}
     rbox(x,0,z,d,620,A,C,70); rbox(ex-A,0,cz,A,620,d,C,70);
     [[x+60,z+40],[x+d-100,z+40],[x+d-100,lz1-60],[ex-100,cz+40],[ex-100,end-80],[sx0,cz+40],[x+60,end-80]].forEach(([fx,fz])=>box(fx,0,fz,40,30,40,MAT.chrome,false));
     // long side seats
