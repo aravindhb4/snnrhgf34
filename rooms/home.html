@@ -12,17 +12,17 @@
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
   --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --wgrey:#d6d1ca; --granite:#3a3936; --glass:#dfe8ea; --silver:#c9ccce; --sage:#9db39a; --ivory:#ebe5da; --glow:#d9a94a; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
-  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --alu:#a3a7aa; --accent:#b4612b; --sofa:#8a4a2c;
+  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#8fa58a; --rug:#e3d6bf; --alu:#a3a7aa; --accent:#b4612b; --sofa:#8a4a2c;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --rug:#3a352d; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --wgrey:#4a4845; --granite:#0c0c0b; --glass:#2c3638; --silver:#55585a; --sage:#56664f; --ivory:#57524a; --glow:#c99a45; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#4d5c4a; --rug:#3a352d; --alu:#b9bdc0; --accent:#e08a4f; --sofa:#6b3820; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5;margin:0}
 main{max-width:1100px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -467,10 +467,10 @@ const ROOMS={};
 {const R=room({id:'living',name:'Living',W:4720,D:4570,
   note:'Render IMG_3076 and photo IMG_3041. North wall, left to right: main door in a recess about 600 deep, the solid TV wall, then the bedroom 3 door. L-sofa on the west wall.',
   alc:{w:1250,d:600}, mark:{N:0.6},
-  elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall']]});
+  elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall'],['S','D','Sofa short wall and passage']]});
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
  A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
- A(R,'N','panel',1438,2094,228,1744,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
+ A(R,'N','panel',1408,2154,198,1804,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
  A(R,'N','mould',1310,2350,100,2000,20,{});
  A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
  A(R,'N','tv',1765,1440,950,830,80,{lab:'65″ TV'});
@@ -488,6 +488,11 @@ const ROOMS={};
  A(R,'W','unit',3048,500,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
  A(R,'W','unit',3548,470,0,370,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3548,470,370,50,365,{});
+ /* carpet under the sofa front and the coffee table (23 Nov) */
+ L(R,'rug',500,1950,2400,2200,0,12,{lab:'carpet 2400 × 2200',skip3d:true});
+ /* photo wall above the sofa (23 Nov idea): putty moulded boxes 750 × 900 at 1250–2150, a framed B&W photo in each; 3 on the long wall, 2 on the short wall, ~350 off the corner */
+ [355,1225,2095].forEach((u,i)=>{A(R,'W','pbox',u,750,1250,900,15,{});A(R,'W','photo',u+150,450,1400,600,25,{ph:i})});
+ [2631,3501].forEach((u,i)=>{A(R,'S','pbox',u,750,1250,900,15,{});A(R,'S','photo',u+150,450,1400,600,25,{ph:i+3})});
  L(R,'loose',0,1522,820,3048,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 3048 (10 ft)',skip3d:true});
  L(R,'loose',0,1522,360,3048,420,590,{mat:'sofa',skip3d:true});
  L(R,'loose',820,3750,1618,820,0,420,{mat:'sofa',lab:'2 seats (8 ft side)',skip3d:true});
@@ -496,12 +501,14 @@ const ROOMS={};
  R.vd={W:[[0,420,'420'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
-  ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide: two thin moulding lines (about 20 wide) with a 100 gap between them, slightly rounded corners, painted wall colour. Washable vinyl inside the inner line only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
+  ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide: two thin moulding lines (about 20 wide) with a 70 gap between them, slightly rounded corners, painted wall colour. Washable vinyl inside the inner line only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
   ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
   ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
+  ['Carpet','About 2400 × 2200 (8 × 7 ft), oatmeal / greige low-pile with a thin border, under the front legs of both sofa sides and the whole coffee table.'],
+  ['Photo wall','Above the sofa on both walls: putty (POP) moulded boxes about 750 × 900, thin rounded moulding like the TV wall, bottom at 1250 (about 240 above the headrests), top at 2150. Three on the long wall, two on the short wall, starting about 350 from the corner. Each holds one black framed photo, about 450 × 600 with a white mat; black-and-white prints keep it calm next to the rust sofa.'],
   ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
@@ -708,8 +715,10 @@ function Trect(pl,b){const a=T(pl,b.x,b.z),d=T(pl,b.x+b.w,b.z+b.d);return{x0:Mat
 /* wallpaper on the TV wall stops 50 short of the Guest Bedroom Small door, which sits where that room's page puts it */
 {const L3=SET.living, B3=SET['bedroom-3'], d=B3.items.find(i=>i.kind==='door'&&i.wall==='W');
  if(d){const dz=PLACE['bedroom-3'].Z+B3.D-(d.u0+d.uw), lim=dz-PLACE.living.Z-50;
-  for(const it of L3.items){if(it.kind==='panel'&&it.mat==='paper'&&it.u0+it.uw>lim){
-    const c0=it.u0+it.uw/2; it.uw=Math.max(0,lim-it.u0); it.b=W2R(L3,it.wall,it.u0,it.uw,it.t0||0,it.td);
+  const md=L3.items.find(i=>i.kind==='mould'&&i.wall==='N'); let pl=lim;
+  if(md&&md.u0+md.uw>lim){const pp=L3.items.find(i=>i.kind==='panel'&&i.mat==='paper'), ins=pp?pp.u0-md.u0:0; md.uw=lim-md.u0; md.b=W2R(L3,'N',md.u0,md.uw,0,md.td); pl=lim-ins}  // moulding stops at the door too; wallpaper keeps its gap inside it
+  for(const it of L3.items){if(it.kind==='panel'&&it.mat==='paper'&&it.u0+it.uw>pl){
+    const c0=it.u0+it.uw/2; it.uw=Math.max(0,pl-it.u0); it.b=W2R(L3,it.wall,it.u0,it.uw,it.t0||0,it.td);
     const dc=it.u0+it.uw/2-c0; // keep the TV and console centred on the shortened wallpaper
     for(const o of L3.items)if(o.wall===it.wall&&(o.kind==='tv'||(o.kind==='unit'&&o.y0<1000))){o.u0+=dc;o.b=W2R(L3,o.wall,o.u0,o.uw,o.t0||0,o.td)}}}}}
 
@@ -837,7 +846,7 @@ function drawPlan(){
 const LABELPOS={'living':[7700,4300],'bedroom-1':[4570,8300],'bedroom-2':[3500,2700],'bedroom-3':[11600,4300],'kitchen':[10970,10300],'dining':[8100,8900],'passage':[5145,4500]};
 
 function drawItems(R,g,el){
-  const sorted=[...R.items].sort((a,b)=>(a.loose?1:0)-(b.loose?1:0));
+  const sorted=[...R.items].sort((a,b)=>(a.loose?(a.kind==='rug'?.5:1):0)-(b.loose?(b.kind==='rug'?.5:1):0));
   for(const it of sorted){
     if(it.elevOnly||it.noPlan||it.alc||it.kind==='recess')continue;
     const b=it.b;
@@ -849,8 +858,9 @@ function drawItems(R,g,el){
       const sweep=((E[0]-H[0])*(O[1]-H[1])-(E[1]-H[1])*(O[0]-H[0]))>0?1:0;
       el('path',{d:`M${E[0]} ${E[1]} A ${it.uw} ${it.uw} 0 0 ${sweep} ${O[0]} ${O[1]}`,fill:'none',stroke:c('muted'),'stroke-width':10,'stroke-dasharray':'40 28'},g);
       continue}
+    if(it.kind==='rug'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('rug'),stroke:c('muted'),'stroke-width':4,rx:10},g);continue}
     if(it.kind==='panel'&&it.mat==='paper'){el('rect',{x:b.x,y:b.z,width:Math.max(b.w,70),height:Math.max(b.d,70),fill:c('paper')},g);continue}
-    if(['door','gap','window','board','tile','plinth','cushion','curtain','glassp','panel','hoodslant','grommet','mould'].includes(it.kind)&&!(it.kind==='panel'&&it.td>=300))continue;
+    if(['door','gap','window','board','tile','plinth','cushion','curtain','glassp','panel','hoodslant','grommet','mould','pbox','photo'].includes(it.kind)&&!(it.kind==='panel'&&it.td>=300))continue;
     if(it.kind==='hob'||it.kind==='sink'){el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':10,rx:40},g);continue}
     if(!it.loose&&it.y0>=1400)continue;
     if(it.kind==='tv'){el('rect',{x:b.x,y:b.z,width:b.w,height:Math.max(b.d,40),fill:c('granite')},g);continue}
@@ -979,7 +989,12 @@ let focusRoom=()=>{}, setWalls=()=>{};
     for(const it of R.items){
       if(it.elevOnly)continue;
       const m=MAT[it.mat]||MAT.wood;
-      if(it.loose){const b=it.b; if(it.skip3d)continue;
+      if(it.loose){
+        if(it.kind==='rug'){const b=it.b,cv=document.createElement('canvas');cv.width=480;cv.height=440;const x=cv.getContext('2d');
+          x.fillStyle='#b8ab98';x.fillRect(0,0,480,440);x.strokeStyle='#9c8160';x.lineWidth=4;x.strokeRect(16,16,448,408);x.lineWidth=1.5;x.strokeRect(26,26,428,388);
+          for(let n=0;n<4000;n++){x.fillStyle=`rgba(${150+Math.random()*60|0},${130+Math.random()*50|0},${100+Math.random()*40|0},.08)`;x.fillRect(Math.random()*480,Math.random()*440,2,2)}
+          box(b.x,0,b.z,b.w,it.h,b.d,new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:1}),false);continue}
+        const b=it.b; if(it.skip3d)continue;
         if(it.kind==='bed'){softBed(b,it.head||'W');
         } else if(it.kind==='chair'){ // ergonomic chair: 5-star base, gas lift, grid seat and high back, headrest, arms; built facing +x then turned
           const g=new THREE.Group(),K=MAT.chairF,Gd=MAT.chairG,add=(geo,m,x,y,z,rz=0,ry=0)=>{const o=new THREE.Mesh(geo,m);o.position.set(mm(x),mm(y),mm(z));o.rotation.set(0,ry,rz);o.castShadow=true;g.add(o)};
@@ -1014,6 +1029,15 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'unit':{
           if(it.ward&&window.XOPEN)XOPEN.band(R,it,wbox);
           if(it.rf&&it.flap&&window.XDESK){XDESK(R,it,G,mm,m,MAT.handle,lineM);break}
+          if(it.round&&it.wall==='N'){const r0=it.round,s=new THREE.Shape(),w=uw,hh=h;
+            s.moveTo(r0,0);s.lineTo(w-r0,0);s.quadraticCurveTo(w,0,w,r0);s.lineTo(w,hh-r0);s.quadraticCurveTo(w,hh,w-r0,hh);
+            s.lineTo(r0,hh);s.quadraticCurveTo(0,hh,0,hh-r0);s.lineTo(0,r0);s.quadraticCurveTo(0,0,r0,0);
+            const g=new THREE.ExtrudeGeometry(s,{depth:td,bevelEnabled:false,curveSegments:10}); g.scale(.001,.001,.001);
+            const o=new THREE.Mesh(g,m); o.position.set(mm(u0),mm(y0),0); o.castShadow=o.receiveShadow=true; G.add(o);
+            const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),lineM); e.position.copy(o.position); G.add(e);
+            const cols=it.cols||1; for(let j=1;j<cols;j++)wbox(R,it,u0+j*uw/cols-3,6,y0+10,h-20,td,2,MAT.granite,false);
+            for(let j=0;j<cols;j++)wbox(R,it,u0+(j+.5)*uw/cols-80,160,y0+h-62,14,td,18,MAT.handle,false);
+            break}
           wbox(R,it,u0,uw,y0,h,t0,td-18,m);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
@@ -1033,7 +1057,9 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'glassp': wbox(R,it,u0,uw,y0,h,t0,8,MAT.mirror,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
-        case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+120,uw-240,y0+120,h-240,20,15,45,MAT.white); break;
+        case 'pbox': ring(R,it,u0,uw,y0,h,18,14,40,MAT.white); break;
+        case 'photo': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+12,uw-24,y0+12,h-24,25,2,MAT.white,false); wbox(R,it,u0+60,uw-120,y0+60,h-120,27,2,photoMat(it.ph||0),false); break;
+        case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+90,uw-180,y0+90,h-180,20,15,45,MAT.white); break;
         case 'board': if(h>0)wbox(R,it,u0,uw,y0-45,90,0,10,MAT.white,false); break;
         case 'vanity':{const sw=it.sw,I=MAT[it.mat]||MAT.ivory,ST=h,m=u0+sw,mw=uw-sw,dh=800/3;
           wbox(R,it,u0,uw,0,80,0,td-40,MAT.panel,false);                               // recessed plinth
@@ -1051,7 +1077,8 @@ let focusRoom=()=>{}, setWalls=()=>{};
           wbox(R,it,m+35,14,980,240,td,22,MAT.handle,false,5);                           // door handle, opening (left) edge
           break}
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
-        case 'door': if(it.swing&&!it.elevOnly){const hu=it.swing==='L'?u0:u0+uw,H=P(R,it.wall,hu,0),E=P(R,it.wall,hu,uw),T=40; // leaf shown open, as the plan's swing
+        case 'door': if(/main door/.test(it.lab||'')&&it.wall==='N'&&it.t0){box(u0,0,it.t0,40,Math.min(h,2100),uw,MAT.door);break} // main door shown open, leaf against the recess side wall
+          if(it.swing&&!it.elevOnly){const hu=it.swing==='L'?u0:u0+uw,H=P(R,it.wall,hu,0),E=P(R,it.wall,hu,uw),T=40; // leaf shown open, as the plan's swing
           const x0=Math.min(H[0],E[0]),x1=Math.max(H[0],E[0]),z0=Math.min(H[1],E[1]),z1=Math.max(H[1],E[1]);
           box(x1-x0<T?x0-T/2:x0,0,z1-z0<T?z0-T/2:z0,Math.max(T,x1-x0),Math.min(h,2100),Math.max(T,z1-z0),MAT.door)} break;
         case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); if(window.XOPEN)XOPEN.drape(R,it,wbox,G); break;
@@ -1061,6 +1088,15 @@ let focusRoom=()=>{}, setWalls=()=>{};
       }
     }
   }
+  function photoMat(i){const cv=document.createElement('canvas');cv.width=240;cv.height=320;const x=cv.getContext('2d');
+    const g=x.createLinearGradient(0,0,0,320);g.addColorStop(0,['#e8e8e6','#d9dcdd','#efeeea','#dedcd8','#e4e4e2'][i%5]);g.addColorStop(1,['#8c8c88','#6f7476','#a6a39c','#7d7a74','#999'][i%5]);
+    x.fillStyle=g;x.fillRect(0,0,240,320);x.fillStyle='rgba(255,255,255,.7)';x.beginPath();x.arc([170,60,120,180,90][i%5],[90,80,110,70,100][i%5],[26,18,34,22,28][i%5],0,7);x.fill();
+    x.fillStyle=['#3c3c3a','#4a4f52','#5a5853','#33312e','#444'][i%5];x.beginPath();x.moveTo(0,320);
+    const k=[[0,210,90,170,240,230],[0,240,120,235,240,245],[0,190,60,230,160,180],[0,250,110,150,240,240],[0,200,140,140,240,215]][i%5];
+    x.lineTo(k[0],k[1]);x.quadraticCurveTo(k[2],k[3]-40,k[2]+20,k[3]);x.quadraticCurveTo((k[2]+k[4])/2,k[3]+10,k[4],k[5]);x.lineTo(240,320);x.fill();
+    if(i%5===3){x.strokeStyle='#2a2a28';x.lineWidth=5;x.beginPath();x.moveTo(60,320);x.quadraticCurveTo(70,220,90,170);x.stroke();
+      for(let a=0;a<6;a++){x.beginPath();x.moveTo(90,170);x.quadraticCurveTo(90+Math.cos(a)*40,150+Math.sin(a)*10,90+Math.cos(a)*70,175+Math.sin(a*1.3)*25);x.stroke()}}
+    return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:.6})}
   function ring(R,it,u0,uw,y0,h,lw,td,r,m){
     const rr=(sh,x0,y0_,w,hh,q)=>{sh.moveTo(x0+q,y0_);sh.lineTo(x0+w-q,y0_);sh.absarc(x0+w-q,y0_+q,q,-Math.PI/2,0);sh.lineTo(x0+w,y0_+hh-q);sh.absarc(x0+w-q,y0_+hh-q,q,0,Math.PI/2);
       sh.lineTo(x0+q,y0_+hh);sh.absarc(x0+q,y0_+hh-q,q,Math.PI/2,Math.PI);sh.lineTo(x0,y0_+q);sh.absarc(x0+q,y0_+q,q,Math.PI,Math.PI*1.5);return sh};
@@ -1135,7 +1171,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
     {const pw=W-P0, cx=P0+pw/2;
      box(P0,1300,0,pw,1160,400,E); fl(P0+50,1315,pw/2-55,1130,396); fl(cx+5,1315,pw/2-55,1130,396);
      box(cx-36,1780,412,12,200,14,MAT.handle,false); box(cx+24,1780,412,12,200,14,MAT.handle,false);
-     box(P0-15,2460,0,pw+15,40,420,E);
+     box(P0,2460,0,pw,40,420,E);  // pooja cap stays on the pooja (no lip over the crockery)
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
     box(2920,2500,350,270,400,9470-DIN.X-350,MAT.wall,false); box(3040,2500,3120,150,400,940,MAT.wall,false); box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall

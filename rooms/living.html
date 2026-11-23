@@ -12,17 +12,17 @@
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
   --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
-  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --paper:#c3d0bd; --paper2:#b8995a; --alu:#a3a7aa; --accent:#b4612b;
+  --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --rug:#e3d6bf; --paper:#c3d0bd; --paper2:#b8995a; --alu:#a3a7aa; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --rug:#3a352d; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
   --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
-  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
+  --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --rug:#3a352d; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -113,10 +113,10 @@ const ROOMS={};
 {const R=room({id:'living',name:'Living',W:4720,D:4570,
   note:'Render IMG_3076 and photo IMG_3041. North wall, left to right: main door in a recess about 600 deep, the solid TV wall, then the bedroom 3 door. L-sofa on the west wall.',
   alc:{w:1250,d:600}, mark:{N:0.6},
-  elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall']]});
+  elevs:[['N','A','TV wall with main door'],['W','B','Sofa wall'],['E','C','Dining side and photo wall'],['S','D','Sofa short wall and passage']]});
  A(R,'N','recess',0,1250,0,CEIL,0,{lab:'recess ~600 deep'});
  A(R,'N','door',100,1050,0,DH,40,{lab:'main door',t0:-600,alc:true,dim:true});
- A(R,'N','panel',1438,2094,228,1744,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
+ A(R,'N','panel',1408,2154,198,1804,3,{mat:'paper',lab:'wallpaper in moulded frame',dim:true});
  A(R,'N','mould',1310,2350,100,2000,20,{});
  A(R,'N','unit',1435,2100,250,300,420,{mat:'ivory',cols:3,flap:true,lab:'floating console',dim:true,round:75});
  A(R,'N','tv',1765,1440,950,830,80,{lab:'65″ TV'});
@@ -134,6 +134,11 @@ const ROOMS={};
  A(R,'W','unit',3048,500,0,910,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
  A(R,'W','unit',3548,470,0,370,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3548,470,370,50,365,{});
+ /* carpet under the sofa front and the coffee table (23 Nov) */
+ L(R,'rug',500,1950,2400,2200,0,12,{lab:'carpet 2400 × 2200',skip3d:true});
+ /* photo wall above the sofa (23 Nov idea): putty moulded boxes 750 × 900 at 1250–2150, a framed B&W photo in each; 3 on the long wall, 2 on the short wall, ~350 off the corner */
+ [355,1225,2095].forEach((u,i)=>{A(R,'W','pbox',u,750,1250,900,15,{});A(R,'W','photo',u+150,450,1400,600,25,{ph:i})});
+ [2631,3501].forEach((u,i)=>{A(R,'S','pbox',u,750,1250,900,15,{});A(R,'S','photo',u+150,450,1400,600,25,{ph:i+3})});
  L(R,'loose',0,1522,820,3048,0,420,{mat:'sofa',on:['W'],lab:'L-sofa 3048 (10 ft)',skip3d:true});
  L(R,'loose',0,1522,360,3048,420,590,{mat:'sofa',skip3d:true});
  L(R,'loose',820,3750,1618,820,0,420,{mat:'sofa',lab:'2 seats (8 ft side)',skip3d:true});
@@ -142,12 +147,14 @@ const ROOMS={};
  R.vd={W:[[0,420,'420'],[0,910,'910']],N:[[0,250,'250'],[250,550,'300'],[550,950,'400'],[950,1780,'830'],[1780,CEIL,'1120']]};
  R.spec=[
   ['Room','15′6″ × 15′0″ (4720 × 4570) per sale-agreement plan, plus the main-door recess (about 1250 wide × 600 deep) at the north-west corner. Ceiling taken as 2900.'],
-  ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide: two thin moulding lines (about 20 wide) with a 100 gap between them, slightly rounded corners, painted wall colour. Washable vinyl inside the inner line only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
+  ['Wallpaper','Inside a putty (POP) moulded frame around the TV, up to door height (about 2100). Frame about 2350 wide: two thin moulding lines (about 20 wide) with a 70 gap between them, slightly rounded corners, painted wall colour. Washable vinyl inside the inner line only; plain painted wall above and to the sides. Light sage with a fine gold leaf pattern. No fluted panel.'],
   ['Console','Floating, 2100 × 300 (1 ft) high × 420 deep at 250 off the floor, centred on the TV wall. Rounded ends (about 75 radius). 3 flap-down shutters, ivory super matt.'],
   ['Handles','Slim 160 mm bar handle with rounded ends near the top of each shutter, matt black. Same handle on every storage unit in the flat (designer meeting 22 Nov).'],
   ['TV','65″ (about 1440 × 830), bottom at 950, centred on the TV wall.'],
   ['Main door','In the recess left of the TV wall, opens into the room against the west wall.'],
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward.'],
+  ['Carpet','About 2400 × 2200 (8 × 7 ft), oatmeal / greige low-pile with a thin border, under the front legs of both sofa sides and the whole coffee table.'],
+  ['Photo wall','Above the sofa on both walls: putty (POP) moulded boxes about 750 × 900, thin rounded moulding like the TV wall, bottom at 1250 (about 240 above the headrests), top at 2150. Three on the long wall, two on the short wall, starting about 350 from the corner. Each holds one black framed photo, about 450 × 600 with a white mat; black-and-white prints keep it calm next to the rust sofa.'],
   ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 910 high with 4 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) to the south-west corner, about 750 high just above the sofa back, centred over the corner seat, so phones can charge on the corner seat.'],
@@ -203,7 +210,7 @@ function mkEl(s){return function el(t,a,p=s){const e=document.createElementNS(NS
 
 /* ---------- elevation ---------- */
 var PAPERL=[[0.882,0.451,25,1.0],[0.221,0.735,20,0.92],[0.764,0.139,-2,0.75],[0.621,0.56,10,1.04],[0.192,0.073,27,0.72],[0.512,0.085,32,0.97],[0.168,0.364,17,1.04],[0.761,0.785,33,0.71],[0.467,0.752,-39,0.73]]; // scattered gold leaves: [x frac, y frac from top, rot deg, scale]
-const ORDER={mould:2,frame:8,recess:0,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
+const ORDER={rug:0,pbox:7,photo:8,mould:2,frame:8,recess:0,gap:0,panel:1,tile:1,plinth:2,unit:3,open:3,counter:4,cushion:4,door:4,window:4,hood:5,hob:6,sink:6,tv:6,board:7,loose:9,bed:9};
 function drawElev(R,wall,letter,title){
   const L0=wlen(R,wall);
   const s=document.createElementNS(NS,'svg');
@@ -239,7 +246,7 @@ function drawElev(R,wall,letter,title){
             pth.setAttribute('fill','none');pth.setAttribute('stroke',c('paper2'));pth.setAttribute('stroke-width',5);g.appendChild(pth)}
           s.appendChild(g)}
         if(it.fluted)for(let x=u0+60;x<u0+uw-20;x+=60)line(x,y0+20,x,y0+h-20,2,{stroke:c('muted')});break;
-      case 'mould': for(const o of [10,130])rect(u0+o,y0+o,uw-2*o,h-2*o,'none',12,{stroke:c('muted'),rx:60-o/4});break;
+      case 'mould': for(const o of [10,100])rect(u0+o,y0+o,uw-2*o,h-2*o,'none',12,{stroke:c('muted'),rx:60-o/4});break;
       case 'tile': rect(u0,y0,uw,h,c('tile'),3,{stroke:c('muted')});
         for(let x=u0+300;x<u0+uw;x+=300)line(x,y0,x,y0+h,1.5,{stroke:c('muted')});
         line(u0,y0+h/2,u0+uw,y0+h/2,1.5,{stroke:c('muted')});break;
@@ -273,6 +280,9 @@ function drawElev(R,wall,letter,title){
       case 'hob': rect(u0,y0,uw,h,c('granite'),3);break;
       case 'sink': line(u0,y0+h,u0+uw,y0+h,8,{stroke:c('muted')});text(u0+uw/2,y0+100,'sink','middle',38);break;
       case 'tv': rect(u0,y0,uw,h,c('granite'),4);break;
+      case 'pbox': rect(u0+10,y0+10,uw-20,h-20,'none',12,{stroke:c('muted'),rx:40});break;
+      case 'photo': rect(u0,y0,uw,h,c('white'),10,{stroke:c('fg')}); rect(u0+60,y0+60,uw-120,h-120,c('line'),2,{stroke:c('muted')});
+        el('path',{d:`M${u0+60} ${Y(y0+60+(h-120)*.35)} Q${u0+uw*.35} ${Y(y0+60+(h-120)*.6)} ${u0+uw*.6} ${Y(y0+60+(h-120)*.4)} T${u0+uw-60} ${Y(y0+60+(h-120)*.5)}`,fill:'none',stroke:c('muted'),'stroke-width':4});break;
       case 'frame': rect(u0,y0,uw,h,c('white'),5,{stroke:c('fg')}); rect(u0+30,y0+30,uw-60,h-60,c('panel'),2,{stroke:c('muted')});break;
       case 'board': rect(u0,y0-45,uw,90,'none',3,S);
         [0.25,0.5,0.75].forEach(f=>el('circle',{cx:u0+uw*f,cy:Y(y0),r:8,fill:stroke}));break;
@@ -342,11 +352,14 @@ function drawPlan(R){
       continue;
     }
     if(it.kind==='frame')continue;
-    if(['board','hob','sink','tile','plinth','hood','cushion','mould'].includes(it.kind)){
+    if(['board','hob','sink','tile','plinth','hood','cushion','mould','pbox','photo'].includes(it.kind)){
       if(it.kind==='hob'||it.kind==='sink')el('rect',{x:b.x+40,y:b.z+40,width:b.w-80,height:b.d-80,fill:'none',stroke:c('fg'),'stroke-width':5,rx:30});
       continue;}
     if(!it.loose&&it.y0>=1400)continue; // uppers and lofts not in plan
     if(it.kind==='tv'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('granite')});continue}
+    if(it.kind==='rug'){el('rect',{x:b.x,y:b.z,width:b.w,height:b.d,fill:c('rug'),stroke:c('muted'),'stroke-width':4,rx:10});
+      el('rect',{x:b.x+80,y:b.z+80,width:b.w-160,height:b.d-160,fill:'none',stroke:c('muted'),'stroke-width':2,rx:6});
+      text(b.x+b.w/2,b.z+170,it.lab,'middle',70,c('muted'));continue}
     if(it.loose){
       if(it.y0>0)continue;
       if(it.round)el('circle',{cx:b.x+b.w/2,cy:b.z+b.d/2,r:b.w/2,fill:'none',stroke,'stroke-width':6,'stroke-dasharray':'40 26'});
@@ -411,6 +424,16 @@ let build3D=()=>{};
     if(edge){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g),lineM);e.position.copy(o.position);G.add(e)}}
   const wbox=(R,it,u0,uw,y0,h,t0,td,m,edge=true)=>{const b=W2R(R,it.wall,u0,uw,t0,td);box(b.x,y0,b.z,b.w,h,b.d,m,edge)};
 
+  // dummy black-and-white photos (procedural): landscape, sea, hills, palm, mountain
+  function photoMat(i){const cv=document.createElement('canvas');cv.width=240;cv.height=320;const x=cv.getContext('2d');
+    const g=x.createLinearGradient(0,0,0,320);g.addColorStop(0,['#e8e8e6','#d9dcdd','#efeeea','#dedcd8','#e4e4e2'][i%5]);g.addColorStop(1,['#8c8c88','#6f7476','#a6a39c','#7d7a74','#999'][i%5]);
+    x.fillStyle=g;x.fillRect(0,0,240,320);x.fillStyle='rgba(255,255,255,.7)';x.beginPath();x.arc([170,60,120,180,90][i%5],[90,80,110,70,100][i%5],[26,18,34,22,28][i%5],0,7);x.fill();
+    x.fillStyle=['#3c3c3a','#4a4f52','#5a5853','#33312e','#444'][i%5];x.beginPath();x.moveTo(0,320);
+    const k=[[0,210,90,170,240,230],[0,240,120,235,240,245],[0,190,60,230,160,180],[0,250,110,150,240,240],[0,200,140,140,240,215]][i%5];
+    x.lineTo(k[0],k[1]);x.quadraticCurveTo(k[2],k[3]-40,k[2]+20,k[3]);x.quadraticCurveTo((k[2]+k[4])/2,k[3]+10,k[4],k[5]);x.lineTo(240,320);x.fill();
+    if(i%5===3){x.strokeStyle='#2a2a28';x.lineWidth=5;x.beginPath();x.moveTo(60,320);x.quadraticCurveTo(70,220,90,170);x.stroke();
+      for(let a=0;a<6;a++){x.beginPath();x.moveTo(90,170);x.quadraticCurveTo(90+Math.cos(a)*40,150+Math.sin(a)*10,90+Math.cos(a)*70,175+Math.sin(a*1.3)*25);x.stroke()}}
+    return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:.6})}
   // thin moulding line: rounded-rect ring on a wall (line width lw, depth td, corner radius r)
   function ring(R,it,u0,uw,y0,h,lw,td,r,m){
     const rr=(sh,x0,y0_,w,hh,q)=>{sh.moveTo(x0+q,y0_);sh.lineTo(x0+w-q,y0_);sh.absarc(x0+w-q,y0_+q,q,-Math.PI/2,0);sh.lineTo(x0+w,y0_+hh-q);sh.absarc(x0+w-q,y0_+hh-q,q,0,Math.PI/2);
@@ -505,6 +528,10 @@ let build3D=()=>{};
     for(const it of R.items){
       const m=it.chg?MAT.accent:(MAT[it.mat]||MAT.wood);
       if(it.loose){
+        if(it.kind==='rug'){const b=it.b,cv=document.createElement('canvas');cv.width=480;cv.height=440;const x=cv.getContext('2d');
+          x.fillStyle='#b8ab98';x.fillRect(0,0,480,440);x.strokeStyle='#9c8160';x.lineWidth=4;x.strokeRect(16,16,448,408);x.lineWidth=1.5;x.strokeRect(26,26,428,388);
+          for(let n=0;n<4000;n++){x.fillStyle=`rgba(${150+Math.random()*60|0},${130+Math.random()*50|0},${100+Math.random()*40|0},.08)`;x.fillRect(Math.random()*480,Math.random()*440,2,2)}
+          box(b.x,0,b.z,b.w,it.h,b.d,new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cv),roughness:1}),false);continue}
         if(it.skip3d)continue;
         const b=it.b;
         if(it.kind==='bed'){
@@ -543,6 +570,8 @@ let build3D=()=>{};
           wbox(R,it,u0,18,y0,h,0,td,MAT.wood); wbox(R,it,u0+uw-18,18,y0,h,0,td,MAT.wood);
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,MAT.wood);break;
         case 'recess': break;
+        case 'pbox': ring(R,it,u0,uw,y0,h,18,14,40,MAT.white); break;
+        case 'photo': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+12,uw-24,y0+12,h-24,25,2,MAT.white,false); wbox(R,it,u0+60,uw-120,y0+60,h-120,27,2,photoMat(it.ph||0),false); break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+15,uw-30,y0+15,h-30,25,3,MAT.white,false); wbox(R,it,u0+40,uw-80,y0+40,h-80,28,2,MAT.wood,false); break;
         case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,it.t0||0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
@@ -551,7 +580,7 @@ let build3D=()=>{};
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
         case 'sink': wbox(R,it,u0,uw,y0,h,60,td,MAT.metal,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
-        case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+120,uw-240,y0+120,h-240,20,15,45,MAT.white); break;
+        case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+90,uw-180,y0+90,h-180,20,15,45,MAT.white); break;
         case 'board': wbox(R,it,u0,uw,y0-45,90,0,10,it.chg?MAT.accent:MAT.white,false); break;
       }
     }
