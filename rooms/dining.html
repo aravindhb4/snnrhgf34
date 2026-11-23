@@ -72,10 +72,10 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
       <dt>Wall</dt><dd>About 13′ (3960) from the balcony corner to the passage. Ceiling taken as 2900, beam soffit about 2500, beam about 230 wide (estimated from photos).</dd>
       <dt>Balcony pelmet</dt><dd>Wooden pelmet over the balcony sliding door on the side wall, from the door head (about 2100) to the ceiling, 180 deep and about 2700 long (150 past each side of the opening), hiding the curtain track; same style as the bedroom pelmets. Door position estimated from the site photo.</dd>
       <dt>Dining</dt><dd>Zone of 9′ (2743). Wall art above the bench: layered, multicolour elephant family (from your reference photo), about 1100 × 940, centred on the bench, bottom at 1450, about 20 off the wall. Loose, movable bench about 5′3″ (1600) × 420 deep × 450 high on legs, with a seat cushion and its own backrest, fully upholstered in one long cushion like the seat (no wood showing) (nothing fixed to the wall), so the whole bench moves as one piece. About 1′10″ clear at each end. Table 1600 × 800 (5′3″ × 2′7″), same length as the bench, rounded corners, 2 chairs opposite.</dd>
-      <dt>Crockery</dt><dd>About 1′9″ (537) wide, single door, upper 1300–2500 in ebony matte with vertical transparent fluted glass and a rose gold rim; stops at 2500, nothing above it (beam left exposed). Charging socket in the open gap.</dd>
-      <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200), top level with the crockery, ebony matte with two doors of vertical transparent fluted glass and rose gold rims. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
+      <dt>Crockery</dt><dd>About 1′9″ (537) wide, single door, upper 1300–2500 in ivory white with vertical transparent fluted glass and a rose gold rim; stops at 2500, nothing above it (beam left exposed). Charging socket in the open gap.</dd>
+      <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200), top level with the crockery, ivory white with two doors of vertical transparent fluted glass and rose gold rims. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
       <dt>Version 2</dt><dd>Tall crockery: one full-height unit, pull-outs at the bottom and the glass door running straight from 670 to 2500, no gap and no granite on the crockery, 450 deep throughout. Only the pooja keeps the granite and the gap for the switch board. The charging socket moves to the pooja gap or the bench side.</dd>
-      <dt>Finishes</dt><dd>Decided 22 Nov: crockery and pooja in ebony wood matte; base unit in ivory super matte with black granite on top; all handles black. The bench frame, table and chairs are shown in ebony matte as standalone furniture.</dd>
+      <dt>Finishes</dt><dd>Decided 22 Nov: crockery and pooja changed to ivory white (23 Nov); base unit in ivory super matte with black granite on top; all handles black. The bench frame, table and chairs are shown in ebony matte as standalone furniture.</dd>
       <dt>Base</dt><dd>One granite top at 690 (lowered so the gap below the uppers is 2′) across crockery and pooja (1217 long), 450 deep, rounded front corners, pull-outs below. Only the outer corners of each run of units are rounded; where units touch they merge as one block with square joints. Handles are slim brushed aluminium bar handles (drawers, glass and pooja doors, top storage).</dd>
       <dt>Open points</dt><dd>Measure wall length, beam position, beam soffit height and switch board height; the temple tip is set from the beam soffit.</dd>
     </dl>
@@ -160,7 +160,7 @@ function drawElev(L){
 
   // crockery upper
   const GU=L.tall?BASE:UP;
-  rect(C0,GU,C1-C0,BSOF-GU,c('ebony'),4,{r:[0,0,0,L.tall?0:40]});
+  rect(C0,GU,C1-C0,BSOF-GU,c('ivory'),4,{r:[0,0,0,L.tall?0:40]});
   const nd=(C1-C0)>700?2:1, dW=(C1-C0-50)/nd;
   for(let k=0;k<nd;k++){const x=C0+25+k*dW;rect(x+(k?5:0),GU+25,dW-5,BSOF-GU-50,c('glass'),10,{stroke:c('rose')});flutes(x+(k?5:0),GU+25,dW-5,BSOF-GU-50);
     line(x+dW-45,1450,x+dW-45,1750,8,{stroke:'#1d1d1b'})}
@@ -169,20 +169,20 @@ function drawElev(L){
 
   // pooja temple upper
   const pw=P1-P0,pil=pw>800?55:45;
-  rect(P0,UP,pw,PTOP-UP,c('ebony'),4,{r:[0,0,40,0]});
-  rect(P0,UP,pil,PTOP-UP,c('ebony'),4); rect(P1-pil,UP,pil,PTOP-UP,c('ebony'),4,{r:[0,0,40,0]});
+  rect(P0,UP,pw,PTOP-UP,c('ivory'),4,{r:[0,0,40,0]});
+  rect(P0,UP,pil,PTOP-UP,c('ivory'),4); rect(P1-pil,UP,pil,PTOP-UP,c('ivory'),4,{r:[0,0,40,0]});
   const dw=(pw-2*pil)/2;
   [P0+pil,P0+pil+dw].forEach(x=>{rect(x+8,UP+20,dw-16,PTOP-UP-40,c('glass'),10,{stroke:c('rose')});flutes(x+8,UP+20,dw-16,PTOP-UP-40)});
   line(P0+pil+dw-30,1780,P0+pil+dw-30,1980,8,{stroke:'#1d1d1b'}); line(P0+pil+dw+30,1780,P0+pil+dw+30,1980,8,{stroke:'#1d1d1b'});
-  rect(P0-15,PTOP,pw+15,40,c('ebony'),4,{r:[0,20,0,0]});
+  rect(P0-15,PTOP,pw+15,40,c('ivory'),4,{r:[0,20,0,0]});
   const cx=(P0+P1)/2;
   // gopuram-style temple top: 4 tapering tiers with kudu arches, stupi, kalasam
   for(let i=0;i<TIERS;i++){const y0=PTOP+40+i*TH, wb=pw-120-i*TSTEP, wt=wb-TSTEP*0.45;
-    el('path',{d:`M${cx-wb/2} ${Y(y0)} L${cx-wt/2} ${Y(y0+TH)} L${cx+wt/2} ${Y(y0+TH)} L${cx+wb/2} ${Y(y0)} Z`,fill:c('ebony'),stroke:c('fg'),'stroke-width':3});
+    el('path',{d:`M${cx-wb/2} ${Y(y0)} L${cx-wt/2} ${Y(y0+TH)} L${cx+wt/2} ${Y(y0+TH)} L${cx+wb/2} ${Y(y0)} Z`,fill:c('ivory'),stroke:c('fg'),'stroke-width':3});
     const n=Math.max(1,Math.round(wt/110)); for(let k=0;k<n;k++){const ax=cx-wt/2+(k+0.5)*wt/n;
       el('path',{d:`M${ax-16} ${Y(y0+8)} L${ax-16} ${Y(y0+TH-28)} A 16 16 0 0 1 ${ax+16} ${Y(y0+TH-28)} L${ax+16} ${Y(y0+8)}`,fill:'none',stroke:c('rose'),'stroke-width':2})}}
   const sy=PTOP+40+TIERS*TH;
-  el('path',{d:`M${cx-STW/2} ${Y(sy)} A ${STW/2} ${STH} 0 0 1 ${cx+STW/2} ${Y(sy)} Z`,fill:c('ebony'),stroke:c('fg'),'stroke-width':3});
+  el('path',{d:`M${cx-STW/2} ${Y(sy)} A ${STW/2} ${STH} 0 0 1 ${cx+STW/2} ${Y(sy)} Z`,fill:c('ivory'),stroke:c('fg'),'stroke-width':3});
   el('circle',{cx,cy:Y(sy+STH+KB),r:KB,fill:c('granite')});
   el('path',{d:`M${cx-KC} ${Y(sy+STH+KB*1.6)} L${cx} ${Y(ROOF)} L${cx+KC} ${Y(sy+STH+KB*1.6)} Z`,fill:c('granite')});
   line(P0-60,BSOF,P0+40,BSOF,2,{stroke:c('muted')});
@@ -223,7 +223,7 @@ let build3D=()=>{};
   const wood=M(0xd2b994), woodD=M(0xb99c74), wall=M(0xf1efea), floor=M(0xe4e0d8), gran=M(0x2e2d2b,{roughness:.35}),
         glass=new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.3,roughness:.05}),
         panel=M(0xe8e3da), metal=M(0x9c8150,{metalness:.6,roughness:.4}), alu=M(0x1d1d1b,{roughness:.6}), white=M(0xfafaf8), fabric=M(0xbdb8ad,{roughness:.95}),
-        tableM=M(0x5a463b,{roughness:.8}), ebony=M(0x5a463b,{roughness:.8}), ebonyD=M(0x4d3c32,{roughness:.8}), ivory=M(0xefe9dc,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+        tableM=M(0x5a463b,{roughness:.8}), ebony=M(0x5a463b,{roughness:.8}), ebonyD=M(0x4d3c32,{roughness:.8}), ivory=M(0xefe9dc,{roughness:.9}), ivoryD=M(0xe2dac9,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
   const mm=v=>v/1000;
   let G=scene;
   function slab(x,y,z,w,h,d,rad,m,parent){ // rounded-corner slab in plan
@@ -290,25 +290,25 @@ let build3D=()=>{};
     if(L.niche){box(B0,CT,0,B1-B0,BSOF-CT,10,panel,false);[1500,1900,2200].forEach(y=>box(B0+15,y,0,B1-B0-30,20,250,wood))}
     if(!L.tall)box((C0+C1)/2-45,CT+120,10,90,90,8,white); box(SB.x0,SB.y-45,10,SB.x1-SB.x0,90,8,white);
     const CD=L.tall?BD:350, cw=C1-C0, GU=L.tall?BASE:UP;
-    box(C0,GU,0,cw,BSOF-GU,18,ebony,false);
-    box(C0,GU,0,cw,BSOF-GU,CD,ebony,true,[0,0,0,L.tall?0:50],[18,18,18,18]);
+    box(C0,GU,0,cw,BSOF-GU,18,ivory,false);
+    box(C0,GU,0,cw,BSOF-GU,CD,ivory,true,[0,0,0,L.tall?0:50],[18,18,18,18]);
     (L.tall?[1300,1700,2100]:[1700,2100]).forEach(y=>box(C0+18,y,18,cw-36,8,CD-40,glass,false));
     const nd=cw>700?2:1,dW=(cw-30)/nd;for(let k=0;k<nd;k++){box(C0+15+k*dW+(k?4:0),GU+15,CD-4,dW-4,BSOF-GU-30,6,glass);fluted(C0+15+k*dW+(k?4:0),GU+15,dW-4,BSOF-GU-30,CD+3)}
     box(C1-62,1450,CD+8,12,300,14,alu,false);
     const PD=400, pw=P1-P0;
-    box(P0,UP,0,pw,PTOP-UP,18,ebony,false);
-    box(P0,UP,0,pw,PTOP-UP,PD,ebony,true,[0,0,50,0],[45,45,18,1]);
+    box(P0,UP,0,pw,PTOP-UP,18,ivory,false);
+    box(P0,UP,0,pw,PTOP-UP,PD,ivory,true,[0,0,50,0],[45,45,18,1]);
     box(P0+50,UP+15,PD-4,pw/2-55,PTOP-UP-30,6,glass); box(P0+pw/2+5,UP+15,PD-4,pw/2-55,PTOP-UP-30,6,glass);
     fluted(P0+50,UP+15,pw/2-55,PTOP-UP-30,PD+3); fluted(P0+pw/2+5,UP+15,pw/2-55,PTOP-UP-30,PD+3);
-    box(P0-15,PTOP,0,pw+15,40,PD+20,ebony,true,[0,20,0,0]);
+    box(P0-15,PTOP,0,pw+15,40,PD+20,ivory,true,[0,20,0,0]);
     box(P0+pw/2-36,1780,PD+8,12,200,14,alu,false); box(P0+pw/2+24,1780,PD+8,12,200,14,alu,false);
     const pcx=mm(P0+pw/2), pcz=mm(PD/2);
     for(let i=0;i<TIERS;i++){const y0=PTOP+40+i*TH, wb=pw-120-i*TSTEP, wt=wb-TSTEP*0.45, db=PD-60-i*55, dt=db-25;
       const g=new THREE.CylinderGeometry(mm(wt/2)*Math.SQRT2,mm(wb/2)*Math.SQRT2,mm(TH),4,1); g.rotateY(Math.PI/4);
-      const t=new THREE.Mesh(g,i%2?ebony:ebonyD); t.scale.z=((db+dt)/2)/((wb+wt)/2); t.position.set(pcx,mm(y0+TH/2),pcz); t.castShadow=true; grp.add(t);
+      const t=new THREE.Mesh(g,i%2?ivory:ivoryD); t.scale.z=((db+dt)/2)/((wb+wt)/2); t.position.set(pcx,mm(y0+TH/2),pcz); t.castShadow=true; grp.add(t);
       const e=new THREE.LineSegments(new THREE.EdgesGeometry(g),lineM); e.scale.copy(t.scale); e.position.copy(t.position); grp.add(e)}
     const sy=PTOP+40+TIERS*TH;
-    const stupi=new THREE.Mesh(new THREE.SphereGeometry(mm(STW/2),24,12,0,Math.PI*2,0,Math.PI/2),ebony);
+    const stupi=new THREE.Mesh(new THREE.SphereGeometry(mm(STW/2),24,12,0,Math.PI*2,0,Math.PI/2),ivory);
     stupi.scale.set(1,STH/(STW/2),0.75); stupi.position.set(pcx,mm(sy),pcz); stupi.castShadow=true; grp.add(stupi);
     const bulb=new THREE.Mesh(new THREE.SphereGeometry(mm(KB),20,14),metal); bulb.position.set(pcx,mm(sy+STH+KB),pcz); grp.add(bulb);
     const kal=new THREE.Mesh(new THREE.ConeGeometry(mm(KC),mm(ROOF-sy-STH-KB*1.6),16),metal); kal.position.set(pcx,mm((ROOF+sy+STH+KB*1.6)/2),pcz); grp.add(kal);

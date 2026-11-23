@@ -1167,7 +1167,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
     gl.position.set(mm(T.x),mm(T.h-5),mm(T.z)); G.add(gl);
   }
   function sofa(R){if(R.sofa)sofa3D(R.sofa)}
-  function dining(){const {C0,P0,BD,BEN0,BEN1,TZ0,TZ1}=DW, W=DIN.WALL, E=MAT.ebony;
+  function dining(){const {C0,P0,BD,BEN0,BEN1,TZ0,TZ1}=DW, W=DIN.WALL, E=MAT.ivory; // crockery + pooja ivory white (23 Nov)
     // fluted glass door: clear glass, vertical flutes, rose gold rim (designer meeting 22 Nov)
     const fl=(x,y,w,h,z)=>{box(x,y,z,w,h,6,MAT.glass,false); for(let xx=x+20;xx<x+w-12;xx+=26)box(xx,y+12,z+6,8,h-24,4,MAT.glass,false);
       box(x,y,z+4,w,12,10,MAT.rose,false); box(x,y+h-12,z+4,w,12,10,MAT.rose,false); box(x,y,z+4,12,h,10,MAT.rose,false); box(x+w-12,y,z+4,12,h,10,MAT.rose,false)};
