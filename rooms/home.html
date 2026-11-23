@@ -1355,7 +1355,8 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0,2460,0,pw,40,420,E);  // pooja cap stays on the pooja (no lip over the crockery)
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
-    box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false); // beam runs right to the dining wall over the crockery (23 Nov); no bulkhead past the bath wall box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
+    box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false); // beam runs right to the dining wall over the crockery (23 Nov); no bulkhead past the bath wall
+    box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
      box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.ebony,false);
@@ -1405,6 +1406,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
    P.F.forEach(([dz,yc,w,h],k)=>{const z=P.zc+dz-w/2,y=yc-h/2,mt=Math.min(w,h)>200?26:18;
      box(P.x,y,z,22,h,w,FR,false); box(P.x+22,y+14,z+14,3,h-28,w-28,MT,false); box(P.x+25,y+14+mt,z+14+mt,2,h-28-2*mt,w-28-2*mt,PH[k%PH.length],false)})}
   {const g=new THREE.Group(); g.position.set(mm(DIN.X),0,mm(DIN.Z)); g.rotation.y=Math.PI/2; scene.add(g); G=g; dining(); G=scene}
+  if(window.XOPEN&&XOPEN.drape)XOPEN.drape({W:9220,D:9800},{wall:'S',u0:0,uw:2800,y0:DH},null,scene); // balcony: linen drapes tied back at both ends of the pelmet (like the bedroom pelmets)
   // balcony (site photos, 21 Nov): clear sliding door (one panel slid open), low parapet with granite top, sage-green metal railing, daylight coming in
   {const pane=(x0,x1,z)=>{box(x0,0,z,50,DH,30,MAT.white,false);box(x1-50,0,z,50,DH,30,MAT.white,false);box(x0+50,DH-60,z,x1-x0-100,60,30,MAT.white,false);box(x0+50,0,z,x1-x0-100,60,30,MAT.white,false);
      const gl=new THREE.Mesh(new THREE.BoxGeometry(mm(x1-x0-100),mm(DH-120),mm(8)),MAT.clear);gl.position.set(mm((x0+x1)/2),mm(DH/2),mm(z+15));G.add(gl)};
