@@ -1229,6 +1229,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'glassp': wbox(R,it,u0,uw,y0,h,t0,8,MAT.mirror,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
+        case 'ledge': wbox(R,it,u0,uw,y0,h,0,td,MAT[it.mat]||MAT.wood); break;
         case 'pbox': ring(R,it,u0,uw,y0,h,18,14,40,MAT.white); break;
         case 'photo': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+12,uw-24,y0+12,h-24,25,2,MAT.white,false); wbox(R,it,u0+60,uw-120,y0+60,h-120,27,2,photoMat(it.ph||0),false); break;
         case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+90,uw-180,y0+90,h-180,20,15,45,MAT.white); break;
