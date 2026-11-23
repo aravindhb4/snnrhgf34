@@ -1099,7 +1099,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     clear:new THREE.MeshStandardMaterial({color:0xe8f2f4,transparent:true,opacity:.12,roughness:.02,depthWrite:false}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
-    mirror:M(0xd9e4e7,{metalness:.6,roughness:.1}),paper:(()=>{const cv=document.createElement('canvas');cv.width=1115;cv.height=940;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,1115,940);x.strokeStyle='#b8995a';x.lineWidth=5;x.lineCap='round';
+    mirror:M(0xe4ecee,{metalness:.1,roughness:.12}),paper:(()=>{const cv=document.createElement('canvas');cv.width=1115;cv.height=940;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,1115,940);x.strokeStyle='#b8995a';x.lineWidth=5;x.lineCap='round';
       PAPERL.forEach(([fx,fy,ro,k])=>{x.save();x.translate(fx*1115,fy*940);x.rotate(ro*Math.PI/180);x.scale(k*.65,k*.65);x.beginPath();x.moveTo(0,150);x.bezierCurveTo(-110,40,-90,-110,0,-170);x.bezierCurveTo(90,-110,110,40,0,150);x.moveTo(0,150);x.lineTo(0,-120);x.moveTo(0,60);x.lineTo(-50,0);x.moveTo(0,0);x.lineTo(50,-60);x.moveTo(0,-60);x.lineTo(-35,-100);x.stroke();x.restore()});
       const tx=new THREE.CanvasTexture(cv);return new THREE.MeshStandardMaterial({map:tx,roughness:.95})})(),alu:M(0x1c1c1c,{roughness:.55}),black:M(0x1c1c1c,{roughness:.55}),rose:M(0xb7787a,{metalness:.6,roughness:.3}),
     sofa:M(0x6b3820,{roughness:.95}),sofaQ:M(0x5c301c,{roughness:.9}),chrome:M(0xd0d2d4,{metalness:.2,roughness:.3}),smoke:new THREE.MeshStandardMaterial({color:0x4a3628,transparent:true,opacity:.55,roughness:.05}),tableM:M(0x8f7556),
@@ -1212,9 +1212,10 @@ let focusRoom=()=>{}, setWalls=()=>{};
           wbox(R,it,u0,uw,y0,h,t0,td-18,MAT[it.carcass]||m);
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){
-            const fm=it.glass?MAT.glass:(it.mirrorCol===j?MAT.mirror:(it.colMat&&it.colMat[j]?MAT[it.colMat[j]]:(MAT[it.front]||m)));
+            const fm=it.glass?MAT.glass:(it.colMat&&it.colMat[j]?MAT[it.colMat[j]]:(MAT[it.front]||m));
             wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,t0+td-18,18,fm);
             const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,t0+td,16,MAT.handle,false)}}
+          if(it.mirrorCol!=null){const mj=it.mirrorCol; wbox(R,it,u0+mj*cw+40,cw-80,y0+(it.band?it.band+50:250),Math.min(1800,h-300),t0+td,6,MAT.mirror,false)} // mirror panel on the door, inset 40 at the sides (as on the room pages)
           if(it.strip)it.strip.cols.forEach(k=>wbox(R,it,u0+k*cw+3,cw-6,it.strip.y,it.strip.h,t0+td,2,MAT[it.strip.mat],false)); // 2 mm overlay strip across these doors
           break}
         case 'open': if(!it.noBack)wbox(R,it,u0,uw,y0,h,t0,20,MAT[it.mat]||MAT.panel);
@@ -1229,7 +1230,8 @@ let focusRoom=()=>{}, setWalls=()=>{};
         case 'glassp': wbox(R,it,u0,uw,y0,h,t0,8,MAT.mirror,false); break;
         case 'tv': wbox(R,it,u0,uw,y0,h,20,40,MAT.granite,false); break;
         case 'cushion': wbox(R,it,u0+10,uw-20,y0,h,0,td,MAT.fabric); break;
-        case 'ledge': wbox(R,it,u0,uw,y0,h,0,td,MAT[it.mat]||MAT.wood); break;
+        case 'ledge': wbox(R,it,u0,uw,y0,h,0,td,MAT[it.mat]||MAT.wood);
+          (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
         case 'pbox': ring(R,it,u0,uw,y0,h,18,14,40,MAT.white); break;
         case 'photo': wbox(R,it,u0,uw,y0,h,0,25,MAT.granite,false); wbox(R,it,u0+12,uw-24,y0+12,h-24,25,2,MAT.white,false); wbox(R,it,u0+60,uw-120,y0+60,h-120,27,2,photoMat(it.ph||0),false); break;
         case 'mould': ring(R,it,u0,uw,y0,h,20,15,60,MAT.white); ring(R,it,u0+90,uw-180,y0+90,h-180,20,15,45,MAT.white); break;
