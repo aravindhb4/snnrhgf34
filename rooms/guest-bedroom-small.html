@@ -117,20 +117,20 @@ const ROOMS={};
  A(R,'W','door',200,900,0,DH,40,{lab:'room door',swing:'L',dim:true});
  A(R,'W','board',1175,90,1200,90,10,{lab:'switch'});
  A(R,'W','unit',1150,550,0,750,600,{mat:'ivory',rows:2,lab:'2 drawers',dim:true,rc:{tl:60},pc:'L'});
- A(R,'W','open',1300,400,1350,1050,400,{mat:'oak',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
+ A(R,'W','open',1300,400,1350,1050,400,{mat:'ebony',shelves:3,lab:'open shelf',dim:true,noPlan:true,rc:{bl:60}});
  A(R,'W','unit',1300,900,2400,500,600,{mat:'oak',cols:1});
- A(R,'W','unit',1700,1500,0,2400,600,{mat:'ivory',cols:3,mirrorCol:0,colMat:{0:'oak'},strip:{cols:[1,2],y:400,h:160,mat:'oak'},lab:'wardrobe 3 doors',dim:true});
+ A(R,'W','unit',1700,1500,0,2400,600,{mat:'ivory',cols:3,mirrorCol:0,lab:'wardrobe 3 doors',dim:true});
  A(R,'W','unit',2200,1000,2400,500,600,{mat:'oak',cols:2});
  A(R,'E','panel',500,2200,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Two large framed photos above the headboard (Aravindh 20 Nov): 600 × 800 each, 100 apart, 1350–2150, thin black frames, white mats. */
  [950,1650].forEach(u=>A(R,'E','frame',u,600,1350,800,30,{}));
  L(R,'bed',1980,840,2030,1520,0,500,{on:['E'],lab:'queen bed 1520 × 2030',head:'E'});
- L(R,'loose',3610,390,400,450,0,500,{mat:'oak',on:['E']});
- L(R,'loose',3610,2360,400,450,0,500,{mat:'oak',on:['E']});
+ L(R,'loose',3610,390,400,450,0,500,{mat:'ebony',on:['E']});
+ L(R,'loose',3610,2360,400,450,0,500,{mat:'ebony',on:['E']});
  A(R,'S','window',110,1550,750,1350,40,{dim:true});
  A(R,'S','pelmet',10,1750,2100,CEIL-2100,180,{}); // pelmet from the window head to the ceiling (20 Nov)
  A(R,'S','ac',385,1000,2450,300,230,{t0:180,lab:'AC'}); // wall split AC centred on the pelmet (Aravindh 20 Nov)
- A(R,'N','unit',2000,1000,725,25,450,{mat:'oak',rows:1,noHandle:true,rc:{tl:40,tr:40,bl:40,br:40},lab:'fold-down table',dim:true});
+ A(R,'N','unit',2000,1000,725,25,450,{mat:'ebony',rows:1,noHandle:true,rc:{tl:40,tr:40,bl:40,br:40},lab:'fold-down table',dim:true});
  L(R,'loose',2000,0,1000,20,300,450,{on:['N'],ghost:true,lab:'folded'});
  A(R,'E','board',300,90,400,90,10,{lab:'socket'});
  A(R,'E','board',2450,260,400,90,10,{lab:'switch + socket'});
@@ -146,7 +146,7 @@ const ROOMS={};
   ['Base unit','550 wide × 600 deep × 750 high, 2 pull-out drawers, under the open shelf and running to the door frame. Top doubles as a ledge.'],
   ['Switch','Existing board just right of the door frame at about 1200 (photo 19 Nov). Sits between the door frame and the open shelf.'],
   ['Edges','Units on the door wall read as one block: only its outer exposed corners are rounded (drawer unit top corner by the door, open shelf bottom corner). Where units touch, or meet the floor, ceiling or a wall, they join square. Side tables rounded all round.'],
-  ['Finish','Ivory and wood, all matte (Aravindh, 23 Nov): light oak lofts, oak mirror door and a slim oak band low on the two ivory wardrobe doors; ivory 2-drawer unit; oak open shelf, fold-down table and side tables.'],
+  ['Finish','All matte. Wardrobe and 2-drawer unit ivory; lofts light oak, the room’s colour (Aravindh, 23 Nov); open shelf, fold-down table and side tables ebony.'],
   ['Handles','Slim black bar handles: 300 vertical on wardrobe doors (about 1050 high, at the opening edge), 160 at the bottom of each loft door, 200 horizontal on each drawer and side-table drawer.'],
   ['Bed','Queen 1520 × 2030 on the east wall, headboard panel 2200 × 1200, two side tables.'],
   ['Window','On the south wall towards the bed side. Sill taken as 750.'],
