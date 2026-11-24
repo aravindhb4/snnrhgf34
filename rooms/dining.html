@@ -70,7 +70,7 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
     <h2>Spec</h2>
     <dl class="tab">
       <dt>Wall</dt><dd>About 13′ (3960) from the balcony corner to the passage. Ceiling taken as 2900, beam soffit about 2500, beam about 230 wide (estimated from photos).</dd>
-      <dt>Balcony pelmet</dt><dd>Wooden pelmet over the balcony sliding door on the side wall, from the door head (about 2100) to the ceiling, 180 deep and about 2700 long (150 past each side of the opening), hiding the curtain track; same style as the bedroom pelmets. Door position estimated from the site photo.</dd>
+      <dt>Balcony pelmet</dt><dd>Wooden pelmet over the balcony sliding door on the side wall, from the door head (about 2100) to the ceiling, 180 deep and about 2700 long (150 past each side of the opening), hiding the curtain track; same style as the bedroom pelmets. Linen drapes tied back at both ends. Door position estimated from the site photo.</dd>
       <dt>Dining</dt><dd>Zone of 9′ (2743). Wall art above the bench: layered, multicolour elephant family (from your reference photo), about 1100 × 940, centred on the bench, bottom at 1450, about 20 off the wall. Loose, movable bench about 5′3″ (1600) × 420 deep × 450 high on legs, with a seat cushion and its own backrest, fully upholstered in one long cushion like the seat (no wood showing) (nothing fixed to the wall), so the whole bench moves as one piece. About 1′10″ clear at each end. Table 1600 × 800 (5′3″ × 2′7″), same length as the bench, rounded corners, 2 chairs opposite.</dd>
       <dt>Crockery</dt><dd>About 1′9″ (537) wide, single door, upper 1300–2500 in ivory white with vertical transparent fluted glass and a rose gold rim; stops at 2500, nothing above it (beam left exposed). Charging socket in the open gap.</dd>
       <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200), top level with the crockery, ivory white with two doors of vertical transparent fluted glass and rose gold rims. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
@@ -122,7 +122,7 @@ function drawElev(L){
   line(0,0,0,CEIL,3,muted); line(WALL,0,WALL,CEIL,3,{...muted,'stroke-dasharray':'20 14'});
   // balcony pelmet in section on the side wall (door head to ceiling, 180 deep)
   rect(0,BDH,PEL.d,CEIL-BDH,c('wood'),4,{r:[0,0,12,0]}); text(PEL.d+30,BDH+60,'balcony pelmet','start',30);
-  line(0,BDH,0,0,10,{stroke:c('muted')}); text(40,BDH-120,'balcony door (shown open)','start',30);
+  line(0,BDH,0,0,10,{stroke:c('muted')}); rect(30,20,90,BDH-30,c('fabric'),3,{r:[0,0,20,20]}); rect(25,1000,100,40,c('panel'),2); text(40,BDH-120,'balcony door (shown open)','start',30);
   
 
   // bench + table
@@ -262,6 +262,11 @@ let build3D=()=>{};
    box(-80,0,BD0,60,60,BD1-BD0,fm,false); box(-80,BDH-60,BD0,60,60,BD1-BD0,fm,false);
    [BD0,(2*BD0+BD1)/3-30,(BD0+2*BD1)/3,BD1-60].forEach(z=>box(-80,0,z,60,BDH,60,fm,false));
    box(0,BDH,PEL.z0,PEL.d,CEIL-BDH,PEL.z1-PEL.z0,wood,true);}
+  { // linen drapes tied back at both ends of the pelmet
+    const linen=M(0xe9e2d3,{roughness:.95}), tie=M(0xc8bba3,{roughness:.9});
+    [[PEL.z0+20,240],[PEL.z1-260,240]].forEach(([z,w])=>{
+      box(30,20,z,90,BDH-30,w,linen,true,[0,0,30,30]);          // gathered drape
+      box(25,1000,z-5,100,40,w+10,tie,false);});}               // tie-back band
   box(B0,BSOF,0,B1-B0,CEIL-BSOF,3050,wall,true);
   box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,ebony);
   [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SEATD-75],[BEN1-85,BZ0+SEATD-75]].forEach(([x,z])=>box(x,0,z,45,SEATH-100,45,ebony,false));
