@@ -260,7 +260,7 @@ function drawElev(R,wall,letter,title){
         el('circle',{cx:it.swing==='L'?u0+uw-80:u0+80,cy:Y(1000),r:16,fill:c('fg')});
         if(it.mirror){rect(u0+150,y0+500,uw-300,1300,c('glass'),it.chg?6:3,S);text(u0+uw/2,y0+1150,'mirror','middle',38,it.chg?c('accent'):c('muted'))}
         break;
-      case 'pelmet': rect(u0,y0,uw,h,c('wood'),4,{...S,rx:12});break;
+      case 'pelmet': rect(u0,y0,uw,h,c('bg'),4,{...S,rx:12});break; // painted wall colour (24 Nov)
       case 'ac': rect(u0,y0,uw,h,c('white'),4,{...S,rx:30}); line(u0+60,y0+70,u0+uw-60,y0+70,3,{stroke:c('muted')});break;
       case 'frame': rect(u0,y0,uw,h,c('white'),6,{stroke:'#1d1d1b'}); rect(u0+70,y0+70,uw-140,h-140,c('fabric'),1.5,{stroke:c('muted')});break;
       case 'window': rect(u0,y0,uw,h,c('glass'),4,S); line(u0+uw/2,y0,u0+uw/2,y0+h,3);
@@ -499,7 +499,7 @@ let build3D=()=>{};
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,0,td,(MAT[it.mat]||MAT.wood));break;
         case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
-        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); XOPEN.drape(R,it,wbox,G); break;
+        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wall); XOPEN.drape(R,it,wbox,G); break;
         case 'ac': wbox(R,it,u0,uw,y0,h,t0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,t0+td-10,14,MAT.granite,false); break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
         case 'window': wbox(R,it,u0,uw,y0,h,0,30,XOPEN.clear()); XOPEN.frame(R,it,wbox,MAT); XOPEN.glow(R,it,G,mm,.22); break;

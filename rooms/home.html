@@ -1064,7 +1064,7 @@ function drawDining(el){
   const g=el('g',{transform:`translate(${DIN.X} ${DIN.Z}) rotate(-90)`});
   const r=(x,z,w,d,ex)=>el('rect',{x,y:z,width:w,height:d,...ex},g);
   r(DW.C0-15,0,DIN.WALL-DW.C0+15,DW.BD+25,{fill:c('granite'),stroke:c('fg'),'stroke-width':12,rx:30});
-  r(0,130,180,2800,{fill:c('wood'),stroke:c('fg'),'stroke-width':8,'stroke-dasharray':'40 30'}); // balcony pelmet (overhead)
+  r(0,130,180,2800,{fill:'none',stroke:c('fg'),'stroke-width':8,'stroke-dasharray':'40 30'}); // balcony pelmet (overhead)
   r(DW.BEN0,80,DW.BEN1-DW.BEN0,420,{fill:c('fabric'),stroke:c('fg'),'stroke-width':12,rx:40});
   r(DW.BEN0,DW.TZ0,DW.BEN1-DW.BEN0,DW.TZ1-DW.TZ0,{fill:'none',stroke:c('fg'),'stroke-width':12,'stroke-dasharray':'60 40',rx:120});
   [1071,1671].forEach(cx=>r(cx-220,DW.TZ1+120,440,440,{fill:'none',stroke:c('fg'),'stroke-width':10,'stroke-dasharray':'60 40',rx:40}));
@@ -1258,7 +1258,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
           if(it.swing&&!it.elevOnly){const hu=it.swing==='L'?u0:u0+uw,H=P(R,it.wall,hu,0),E=P(R,it.wall,hu,uw),T=40; // leaf shown open, as the plan's swing
           const x0=Math.min(H[0],E[0]),x1=Math.max(H[0],E[0]),z0=Math.min(H[1],E[1]),z1=Math.max(H[1],E[1]);
           box(x1-x0<T?x0-T/2:x0,0,z1-z0<T?z0-T/2:z0,Math.max(T,x1-x0),Math.min(h,2100),Math.max(T,z1-z0),MAT.door)} break;
-        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); if(window.XOPEN)XOPEN.drape(R,it,wbox,G); break;
+        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wall); if(window.XOPEN)XOPEN.drape(R,it,wbox,G); break; // pelmet painted like the wall it is on (designer, 24 Nov)
         case 'ac': wbox(R,it,u0,uw,y0,h,t0||0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,(t0||0)+td-10,14,MAT.granite,false); break;
         case 'tile': wbox(R,it,u0,uw,y0,h,0,8,it.marble?MAT.white:MAT.panel,false); break;
         case 'inlet': wbox(R,it,u0,uw,y0-25,50,0,40,MAT.alu,false); break;
@@ -1356,7 +1356,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
     box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false); // beam runs right to the dining wall over the crockery (23 Nov); no bulkhead past the bath wall
-    box(0,DH,130,180,CEIL-DH,2800,MAT.wood); // balcony pelmet over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
+    box(0,DH,130,180,CEIL-DH,2800,MAT.wall); // balcony pelmet, wall colour (24 Nov) over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
      box(BEN0,SH-100,BZ0,BEN1-BEN0,40,SD,MAT.ebony,false);

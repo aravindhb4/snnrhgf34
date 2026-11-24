@@ -161,7 +161,7 @@ const ROOMS={};
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear. All doors are drawn open (23 Nov); the bathroom door opens into the bathroom.'],
-  ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
+  ['Pelmet','Pelmet painted the same colour as the wall it sits on (agreed with the designer, 24 Nov), 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Book ledges','Three floating ebony ledges on the long north wall only (no L, no closed units, no back panel), from the corner to the open shelf, 2320 long, 250 deep, 36 thick, at 1200 / 1600 / 2000. Concealed brackets. About 7 m of shelf, roughly 170 to 200 books.'],
   ['TV','None.'],
@@ -259,7 +259,7 @@ function drawElev(R,wall,letter,title){
         if(it.mirror){rect(u0+150,y0+500,uw-300,1300,c('glass'),it.chg?6:3,S);text(u0+uw/2,y0+1150,'mirror','middle',38,it.chg?c('accent'):c('muted'))}
         break;
       case 'leaf': rect(u0,y0,uw,h,c('door'),4,S); el('circle',{cx:u0+80,cy:Y(1000),r:16,fill:c('fg')}); break;
-      case 'pelmet': rect(u0,y0,uw,h,c('wood'),4,{...S,rx:12});break;
+      case 'pelmet': rect(u0,y0,uw,h,c('bg'),4,{...S,rx:12});break; /* painted wall colour (24 Nov, agreed with designer) */
       case 'ac': rect(u0,y0,uw,h,c('white'),4,{...S,rx:30}); line(u0+60,y0+70,u0+uw-60,y0+70,3,{stroke:c('muted')});break;
       case 'frame': rect(u0,y0,uw,h,c('white'),6,{stroke:'#1d1d1b'}); rect(u0+70,y0+70,uw-140,h-140,c('fabric'),1.5,{stroke:c('muted')});break;
       case 'window': rect(u0,y0,uw,h,c('glass'),4,S); line(u0+uw/2,y0,u0+uw/2,y0+h,3);
@@ -506,7 +506,7 @@ let build3D=()=>{};
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,20,bd,BOOKM[ci],false));break;
         case 'door': if(XOPEN.room(it)){XOPEN.door(R,it,wbox,G,mm,MAT);break} wbox(R,it,u0,uw,y0,h,0,40,MAT.door);
           if(it.mirror)wbox(R,it,u0+150,uw-300,500,1300,40,8,it.chg?MAT.accent:MAT.mirror,false);break;
-        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wood); XOPEN.drape(R,it,wbox,G); break;
+        case 'pelmet': wbox(R,it,u0,uw,y0,h,0,td,MAT.wall); /* same colour as its wall (24 Nov) */ XOPEN.drape(R,it,wbox,G); break;
         case 'ac': wbox(R,it,u0,uw,y0,h,t0,td,MAT.white); wbox(R,it,u0+60,uw-120,y0+40,30,t0+td-10,14,MAT.granite,false); break;
         case 'frame': wbox(R,it,u0,uw,y0,h,0,30,MAT.frameK,false); wbox(R,it,u0+20,uw-40,y0+20,h-40,30,2,MAT.white,false); wbox(R,it,u0+70,uw-140,y0+70,h-140,32,2,MAT.photo,false); break;
         case 'window': wbox(R,it,u0,uw,y0,h,0,30,XOPEN.clear()); XOPEN.frame(R,it,wbox,MAT); XOPEN.glow(R,it,G,mm,.22); break;
