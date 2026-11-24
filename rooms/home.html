@@ -332,7 +332,7 @@ const ROOMS={};
   ['Study chair','The Sleep Company SmartGRID ergonomic chair (high back, headrest, arms, 5-star base on castors), about 650 × 650, at the study table.'],
   ['Study','Your own table (4Homez): 1000 W × 500 D × 745 H, with a white open-shelf side unit at the door end. Pushed towards the room door, stopping about 50 short of the door frame so the door still opens fully. Leaves about 500 clear between the window and the table. New plug point above it.'],
   ['Room door','South-east corner, opens flat against the bathroom wall. Keep that stretch of wall clear. All doors are drawn open (23 Nov); the bathroom door opens into the bathroom.'],
-  ['Pelmet','Wooden pelmet 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
+  ['Pelmet','Pelmet painted the same colour as the wall it sits on (agreed with the designer, 24 Nov), 2000 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Photos','Three large framed photos above the headboard, 500 × 700 each, 80 apart, 1400–2100, thin black frames with white mats.'],
   ['Book ledges','Three floating ebony ledges on the long north wall only (no L, no closed units, no back panel), from the corner to the open shelf, 2320 long, 250 deep, 36 thick, at 1200 / 1600 / 2000. Concealed brackets. About 7 m of shelf, roughly 170 to 200 books.'],
   ['TV','None.'],
@@ -397,7 +397,7 @@ const ROOMS={};
  R.vd={W:[[0,750,'750'],[750,1350,'600'],[1350,2400,'1050'],[2400,CEIL,'500'],[0,DH,'2100']],S:[[0,750,'750'],[750,2100,'1350']],N:[[0,750,'750'],[300,750,'450 folded']],E:[[0,400,'400'],[0,1200,'1200']]};
  R.spec=[
   ['Photos','Two large framed photos above the headboard, 600 × 800 each, 100 apart, 1350–2150, thin black frames with white mats.'],
-  ['Pelmet','Wooden pelmet 1750 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
+  ['Pelmet','Pelmet painted the wall colour (designer, 24 Nov), 1750 wide, 180 deep, from the window head (2100) to the ceiling, hiding the curtain track. Wall split AC (about 1000 × 300) mounted on it at 2450–2750, centred on the pelmet; the existing AC point is above the window’s right end (site photo), so the pipe runs inside the pelmet.'],
   ['Room','13′2″ × 10′6″ (4010 × 3200).'],
   ['Wardrobe','3 doors, 1500 (500 each) at the far end of the door wall, 600 deep, loft to the ceiling. Full-length mirror 420 × 1800 (250–2050) on the first door, nearest the room door.'],
   ['Loft','To the ceiling. One wide single-door unit (900) spans the open shelf and the first wardrobe door; two single units over the other doors.'],
@@ -1355,7 +1355,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0,2460,0,pw,40,420,E);  // pooja cap stays on the pooja (no lip over the crockery)
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
-    box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false); // beam runs right to the dining wall over the crockery (23 Nov); no bulkhead past the bath wall
+    // dining beam box removed (24 Nov, Aravindh): the beam over the living/dining line is already drawn by the wall above that opening; a second box hung below it into the crockery
     box(0,DH,130,180,CEIL-DH,2800,MAT.wall); // balcony pelmet, wall colour (24 Nov) over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
