@@ -777,7 +777,8 @@ for(const id in PLACE){const pl=PLACE[id],R=pl.R;
 addOpen('x',2970,4570,5630,0,CEIL,'through');
 addOpen('z',6950,7750,9470,0,DH,'door');
 addOpen('x',2970,4570,5630,0,CEIL,'none');          // master bathroom is one space: no wall between its passage part and the part inside the room          // common toilet door, from the dining side
-addOpen('x',6570,9070,9800,0,DH,'slider');        // balcony sliding door
+addOpen('x',6570,9070,9800,0,DH,'slider');
+addOpen('x',6290,9410,6760,0,CEIL,'none');        // living/dining: no wall left above the opening; only the dining beam (24 Nov)        // balcony sliding door
 
 /* ---------- plan ---------- */
 function ftin(mm){const i=Math.round(mm/25.4);const f=Math.floor(i/12),r=i%12;return r?`${f}′${r}″`:`${f}′`}
@@ -1355,7 +1356,7 @@ let focusRoom=()=>{}, setWalls=()=>{};
      box(P0,2460,0,pw,40,420,E);  // pooja cap stays on the pooja (no lip over the crockery)
      box(P0+60,2500,30,pw-120,80,340,E,false); box(P0+125,2580,57,pw-250,80,286,E,false);
      cyl(cx,2660,200,120,70,E); cyl(cx,2730,200,30,60,MAT.metal); cyl(cx,2790,200,14,90,MAT.metal);}
-    // dining beam box removed (24 Nov, Aravindh): the beam over the living/dining line is already drawn by the wall above that opening; a second box hung below it into the crockery
+    box(2920,2500,0,270,400,9470-DIN.X,MAT.wall,false);
     box(0,DH,130,180,CEIL-DH,2800,MAT.wall); // balcony pelmet, wall colour (24 Nov) over the sliding door (x 6570-9070), door head to ceiling, 180 deep, 150 past each side // ceiling beam on the wall line: north face level with the Guest Small window wall (z 6610), south face with the common bath wall (z 6880); it carries on over the passage to the Guest Small wall
     // bench, table and chairs as on the dining page (bench 80 off the wall, seat 450, table 400-1200 off the wall, 750 high)
     {const BZ0=80,SH=450,SD=420,T={x0:BEN0,x1:BEN1,z0:400,z1:1200,h:750};
