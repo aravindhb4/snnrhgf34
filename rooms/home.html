@@ -1028,7 +1028,7 @@ function BATH3D(G,b,opt={}){
   else if(it.k==='hf'){bx(g,it.u-25,it.y-40,12,50,80,40,MT.black);bx(g,it.u-18,it.y-150,40,36,170,30,MT.black)}
   else if(it.k==='van'){const {u0,uw,d}=it, y0=380, h=380, acc=MT[b.accent]||MT.ivory;
    plan(g,u0,uw,12,d,y0,h,40,acc,[1,1,0,0]);                       // ivory carcass, rounded front corners (outer edges)
-   plan(g,u0-10,uw+20,12,d+15,y0+h,25,45,acc,[1,1,0,0]);           // ivory top
+   plan(g,u0-10,uw+20,12,d+15,y0+h,25,45,MT.gran,[1,1,0,0]); // black granite top (Aravindh 24 Nov)           // ivory top
    const sw=(uw-12)/2;
    for(let i=0;i<2;i++){bx(g,u0+4+i*(sw+4),y0+15,12+d,sw,h-30,18,acc);   // shutters in the room's accent
     bx(g,i===0?u0+4+sw-40:u0+4+sw+4+28,y0+h-210,12+d+18,12,160,20,MT.black)} // black bar handles where the pair meets
