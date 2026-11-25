@@ -121,7 +121,7 @@ const ROOMS={};
 /* Master Bedroom (was Bedroom 1). North up as in the brochure plan.
    Main area 10'6" x 13'6" (window wall to toilet wall). North of it a passage with the room door and toilet door.
    Toilet 5'x8': 5' face holds the wardrobe; it projects TB_D into the room and the rest continues outside. Bay window south wall, west end. */
-const MAIN=4110, TB_W=1600, TB_D=1200, TB_LEN=2440, BAY_X=150, BAY_W=2000, BAY_D=450, RD=MAIN+TB_D;
+const MAIN=4110, TB_W=1600, TB_D=1200, TB_LEN=2440, BAY_X=150, BAY_W=2000, BAY_D=450, RD=MAIN+TB_D, BW=110; // BW: toilet wall thickness, drawn 110 (25 Nov, matches whole home)
 const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
 {const R=room({id:'bedroom-1',name:'Master Bedroom',W:3200,D:RD,top:1300,mk:{N:0.62},hole:{x0:BAY_X,x1:BAY_X+BAY_W,y0:450,y1:2150},
   note:'From site photos IMG_3044–3049, the brochure plan and the sale-agreement plan. 13′6″ runs from the window wall to the toilet wall; the passage with the room door and toilet door is extra. Toilet to the right as you enter, wardrobe on its 5′ face, bed on the west wall, foldable study table opposite the bed, between the low plug point and the dresser.',
@@ -129,14 +129,14 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  A(R,'N','door',2250,900,0,DH,40,{lab:'room door (open)',swing:'R',open:true,dim:true});
  // finishes (22 Nov designer meeting): wardrobes ivory super-matt, storage units emerald green super-matt, ledges/standalone furniture ebony wood matt, handles black.
  // wardrobe (22 Nov evening, Aravindh): 4 doors of 400 each (picked 22 Nov) on the 5' toilet face to 2400, loft to the ceiling, no base drawers
- A(R,'N','unit',0,TB_W,0,2400,600,{t0:TB_D,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2400});
- A(R,'N','unit',0,TB_W,2400,CEIL-2400,600,{t0:TB_D,mat:'mauve',cols:4,hs:['R','L','R','L'],round:'top'});
+ A(R,'N','unit',0,TB_W+BW,0,2400,600,{t0:TB_D+BW,mat:'ivory',cols:4,hs:['R','L','R','L'],lab:'wardrobe',dim:true,round:'bottom',carcH:2400});
+ A(R,'N','unit',0,TB_W+BW,2400,CEIL-2400,600,{t0:TB_D+BW,mat:'mauve',cols:4,hs:['R','L','R','L'],round:'top'});
  A(R,'N','board',1950,180,1200,0,10,{});
  A(R,'W','panel',RD-BED_Z-1115,2230,0,1200,60,{mat:'fabric',lab:'headboard panel',dim:true});
  /* Three large framed photos above the headboard (Aravindh 20 Nov): 500 × 700 each, 80 apart, 1400–2100, thin black frames, white mats. */
  [-830,-250,330].forEach(d=>A(R,'W','frame',RD-BED_Z+d,500,1400,700,30,{}));
- A(R,'W','panel',MAIN-600,600,0,CEIL,10,{mat:'ivory',lab:'wardrobe side',elevOnly:true});
- A(R,'W','gap',MAIN,TB_D,0,CEIL,0,{lab:'toilet',elevOnly:true});
+ A(R,'W','panel',MAIN-BW-600,600,0,CEIL,10,{mat:'ivory',lab:'wardrobe side',elevOnly:true});
+ A(R,'W','gap',MAIN-BW,TB_D+BW,0,CEIL,0,{lab:'toilet',elevOnly:true});
  L(R,'bed',60,BED_Z-915,2074,1830,0,500,{on:['W'],lab:'king bed, 7 ft overall'}); // 22 Nov: cot + headrest cushions make it about 7 ft (2134) from the wall
  L(R,'loose',60,BED_Z+915,400,450,0,500,{mat:'ebony',on:['W']});
  /* East wall (u from the north/passage end). Plug board low at about 550, near the middle of the wall (site photo 20 Nov, estimated).
@@ -161,10 +161,10 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.vd={N:[[0,2400,'2400'],[2400,CEIL,'500']],W:[[0,1200,'1200']],E:[[0,550,'550'],[0,750,'750'],[1150,1710,'560']],S:[[0,900,'900'],[0,2150,'2150'],[0,450,'450'],[450,2100,'1650']]};
  R.plan=(el,text)=>{
   // toilet: part inside the room, rest continues outside (dashed)
-  el('rect',{x:0,y:0,width:TB_W,height:TB_D,fill:c('panel'),stroke:'none'});
-  el('path',{d:`M0 ${TB_D} H${TB_W} V0`,fill:'none',stroke:c('fg'),'stroke-width':60});
+  el('rect',{x:0,y:0,width:TB_W+BW,height:TB_D+BW,fill:c('panel'),stroke:'none'});
+  el('path',{d:`M0 ${TB_D+BW/2} H${TB_W+BW/2} V0`,fill:'none',stroke:c('fg'),'stroke-width':BW});
   el('rect',{x:0,y:TB_D-TB_LEN,width:TB_W,height:TB_LEN-TB_D-120,fill:'none',stroke:c('muted'),'stroke-width':6,'stroke-dasharray':'30 20'});
-  el('rect',{x:TB_W-40,y:250,width:80,height:750,fill:c('bg')});
+  el('rect',{x:TB_W-10,y:250,width:BW+20,height:750,fill:c('bg')});
   el('line',{x1:TB_W,y1:250,x2:TB_W-750,y2:250,stroke:c('fg'),'stroke-width':8});
   el('path',{d:`M${TB_W-750} 250 A 750 750 0 0 0 ${TB_W} 1000`,fill:'none',stroke:c('muted'),'stroke-width':4,'stroke-dasharray':'20 14'});
   text(TB_W/2-150,TB_D/2+250,'toilet','middle',95);
@@ -184,8 +184,8 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
   text(BAY_X+BAY_W/2,RD+BAY_D+180,'curtain rod along the bay','middle',70);
  };
  R.three=(box,MAT,soft)=>{
-  box(0,0,0,TB_W,CEIL,TB_D,MAT.wall);
-  box(TB_W,0,250,6,DH,750,MAT.tile,false); box(TB_W-40,0,250,46,DH,40,MAT.door,false); // toilet door open (23 Nov): opens INTO the toilet, so only the open doorway and the leaf edge at the hinge show
+  box(0,0,0,TB_W+BW,CEIL,TB_D+BW,MAT.wall);
+  box(TB_W+BW,0,250,6,DH,750,MAT.tile,false); box(TB_W+BW-40,0,250,46,DH,40,MAT.door,false); // toilet door open (23 Nov): opens INTO the toilet, so only the open doorway and the leaf edge at the hinge show
   box(BAY_X,0,RD,BAY_W,450,BAY_D,MAT.tile);
   box(BAY_X+30,450,RD+20,BAY_W-60,80,BAY_D-40,MAT.fabric,true,30);
   const CLR=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.07,roughness:0,depthWrite:false}); // clear glass (22 Nov, Aravindh)
@@ -214,7 +214,7 @@ const BED_Z=(TB_D+600+RD)/2; // bed centre, centred on the free bed wall
  R.spec=[
   ['Room','10′6″ × 13′6″ (3200 × 4110) from the window wall to the toilet wall, plus a passage of about 1200 to the room door. Wooden floor: medium-brown wood-look planks running east to west, matching skirting (site photo).'],
   ['Toilet','5′ × 8′. The 5′ face is the wardrobe wall; about 1200 of the 8′ projects into the room, the rest is outside it. Door on its side, to the right as you enter.'],
-  ['Wardrobe','1600 (5′ toilet face) × 600 deep: 4 ivory super-matt hinged doors of 400 each (two pairs) to 2400, loft with 4 matching shutters in mauve matte (ivory + mauve scheme, 23 Nov), loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
+  ['Wardrobe','1710 (5′ toilet face plus the end of the 110 bath wall) × 600 deep: 4 ivory hinged doors of about 427 each (two pairs) to 2400, loft with 4 matching shutters in mauve matte (ivory + mauve scheme, 23 Nov), loft to the ceiling, no base drawers. Inside: hanging on one side, shelves on the other.'],
   ['Bed','King 1830 wide, about 7 ft (2134) from the wall to the foot including the cot and headrest cushions, centred on the west wall, headboard panel 2230 × 1200. One ebony-wood side table 400 × 450 on the window side; none on the wardrobe side so the wardrobe doors open freely.'],
   ['TV + ledge','43″ TV (about 960 × 560) wall-mounted at 1150–1710, with a plain ebony-wood matt floating ledge 1200 × 200 × 40 below it (top at 750), no storage under it; about 870 clear to the foot of the bed. Existing plug point stays low (about 550, below the ledge); run a concealed conduit from it to a new socket behind the TV.'],
   ['AC','Wall split AC about 1000 × 300 × 230, at 2350–2650, centred over the study table.'],
@@ -726,8 +726,6 @@ function Trect(pl,b){const a=T(pl,b.x,b.z),d=T(pl,b.x+b.w,b.z+b.d);return{x0:Mat
     const dc=it.u0+it.uw/2-c0; // keep the TV and console centred on the shortened wallpaper
     for(const o of L3.items)if(o.wall===it.wall&&(o.kind==='tv'||(o.kind==='unit'&&o.y0<1000))){o.u0+=dc;o.b=W2R(L3,o.wall,o.u0,o.uw,o.t0||0,o.td)}}}}}
 
-/* master wardrobe (25 Nov, Aravindh): the bath walls are 110 thick here, so the wardrobe sits 110 further out and runs across the wall end too (1600 -> 1710) */
-{const M1=SET['bedroom-1'];for(const it of M1.items)if(it.kind==='unit'&&it.wall==='N'&&it.u0===0&&it.t0===1200){it.t0=1310;it.uw=1710;it.b=W2R(M1,it.wall,it.u0,it.uw,it.t0,it.td)}}
 /* spaces: interior rectangles (home coords) */
 const SPACES=[];
 for(const id in PLACE){const R=SET[id],pl=PLACE[id];pl.R=R;
