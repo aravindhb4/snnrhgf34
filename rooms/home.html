@@ -726,6 +726,8 @@ function Trect(pl,b){const a=T(pl,b.x,b.z),d=T(pl,b.x+b.w,b.z+b.d);return{x0:Mat
     const dc=it.u0+it.uw/2-c0; // keep the TV and console centred on the shortened wallpaper
     for(const o of L3.items)if(o.wall===it.wall&&(o.kind==='tv'||(o.kind==='unit'&&o.y0<1000))){o.u0+=dc;o.b=W2R(L3,o.wall,o.u0,o.uw,o.t0||0,o.td)}}}}}
 
+/* master wardrobe (25 Nov, Aravindh): the bath walls are 110 thick here, so the wardrobe sits 110 further out and runs across the wall end too (1600 -> 1710) */
+{const M1=SET['bedroom-1'];for(const it of M1.items)if(it.kind==='unit'&&it.wall==='N'&&it.u0===0&&it.t0===1200){it.t0=1310;it.uw=1710;it.b=W2R(M1,it.wall,it.u0,it.uw,it.t0,it.td)}}
 /* spaces: interior rectangles (home coords) */
 const SPACES=[];
 for(const id in PLACE){const R=SET[id],pl=PLACE[id];pl.R=R;
