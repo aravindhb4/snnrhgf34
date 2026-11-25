@@ -1419,7 +1419,9 @@ let focusRoom=()=>{}, setWalls=()=>{};
    box(X0,1030,PZ+45,X1-X0,40,60,MAT.sage,false); box(X0,330,PZ+60,X1-X0,25,30,MAT.sage,false); // top and bottom rails
    for(let x=X0+90;x<X1-40;x+=115)box(x,355,PZ+67,16,675,16,MAT.sage,false);           // bars
    const sl=new THREE.SpotLight(0xfff4e0,0.45,0,0.6,0.7,1); sl.position.set(7.8,2.6,13.6); sl.target.position.set(7.8,0,8.4); sl.castShadow=true; sl.shadow.mapSize.set(2048,2048); sl.shadow.bias=-0.0005; scene.add(sl,sl.target);}
-  if(window.BATH3D)for(const b of Object.values(BATHS))BATH3D(scene,b); // bathrooms from bathrooms.html (tiles, fittings, doors opening in)
+  if(window.BATH3D)for(const b of Object.values(BATHS))BATH3D(scene,b);
+  // master bath walls inside the bedroom (25 Nov): 110 thick to the ceiling so the door frame sits within the wall
+  if(window.BATH3D){box(4570,0,5690,110,CEIL,5900-5690,MAT.wall,false);box(4570,2140,5900,110,CEIL-2140,830,MAT.wall,false);box(4570,0,6730,110,CEIL,6890-6730,MAT.wall,false);box(2970,0,6890,1710,CEIL,110,MAT.wall,false)} // bathrooms from bathrooms.html (tiles, fittings, doors opening in)
   {const Wn=LOBBY.win,W=MAT.white,zm=Wn.z0+(Wn.z1-Wn.z0)*0.54;
    box(10930,Wn.y0,Wn.z0,40,Wn.y1-Wn.y0,Wn.z1-Wn.z0,MAT.white,false); box(10935,Wn.y0+40,Wn.z0+40,30,Wn.y1-Wn.y0-80,zm-Wn.z0-60,MAT.glass,false); // uPVC window: frame, fixed pane (north)
    for(let y=Wn.y0+60;y<Wn.y1-50;y+=70)box(10930,y,zm+20,60,30,Wn.z1-zm-60,MAT.white,false);                                                 // louvred section next to the door
