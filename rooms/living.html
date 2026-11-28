@@ -11,17 +11,17 @@
 /* Layout: one drawing sheet per room; plan, elevations, 3D, spec */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ebe5da; --emerald:#4a7d6b; --ebony:#5a463b; --handle:#1c1c1c;
+  --wood:#d8c3a3; --wood2:#b9a08a; --cream:#efe6cf; --white:#fbfbf9; --granite:#3a3936; --glass:#dfe8ea; --ivory:#ece4d3; --emerald:#4a7d6b; --walnut:#6b4d3a; --handle:#1c1c1c;
   --panel:#eeebe5; --fabric:#c9c6bd; --door:#9c7d5f; --tile:#e6e3dc; --rug:#e3d6bf; --paper:#c3d0bd; --paper2:#b8995a; --alu:#a3a7aa; --accent:#b4612b;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --walnut:#4a3527; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --rug:#3a352d; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --ebony:#3f3129; --handle:#0e0e0e;
+  --wood:#8a7458; --wood2:#6e5a4b; --cream:#5d5747; --white:#2e2e2b; --granite:#0c0c0b; --glass:#2c3638; --ivory:#57524a; --emerald:#3a6656; --walnut:#4a3527; --handle:#0e0e0e;
   --panel:#232321; --fabric:#4a4843; --door:#5c4a39; --tile:#2a2a27; --rug:#3a352d; --paper:#5d6b59; --paper2:#a88c52; --alu:#b9bdc0; --accent:#e08a4f; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
@@ -131,8 +131,8 @@ const ROOMS={};
  [[-27,1623,200,250],[99,1186,250,200],[-143,2000,160,200],[-232,1290,220,220],[246,1755,180,240],[258,1484,240,180],[-280,1535,150,150]]
   .forEach(([o,ch,w,h])=>A(R,'E','frame',440-o-w/2,w,ch-h/2,h,25,{}));
  /* shoe cabinet + bench for rarely used footwear (Aravindh 22 Nov, product photo): tall cabinet 400 x 910 under the key holder (4 shelves), joined bench cabinet 500 (2 shelves) with a thin cushion; 365 deep. 23 Nov: tall widened to 600, bench lowered to sofa seat height (420 to cushion top), ends 100 short of the opened main door */
- A(R,'W','unit',3048,500,0,1215,365,{mat:'ebony',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
- A(R,'W','unit',3548,470,0,370,365,{mat:'ebony',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
+ A(R,'W','unit',3048,500,0,1215,365,{mat:'walnut',front:'ivory',cols:1,rc:{tl:30,tr:30},lab:'shoe cabinet',dim:true});
+ A(R,'W','unit',3548,470,0,370,365,{mat:'walnut',front:'ivory',cols:1,rc:{tr:30},lab:'bench',dim:true});
  A(R,'W','cushion',3548,470,370,50,365,{});
  /* carpet under the sofa front and the coffee table (23 Nov) */
  L(R,'rug',0,1522,2438,3048,0,25,{lab:'carpet 10 × 8 ft, furry',skip3d:true});
@@ -158,7 +158,7 @@ const ROOMS={};
   ['Sofa','Existing L-sofa (photo 20 Nov), rust-brown suede with contrast stitching, on chrome feet, in the south-west corner against both walls. Measured (23 Nov): long side exactly 10 ft (3048) on the west wall: arm 150, 3 seats (about 640 each), curved corner. Short side 8 ft (2438) on the south wall: corner, 2 seats (about 660 each), arm. Depth taken as 820. The short side ends exactly at the bedroom passage (site check 23 Nov), so the passage starts 2438 from the west wall. Each seat has a loose back cushion and a diamond-quilted headrest; the corner has neither and its front curves outward. The back is curved at the wall corner, leaving a flat top (about 700 high) to keep phones and small items.'],
   ['Carpet','10 × 8 ft (3048 × 2438), exactly the sofa footprint and not beyond it: from the corner along both walls, under the whole sofa and the coffee table. Soft furry (shaggy) pile in ivory / oatmeal.'],
   ['Photo wall','Gallery wall above the sofa, no moulding: a loose salon-style mix of black frames with white mats, portrait, landscape and square, about 80 apart. Bottom at about 1150 (about 140 above the headrests), top up to about 2150. Eight frames on the long wall (about 2400 wide, centred on the sofa), six on the short wall (about 1540 wide). Hang from a paper layout on the wall first.'],
-  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 1215 high (4 ft) with 5 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, ebony wood carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
+  ['Shoe cabinet','For rarely used footwear, like the product photo but sized to fit between the 10 ft sofa and the opened main door (about 1070 free): a tall cabinet about 500 wide × 1215 high (4 ft) with 5 shelves, under the key holder, joined to a bench cabinet about 470 wide × 370 high with 2 shelves and a thin fabric seat cushion (420 to the top, same as the sofa seats). 365 deep, dark walnut carcass with ivory super matt shutters, matt black handles, rounded outer edges only. Ends about 100 short of the fully opened main door. A 4 ft unit would hit the door.'],
   ['Coffee table','Existing (photo 20 Nov): round upholstered drum in the same rust-brown suede, about 800 across × 420 high. Top is a tufted cushion with crystal buttons under a smoked glass disc.'],
   ['Points','TV wall: existing sockets at about 350 sit behind the console; add a TV point at about 1100 behind the TV and one on the console top. Sofa wall: move the existing socket from the middle of the wall (about 300 high) right into the south-west corner, about 880 high just above the curved corner top of the sofa, so phones can charge there.'],
   ['Photo wall','On the short wall facing the living, just before the Guest Bedroom Small door (about 880 wide, common toilet behind it): 7 small frames in mixed sizes, loosely placed, 1050 to 2100 high. Thin black frames, white mats. Same as the whole-home page.'],
@@ -403,7 +403,7 @@ let build3D=()=>{};
   const sun=new THREE.DirectionalLight(0xffffff,0.6); sun.position.set(3,8,6); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6}); scene.add(sun); scene.add(sun.target);
   const M=(col,o={})=>new THREE.MeshStandardMaterial({color:col,roughness:.75,...o});
-  const MAT={ivory:M(0xe8e1d4,{roughness:1}),emerald:M(0x4f8370,{roughness:1}),ebony:M(0x5a463b,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
+  const MAT={ivory:M(0xece4d3,{roughness:1}),emerald:M(0x4f8370,{roughness:1}),walnut:M(0x6b4d3a,{roughness:.8}),handle:M(0x1c1c1c,{roughness:.6}),wood:M(0xd2b994),wood2:M(0xae9179),cream:M(0xefe5cc),white:M(0xf7f7f4),panel:M(0xe8e3da),fabric:M(0xbdb8ad,{roughness:.95}),
     granite:M(0x2e2d2b,{roughness:.35}),door:M(0x8d6e52),tile:M(0xe9e6df),metal:M(0xb8b8b4,{metalness:.5,roughness:.35}),
     glass:new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.35,roughness:.05}),
     mirror:M(0xd9e4e7,{metalness:.8,roughness:.08}),paper:(()=>{const cv=document.createElement('canvas');cv.width=1115;cv.height=940;const x=cv.getContext('2d');x.fillStyle='#cfdac9';x.fillRect(0,0,1115,940);x.strokeStyle='#b8995a';x.lineWidth=5;x.lineCap='round';

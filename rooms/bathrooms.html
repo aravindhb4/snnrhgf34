@@ -12,7 +12,7 @@
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2; --panel:#eeebe5;
   --marble:#eeede9; --marbleG:#cfcdc8; --beige:#bba891; --beigeG:#a08e79; --greyT:#b9bab5; --greyTG:#9fa09b;
   --blueT:#3f6f86; --blueTG:#8fa5ad; --floorG:#858681; --floorB:#c2b19b;
-  --ivory:#efe9dc; --ebony:#5a463b; --mauve:#8c746f; --grey:#9b9a95; --black:#1c1c1c; --door:#9a6a42; --mirror:#d6e0e3; --white:#fbfbf9;
+  --ivory:#ece4d3; --walnut:#6b4d3a; --mauve:#8c746f; --grey:#a3a29f; --black:#1c1c1c; --door:#9a6a42; --mirror:#d6e0e3; --white:#fbfbf9;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -85,7 +85,7 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
    N: u=x  E: u=z  S: u=W-x  W: u=D-z.  Items: door, win, wc (concealed-cistern frame + wall-hung pan), van (basin + base cabinet + mirror),
    shower (mixer + rain head), hf (health faucet), sw (switch), drain (x,z). */
 var BATHS=window.BATHS||(window.BATHS={
- common:{id:'common',name:'Common bathroom',X:9470,Z:6880,W:2440,D:1520,CB:2400,wall:'marble',floor:'floorG',accent:'ebony',
+ common:{id:'common',name:'Common bathroom',X:9470,Z:6880,W:2440,D:1520,CB:2400,wall:'marble',floor:'floorG',accent:'walnut',
   photos:'Site photos 1 and 2',
   items:[
    {k:'door',w:'W',u0:650,uw:800,hinge:'R'},             // door from the dining side, hinged on the north jamb, leaf opens in against the north wall
@@ -127,14 +127,14 @@ var BATHFIN=window.BATHFIN||(window.BATHFIN={
  blue:{base:'#3f6f86',grout:'#8fa5ad',tw:300,th:75,brick:['#2f5d74','#3b6d85','#4a7f96','#567f8f','#2a5266','#5f93a8','#355f72'],gloss:true},
  floorG:{base:'#858681',grout:'#74756f',tw:600,th:600,noise:12},
  floorB:{base:'#c2b19b',grout:'#ab9a84',tw:600,th:600,noise:12},
- mats:{ivory:0xe8e1d4,ebony:0x5a463b,mauve:0x8c746f,grey:0x9b9a95,black:0x1c1c1c,door:0x9a6a42,white:0xf7f7f4,granite:0x222220}});
+ mats:{ivory:0xece4d3,walnut:0x6b4d3a,mauve:0x8c746f,grey:0xa3a29f,black:0x1c1c1c,door:0x9a6a42,white:0xf7f7f4,granite:0x222220}});
 function bathWP(b,w,u,t){switch(w){case'N':return[u,t];case'E':return[b.W-t,u];case'S':return[b.W-u,b.D-t];case'W':return[t,b.D-u]}}
 function bathLen(b,w){return w==='N'||w==='S'?b.W:b.D}
 /* BATH3D(G,b,opt): adds bath b to THREE group G in home coordinates (metres = mm/1000).
    opt.shell: also draw the outer wall shell (standalone page). Returns {walls:{N,E,S,W}} structural groups (for cut-away). */
 function BATH3D(G,b,opt={}){
  const mm=v=>v/1000, F=BATHFIN, M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.75,...o});
- const MT={ivory:M(F.mats.ivory,{roughness:1}),ebony:M(F.mats.ebony,{roughness:.8}),mauve:M(F.mats.mauve,{roughness:.9}),grey:M(F.mats.grey,{roughness:.95}),black:M(F.mats.black,{roughness:.55}),
+ const MT={ivory:M(F.mats.ivory,{roughness:1}),walnut:M(F.mats.walnut,{roughness:.8}),mauve:M(F.mats.mauve,{roughness:.9}),grey:M(F.mats.grey,{roughness:.95}),black:M(F.mats.black,{roughness:.55}),
   door:M(F.mats.door,{roughness:.7}),white:M(F.mats.white,{roughness:.6}),gran:M(F.mats.granite,{roughness:.35}),
   china:M(0xfafaf8,{roughness:.18}),steel:M(0xb9bcbe,{metalness:.5,roughness:.35}),mirror:M(0xdfe8ea,{metalness:.25,roughness:.08}),
   frost:new THREE.MeshStandardMaterial({color:0xf3f6f6,transparent:true,opacity:.6,roughness:.4,depthWrite:false}),shell:M(0xf2f1ed,{roughness:.95})};
@@ -245,7 +245,7 @@ function BATH3D(G,b,opt={}){
 const NOTES={
  common:{note:'Entered from the dining side. The door opens in against the north wall. White marble-look wall tiles with grey veins (600 × 300, gloss) to the grid ceiling, grey matt floor. Tall frosted window at the north end of the far wall. WC frame on the south wall with a black granite top and side. Basin in the corner by the door, shower at the far end.',
   elevs:[['W','A','Door wall'],['S','B','Basin, WC and shower wall'],['E','C','Window wall'],['N','D','Long wall behind the door']],
-  spec:[['Photos','1 and 2'],['Size','8′ × 5′ (2440 × 1520), grid false ceiling at about 2400'],['Walls','White marble-look tiles with grey veins, 600 × 300, stacked joints, gloss'],['Floor','Grey matt tiles, 600 × 600'],['Window','Tall frosted window, white uPVC, two small panes and one pane above the tall pane, 600 to 2300 high, north end of the far wall'],['WC','Wall-hung on a concealed-cistern frame (700 wide, 1100 high, 220 deep), black granite top and side, tiled front, black flush plate'],['Basin','600 base cabinet, 450 deep, floating (380 to 760), ebony matt body and shutters, black granite top, black bar handles; white countertop basin, black tall tap'],['Mirror','600 × 800, rounded corners, thin black edge, 1150 to 1950'],['Shower','Black wall mixer at 1100 and black square rain head at about 2150 on the long south wall, at the window end (like the Master)'],['Door','800, opens in, hinged on the north jamb']]},
+  spec:[['Photos','1 and 2'],['Size','8′ × 5′ (2440 × 1520), grid false ceiling at about 2400'],['Walls','White marble-look tiles with grey veins, 600 × 300, stacked joints, gloss'],['Floor','Grey matt tiles, 600 × 600'],['Window','Tall frosted window, white uPVC, two small panes and one pane above the tall pane, 600 to 2300 high, north end of the far wall'],['WC','Wall-hung on a concealed-cistern frame (700 wide, 1100 high, 220 deep), black granite top and side, tiled front, black flush plate'],['Basin','600 base cabinet, 450 deep, floating (380 to 760), dark walnut matt body and shutters, black granite top, black bar handles; white countertop basin, black tall tap'],['Mirror','600 × 800, rounded corners, thin black edge, 1150 to 1950'],['Shower','Black wall mixer at 1100 and black square rain head at about 2150 on the long south wall, at the window end (like the Master)'],['Door','800, opens in, hinged on the north jamb']]},
  master:{note:'Off the Master Bedroom passage. The door opens in, hinged on the south jamb. Warm beige matt tiles (600 × 300) on walls and floor. Small window over the WC on the west wall, tall frosted window to the shaft on the north wall. Basin on the west wall south of the WC, facing the door; shower at the north end.',
   elevs:[['E','A','Door wall'],['W','B','Basin, WC and small window wall'],['N','C','Tall window wall (shower)'],['S','D','Wall beside the door']],
   spec:[['Photos','3, 4 and 5 (your message said 2, 3, 4; photo 2 is the white marble common bathroom, so I used 3 to 5 here)'],['Size','5′ × 8′ (1600 × 2440), grid false ceiling at about 2400'],['Walls','Beige-taupe matt tiles, 600 × 300, stacked joints'],['Floor','Matching beige matt tiles, 600 × 600'],['Windows','Small window over the WC (600 wide, 1300 to 2250; two small panes over one); tall frosted window on the shaft wall (500 wide, 700 to 2300)'],['WC','Wall-hung on a concealed-cistern frame (700 × 1100 × 220), black granite top and side, beige tiled front, black flush plate'],['Basin','On the west wall south of the WC, facing the door. 600 base cabinet, 450 deep, floating; all ivory matt, black granite top, black bar handles; white countertop basin, black tap'],['Mirror','600 × 800, rounded corners, thin black edge, 1150 to 1950'],['Shower','Black wall mixer and rain head at the north (window) end'],['Door','750, opens in, hinged on the south jamb. Switch board on the south wall at about 1250']]},
@@ -326,7 +326,7 @@ function drawElev(b,w){
    el('path',{d:`M${u0+uw/2-235} ${Y(915)}H${u0+uw/2+235}L${u0+uw/2+185} ${Y(785)}H${u0+uw/2-185}Z`,fill:'#fafaf8',stroke:c('fg'),'stroke-width':6});
    el('path',{d:`M${u0+uw/2} ${Y(785)}V${Y(1105)}H${u0+uw/2+130}`,stroke:c('black'),'stroke-width':30,fill:'none'});
    el('rect',{x:u0,y:Y(1950),width:uw,height:800,rx:90,fill:c('mirror'),stroke:c('black'),'stroke-width':14});txt(el,u0+uw/2,Y(1550),'mirror','middle',60);
-   txt(el,u0+uw/2,Y(560),'base cabinet','middle',52,b.accent==='ebony'?'#fff':c('muted'));
+   txt(el,u0+uw/2,Y(560),'base cabinet','middle',52,b.accent==='walnut'?'#fff':c('muted'));
    dimV(el,u0-80,Y(1950),Y(1150),'800');dimV(el,u0-80,Y(1150),H,'1150');dimV(el,u0+uw+80,Y(785),H,'785');dimH(el,u0,u0+uw,H+130,`${uw}`)}
   if(it.k==='shower'){el('circle',{cx:it.u,cy:Y(1100),r:75,fill:c('black')});el('path',{d:`M${it.u} ${Y(2160)}V${Y(2140)}`,stroke:c('black'),'stroke-width':24});
    el('rect',{x:it.u-125,y:Y(2140),width:250,height:14,fill:c('black')});txt(el,it.u,Y(1100)+140,'shower mixer','middle',55);txt(el,it.u-150,Y(2140)+20,'rain head','end',55)}

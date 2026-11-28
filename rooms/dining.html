@@ -11,15 +11,15 @@
 /* Layout: single column drawing sheet; elevation, then 3D, then spec list */
 :root{
   --bg:#f7f7f5; --fg:#1d1d1b; --muted:#76746f; --line:#d9d7d2;
-  --wood:#d8c3a3; --ebony:#5a463b; --ivory:#efe9dc; --rose:#c48a7c; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
+  --wood:#d8c3a3; --walnut:#6b4d3a; --ivory:#ece4d3; --rose:#c48a7c; --granite:#3a3936; --glass:#dfe8ea; --panel:#eeebe5; --fabric:#c9c6bd;
   --font:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ebony:#3f3129; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
+  --wood:#8a7458; --walnut:#4a3527; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#171716; --fg:#ecebe7; --muted:#9a9891; --line:#3a3936;
-  --wood:#8a7458; --ebony:#3f3129; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
+  --wood:#8a7458; --walnut:#4a3527; --ivory:#cfc7b6; --rose:#b07a6d; --granite:#0c0c0b; --glass:#2c3638; --panel:#232321; --fabric:#4a4843; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5}
 main{max-width:1040px;margin:0 auto;padding-block:32px 48px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -75,7 +75,7 @@ dt{color:var(--muted)} dd{margin:0;min-width:0}
       <dt>Crockery</dt><dd>About 1′9″ (537) wide, single door, upper 1300–2500 in ivory white with vertical transparent fluted glass and a rose gold rim; stops at 2500, nothing above it (beam left exposed). Charging socket in the open gap.</dd>
       <dt>Pooja</dt><dd>About 2′3″ (680), right of the beam, attached to the crockery. Open gap 690–1300 (2′) with the existing switch board. Upper 1300–2500 (1200), top level with the crockery, ivory white with two doors of vertical transparent fluted glass and rose gold rims. Temple top in gopuram style: 2 tapering tiers with small arch niches, a small rounded top step and a large metal kalasam; sits above the pooja in the 400 below the ceiling, tip at about 2880.</dd>
       <dt>Version 2</dt><dd>Tall crockery: one full-height unit, pull-outs at the bottom and the glass door running straight from 670 to 2500, no gap and no granite on the crockery, 450 deep throughout. Only the pooja keeps the granite and the gap for the switch board. The charging socket moves to the pooja gap or the bench side.</dd>
-      <dt>Finishes</dt><dd>Decided 22 Nov: crockery and pooja changed to ivory white (23 Nov); base unit in ivory super matte with black granite on top; all handles black. The bench frame, table and chairs are shown in ebony matte as standalone furniture.</dd>
+      <dt>Finishes</dt><dd>Decided 22 Nov: crockery and pooja changed to ivory white (23 Nov); base unit in ivory super matte with black granite on top; all handles black. The bench frame, table and chairs are shown in dark walnut matte as standalone furniture.</dd>
       <dt>Base</dt><dd>One granite top at 690 (lowered so the gap below the uppers is 2′) across crockery and pooja (1217 long), 450 deep, rounded front corners, pull-outs below. Only the outer corners of each run of units are rounded; where units touch they merge as one block with square joints. Handles are slim brushed aluminium bar handles (drawers, glass and pooja doors, top storage).</dd>
       <dt>Open points</dt><dd>Measure wall length, beam position, beam soffit height and switch board height; the temple tip is set from the beam soffit.</dd>
     </dl>
@@ -126,8 +126,8 @@ function drawElev(L){
   
 
   // bench + table
-  rect(BEN0,SEATH-100,BEN1-BEN0,40,c('ebony'),3);
-  [BEN0+40,BEN1-90].forEach(x=>rect(x,0,50,SEATH-100,c('ebony'),3));
+  rect(BEN0,SEATH-100,BEN1-BEN0,40,c('walnut'),3);
+  [BEN0+40,BEN1-90].forEach(x=>rect(x,0,50,SEATH-100,c('walnut'),3));
   rect(BEN0-10,SEATH-60,BEN1-BEN0+20,60,c('fabric'),4);
   text((BEN0+BEN1)/2,SEATH-260,'loose bench (movable)','middle',30);
   // layered elephant wall art above the bench (from Aravindh's reference photo)
@@ -223,7 +223,7 @@ let build3D=()=>{};
   const wood=M(0xd2b994), woodD=M(0xb99c74), wall=M(0xf1efea), floor=M(0xe4e0d8), gran=M(0x2e2d2b,{roughness:.35}),
         glass=new THREE.MeshStandardMaterial({color:0xcfe0e4,transparent:true,opacity:.3,roughness:.05}),
         panel=M(0xe8e3da), metal=M(0x9c8150,{metalness:.6,roughness:.4}), alu=M(0x1d1d1b,{roughness:.6}), white=M(0xfafaf8), fabric=M(0xbdb8ad,{roughness:.95}),
-        tableM=M(0x5a463b,{roughness:.8}), ebony=M(0x5a463b,{roughness:.8}), ebonyD=M(0x4d3c32,{roughness:.8}), ivory=M(0xefe9dc,{roughness:.9}), ivoryD=M(0xe2dac9,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
+        tableM=M(0x6b4d3a,{roughness:.8}), walnut=M(0x6b4d3a,{roughness:.8}), walnutD=M(0x5a3f2f,{roughness:.8}), ivory=M(0xece4d3,{roughness:.9}), ivoryD=M(0xdfd6c4,{roughness:.9}), rose=M(0xc8907f,{metalness:.35,roughness:.35,emissive:0x2a1410}), fluteM=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55}), lineM=new THREE.LineBasicMaterial({color:0x6f6b63});
   const mm=v=>v/1000;
   let G=scene;
   function slab(x,y,z,w,h,d,rad,m,parent){ // rounded-corner slab in plan
@@ -268,8 +268,8 @@ let build3D=()=>{};
       box(30,20,z,90,BDH-30,w,linen,true,[0,0,30,30]);          // gathered drape
       box(25,1000,z-5,100,40,w+10,tie,false);});}               // tie-back band
   box(B0,BSOF,0,B1-B0,CEIL-BSOF,3050,wall,true);
-  box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,ebony);
-  [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SEATD-75],[BEN1-85,BZ0+SEATD-75]].forEach(([x,z])=>box(x,0,z,45,SEATH-100,45,ebony,false));
+  box(BEN0,SEATH-100,BZ0,BEN1-BEN0,40,SEATD,walnut);
+  [[BEN0+40,BZ0+30],[BEN1-85,BZ0+30],[BEN0+40,BZ0+SEATD-75],[BEN1-85,BZ0+SEATD-75]].forEach(([x,z])=>box(x,0,z,45,SEATH-100,45,walnut,false));
   box(BEN0-10,SEATH-60,BZ0,BEN1-BEN0+20,60,SEATD+10,fabric);
   box(BEN0-10,SEATH,BZ0,BEN1-BEN0+20,580,110,fabric);
   slab(TBL.x0,TBL.h-40,TBL.z0,TBL.x1-TBL.x0,40,TBL.z1-TBL.z0,TBL.r,tableM,scene);
@@ -279,8 +279,8 @@ let build3D=()=>{};
     const pl=new THREE.Mesh(new THREE.PlaneGeometry(mm(ART.w),mm(ART.h)),mat); pl.position.set(mm(ax),mm(ART.y+ART.h/2),mm(22));
     pl.castShadow=true; pl.customDepthMaterial=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking,map:tx,alphaTest:.3}); scene.add(pl);}
   [[TBL.x0+80,TBL.z0+60],[TBL.x1-130,TBL.z0+60],[TBL.x0+80,TBL.z1-110],[TBL.x1-130,TBL.z1-110]].forEach(([x,z])=>box(x,0,z,50,TBL.h-40,50,tableM,false));
-  [1071,1671].forEach(cx=>{box(cx-220,420,TBL.z1+120,440,40,440,ebony,true,20);box(cx-220,460,TBL.z1+520,440,420,40,ebony,true,40);
-    [[cx-210,TBL.z1+130],[cx+170,TBL.z1+130],[cx-210,TBL.z1+510],[cx+170,TBL.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,ebonyD,false))});
+  [1071,1671].forEach(cx=>{box(cx-220,420,TBL.z1+120,440,40,440,walnut,true,20);box(cx-220,460,TBL.z1+520,440,420,40,walnut,true,40);
+    [[cx-210,TBL.z1+130],[cx+170,TBL.z1+130],[cx-210,TBL.z1+510],[cx+170,TBL.z1+510]].forEach(([x,z])=>box(x,0,z,40,420,40,walnutD,false))});
 
   let grp=null;
   build3D=function(L){
