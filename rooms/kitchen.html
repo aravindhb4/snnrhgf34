@@ -109,12 +109,12 @@ function R2W(R,w,b){switch(w){
    y0>=2100 (top lofts) -> short upright bar at the bottom corner, opening side
    doors -> upright bar on the opening edge (hand:'L' puts it on the left; pairs meet in the middle)
    noHandle -> appliances with their own handles */
-/* J-profile handleless (Aravindh 28 Nov): no handles on kitchen cabinets. Each shutter/drawer gets a black J-profile grip
-   along its pull edge: top edge on base units, drawers and pull-outs (and the tall unit boxes), bottom edge on wall units and lofts. */
+/* J-profile handleless (Aravindh 28 Nov): only the counter-level base cabinets (drawers, pull-outs, wicker top drawer) get a black
+   J-profile grip along the top edge instead of a handle. Tall unit, wall units, top row and washbasin vanity keep the black bar handles. */
 const JPROFILE=true;
 function handle(it,x,y,cw,rh,j,cols,rows){
   if(it.noHandle) return null;
-  if(JPROFILE){const up=it.y0>=1400; return [x+12,cw-24,up?y+10:y+rh-28,18]}
+  if(JPROFILE&&it.y0<=100&&it.h<=800) return [x+12,cw-24,y+rh-28,18]; // base cabinets only
   if(it.open==='pullout'){const w=Math.min(140,cw-60); return [x+cw/2-w/2,w,y+rh-60,14]}
   if((rows>1&&it.open!=='door')||it.flap) return [x+cw/2-100,200,y+rh-60,14];
   const left=cols===1?it.hand==='L':j%2===1;
@@ -222,7 +222,7 @@ const ROOMS={};
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
   ['Left wall','From the entrance: washbasin, tall unit, wicker unit (670: a closed pull-out drawer on top, two medium wicker baskets below, open frame), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
-  ['Handles','Handleless J-profile shutters on all kitchen cabinets (28 Nov): a slim black J-profile grip along the pull edge of each front, top edge on base units, drawers, pull-outs and the tall-unit boxes, bottom edge on the uppers and the top row. None on the dishwasher and washing machine.'],
+  ['Handles','Base cabinets under the counter (drawers, pull-outs, corner and sink units, wicker top drawer, window-wall unit): handleless, with a slim black J-profile grip along the top edge (28 Nov). Everything else keeps slim black bar handles placed by how each front opens: upright on the opening side of doors (tall unit boxes on the side), a short upright bar at the bottom corner of the top-row shutters, pairs meeting in the middle. None on the dishwasher and washing machine.'],
   ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
  ROOMS.kitchen=R}
 
@@ -325,7 +325,7 @@ function drawElev(R,wall,letter,title){
           const x=u0+j*cw, y=y0+i*rh, L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1;
           rrect(x+8,y+8,cw-16,rh-16,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?RAD-8:0),it.glass?c('glass'):fill,2,S); if(it.glass)line(x+30,y+rh/2,x+cw-30,y+rh/2,2,{stroke:c('muted')});
 
-          const hd=handle(it,x,y,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; rect(hu,hy0,hw,hh,'#1c1c1c',1,{rx:JPROFILE?2:7,stroke:c('fg')})}
+          const hd=handle(it,x,y,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; rect(hu,hy0,hw,hh,'#1c1c1c',hh===18?1:2,{rx:hh===18?2:7,stroke:c('fg')})}
         }
         break}
       case 'wicker':{ {const oc=outer(R,it); rrect(u0,y0,uw,h,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0),fill,4,S);} rect(u0+20,y0+20,uw-40,h-40,c('panel'),2,{stroke:c('muted')});

@@ -102,7 +102,7 @@ let HROOM='';
 /* Handles by how each front opens (same rule as the kitchen page). */
 function handle(it,x,y,cw,rh,j,cols,rows){
   if(it.noHandle) return null;
-  if(HROOM==='kitchen'){const up=it.y0>=1400; return [x+12,cw-24,up?y+10:y+rh-28,18]} // kitchen: handleless J-profile, black strip on the pull edge (28 Nov)
+  if(HROOM==='kitchen'&&it.y0<=100&&it.h<=800)return [x+12,cw-24,y+rh-28,18]; // kitchen counter-level base units: J-profile strip on the top edge (28 Nov); tall, wall units, vanity keep bar handles
   if(it.open==='pullout'){const w=Math.min(140,cw-60); return [x+cw/2-w/2,w,y+rh-60,14]}
   if(it.flap&&it.rf&&rows===1) return [x+cw/2-60,120,y+rh/2-7,14]; // centred pull (master desk)
   if((rows>1&&it.open!=='door')||it.flap) return [x+cw/2-100,200,y+rh-60,14];
@@ -649,7 +649,7 @@ const ROOMS={};
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
   ['Left wall','From the entrance: washbasin, tall unit, wicker unit (670: a closed pull-out drawer on top, two medium wicker baskets below, open frame), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
-  ['Handles','Handleless J-profile shutters on all kitchen cabinets (28 Nov): a slim black J-profile grip along the pull edge of each front, top edge on base units, drawers, pull-outs and the tall-unit boxes, bottom edge on the uppers and the top row. None on the dishwasher and washing machine.'],
+  ['Handles','Base cabinets under the counter (drawers, pull-outs, corner and sink units, wicker top drawer, window-wall unit): handleless, with a slim black J-profile grip along the top edge (28 Nov). Everything else keeps slim black bar handles placed by how each front opens: upright on the opening side of doors (tall unit boxes on the side), a short upright bar at the bottom corner of the top-row shutters, pairs meeting in the middle. None on the dishwasher and washing machine.'],
   ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
  ROOMS.kitchen=R}
 
