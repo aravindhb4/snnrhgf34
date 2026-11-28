@@ -109,8 +109,12 @@ function R2W(R,w,b){switch(w){
    y0>=2100 (top lofts) -> short upright bar at the bottom corner, opening side
    doors -> upright bar on the opening edge (hand:'L' puts it on the left; pairs meet in the middle)
    noHandle -> appliances with their own handles */
+/* J-profile handleless (Aravindh 28 Nov): no handles on kitchen cabinets. Each shutter/drawer gets a black J-profile grip
+   along its pull edge: top edge on base units, drawers and pull-outs (and the tall unit boxes), bottom edge on wall units and lofts. */
+const JPROFILE=true;
 function handle(it,x,y,cw,rh,j,cols,rows){
   if(it.noHandle) return null;
+  if(JPROFILE){const up=it.y0>=1400; return [x+12,cw-24,up?y+10:y+rh-28,18]}
   if(it.open==='pullout'){const w=Math.min(140,cw-60); return [x+cw/2-w/2,w,y+rh-60,14]}
   if((rows>1&&it.open!=='door')||it.flap) return [x+cw/2-100,200,y+rh-60,14];
   const left=cols===1?it.hand==='L':j%2===1;
@@ -218,7 +222,7 @@ const ROOMS={};
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
   ['Left wall','From the entrance: washbasin, tall unit, wicker unit (670: a closed pull-out drawer on top, two medium wicker baskets below, open frame), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
-  ['Handles','Slim black bars (designer meeting, 22 Nov) placed by how each front opens: top edge on drawers and the oil pull-out, a short upright bar at the bottom corner of the top shutters on the opening side (as in the other rooms), upright on the opening side of doors (tall unit boxes on the side), meeting in the middle on double doors. None on the dishwasher and washing machine.'],
+  ['Handles','Handleless J-profile shutters on all kitchen cabinets (28 Nov): a slim black J-profile grip along the pull edge of each front, top edge on base units, drawers, pull-outs and the tall-unit boxes, bottom edge on the uppers and the top row. None on the dishwasher and washing machine.'],
   ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
  ROOMS.kitchen=R}
 
@@ -321,11 +325,11 @@ function drawElev(R,wall,letter,title){
           const x=u0+j*cw, y=y0+i*rh, L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1;
           rrect(x+8,y+8,cw-16,rh-16,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?RAD-8:0),it.glass?c('glass'):fill,2,S); if(it.glass)line(x+30,y+rh/2,x+cw-30,y+rh/2,2,{stroke:c('muted')});
 
-          const hd=handle(it,x,y,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; rect(hu,hy0,hw,hh,'#1c1c1c',2,{rx:7,stroke:c('fg')})}
+          const hd=handle(it,x,y,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; rect(hu,hy0,hw,hh,'#1c1c1c',1,{rx:JPROFILE?2:7,stroke:c('fg')})}
         }
         break}
       case 'wicker':{ {const oc=outer(R,it); rrect(u0,y0,uw,h,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0),fill,4,S);} rect(u0+20,y0+20,uw-40,h-40,c('panel'),2,{stroke:c('muted')});
-        if(it.topDrawer){const dy=y0+h-200; {const oc=outer(R,it); rrect(u0,dy,uw,200,[oc.tl,oc.tr,0,0].map(v=>v?52:0),fill,4,S);} rect(u0+uw/2-100,dy+140,200,14,'#1c1c1c',2,{rx:7,stroke:c('fg')});}
+        if(it.topDrawer){const dy=y0+h-200; {const oc=outer(R,it); rrect(u0,dy,uw,200,[oc.tl,oc.tr,0,0].map(v=>v?52:0),fill,4,S);} rect(u0+12,dy+172,uw-24,18,'#1c1c1c',1,{rx:2,stroke:c('fg')});}
         (it.topDrawer?[[y0+30,240],[y0+290,240]]:[[y0+40,300],[y0+380,300]]).forEach(([by,bh])=>{rect(u0+30,by,uw-60,22,fill,2,S);
           rect(u0+50,by+22,uw-100,bh-40,'#c99a62',3,{...S,rx:24});
           for(let k=u0+80;k<u0+uw-70;k+=36)line(k,by+40,k,by+bh-36,1.5,{stroke:c('muted')});
@@ -525,13 +529,13 @@ let build3D=()=>{};
           } else rbox(R,it,u0,uw,y0,h,0,td-18,m,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0));
           const cols=it.cols||1,rows=it.rows||1,cw=uw/cols,rh=h/rows;
           for(let j=0;j<cols;j++)for(let i=0;i<rows;i++){if(it.glass){wbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,cw-6,y0+(i+1)*rh-27,24,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+3,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+(j+1)*cw-27,24,y0+i*rh+3,rh-6,td-18,20,MAT.alu,false);wbox(R,it,u0+j*cw+27,cw-54,y0+i*rh+27,rh-54,td-14,6,MAT.glass,false)} else {const L0=j===0,R0=j===cols-1,B0=i===0,T0=i===rows-1; rbox(R,it,u0+j*cw+3,cw-6,y0+i*rh+3,rh-6,td-18,18,m,[oc.tl&&L0&&T0,oc.tr&&R0&&T0,oc.br&&R0&&B0,oc.bl&&L0&&B0].map(v=>v?57:0))}
-            const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,td,20,MAT.black,false)}}
+            const hd=handle(it,u0+j*cw,y0+i*rh,cw,rh,j,cols,rows); if(hd){const [hu,hw,hy0,hh]=hd; wbox(R,it,hu,hw,hy0,hh,td-6,12,MAT.black,false)}}
           break}
         case 'wicker':{
           wbox(R,it,u0,uw,y0,h,0,12,MAT.panel,false); wbox(R,it,u0,18,y0,h,0,td,m,false); wbox(R,it,u0+uw-18,18,y0,h,0,td,m,false);
           wbox(R,it,u0,uw,y0,18,0,td,m,false); wbox(R,it,u0,uw,y0+h-18,18,0,td,m,false);
           const bk=it.topDrawer?[[y0+30,200],[y0+290,200]]:[[y0+40,260],[y0+380,260]];
-          if(it.topDrawer){wbox(R,it,u0,uw,y0+h-200,200,0,td,m,true); wbox(R,it,u0+uw/2-100,200,y0+h-60,14,td,20,MAT.black,false);}
+          if(it.topDrawer){wbox(R,it,u0,uw,y0+h-200,200,0,td,m,true); wbox(R,it,u0+12,uw-24,y0+h-28,18,td-6,12,MAT.black,false);}
           bk.forEach(([by,bh])=>{wbox(R,it,u0+30,uw-60,by,22,20,td-30,m,false);
             wbox(R,it,u0+50,uw-100,by+22,bh,40,td-80,MAT.wicker,true);
             wbox(R,it,u0+uw/2-6,12,by+22,bh+10,40,td-80,MAT.wicker,false)});

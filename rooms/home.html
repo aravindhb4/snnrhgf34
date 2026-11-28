@@ -102,6 +102,7 @@ let HROOM='';
 /* Handles by how each front opens (same rule as the kitchen page). */
 function handle(it,x,y,cw,rh,j,cols,rows){
   if(it.noHandle) return null;
+  if(HROOM==='kitchen'){const up=it.y0>=1400; return [x+12,cw-24,up?y+10:y+rh-28,18]} // kitchen: handleless J-profile, black strip on the pull edge (28 Nov)
   if(it.open==='pullout'){const w=Math.min(140,cw-60); return [x+cw/2-w/2,w,y+rh-60,14]}
   if(it.flap&&it.rf&&rows===1) return [x+cw/2-60,120,y+rh/2-7,14]; // centred pull (master desk)
   if((rows>1&&it.open!=='door')||it.flap) return [x+cw/2-100,200,y+rh-60,14];
@@ -648,7 +649,7 @@ const ROOMS={};
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
   ['Left wall','From the entrance: washbasin, tall unit, wicker unit (670: a closed pull-out drawer on top, two medium wicker baskets below, open frame), a 600 drawer unit, then the corner unit (magic corner or carousel).'],
-  ['Handles','Slim black bars (designer meeting, 22 Nov) placed by how each front opens: top edge on drawers and the oil pull-out, a short upright bar at the bottom corner of the top shutters on the opening side (as in the other rooms), upright on the opening side of doors (tall unit boxes on the side), meeting in the middle on double doors. None on the dishwasher and washing machine.'],
+  ['Handles','Handleless J-profile shutters on all kitchen cabinets (28 Nov): a slim black J-profile grip along the pull edge of each front, top edge on base units, drawers, pull-outs and the tall-unit boxes, bottom edge on the uppers and the top row. None on the dishwasher and washing machine.'],
   ['Open points','Measure the wall lengths, entrance and window positions, and existing water points.']];
  ROOMS.kitchen=R}
 
@@ -1225,7 +1226,13 @@ let focusRoom=()=>{}, setWalls=()=>{};
           if(!it.noL)wbox(R,it,u0,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood)); if(!it.noR)wbox(R,it,u0+uw-18,18,y0,h,t0,td,(MAT[it.mat]||MAT.wood));
           for(let i=0;i<=(it.shelves||3);i++)wbox(R,it,u0,uw,y0+i*(h-18)/(it.shelves||3),18,t0,td,(MAT[it.mat]||MAT.wood));
           (it.books||[]).forEach(([bu,bw,by,bh,bd,ci])=>wbox(R,it,bu,bw,by,bh,t0+20,bd,BOOKM[ci],false));break;
-        case 'wicker': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
+        case 'wicker':{const wm=MAT[it.mat]||m, wk=MAT.wicker||(MAT.wicker=new THREE.MeshStandardMaterial({color:0xc58a4f,roughness:.95})); // open taupe frame, closed top drawer, two wicker baskets (kitchen page, 28 Nov)
+          wbox(R,it,u0,uw,y0,h,t0,12,MAT.panel,false); wbox(R,it,u0,18,y0,h,t0,td,wm,false); wbox(R,it,u0+uw-18,18,y0,h,t0,td,wm,false);
+          wbox(R,it,u0,uw,y0,18,t0,td,wm,false); wbox(R,it,u0,uw,y0+h-18,18,t0,td,wm,false);
+          const bk=it.topDrawer?[[y0+30,200],[y0+290,200]]:[[y0+40,260],[y0+380,260]];
+          if(it.topDrawer){wbox(R,it,u0,uw,y0+h-200,200,t0,td,wm,true); wbox(R,it,u0+12,uw-24,y0+h-28,18,t0+td-6,12,MAT.handle,false)}
+          bk.forEach(([by,bh])=>{wbox(R,it,u0+30,uw-60,by,22,t0+20,td-30,wm,false); wbox(R,it,u0+50,uw-100,by+22,bh,t0+40,td-80,wk,true); wbox(R,it,u0+uw/2-6,12,by+22,bh+10,t0+40,td-80,wk,false)});
+          break}
         case 'flap': wbox(R,it,u0,uw,y0,h,t0,td,MAT.wood); break;
         case 'hoodslant': case 'hood': wbox(R,it,u0+uw/2-450,900,y0,300,t0,td,MAT.metal); wbox(R,it,u0+uw/2-150,300,y0+300,Math.max(100,h-300),t0,300,MAT.metal); break;
         case 'hob': wbox(R,it,u0,uw,y0,h,40,td,MAT.granite,false); break;
