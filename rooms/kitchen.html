@@ -217,7 +217,7 @@ const ROOMS={};
   ['Sink','Large single bowl about 880 × 460 (roughly 34″ × 18″) in a 1000 sink unit, so big kadais and plates fit. A 160 towel/cleaner pull-out fills the gap to the pillar. Bowl centre about 660 from the pillar; check against the tap point.'],
   ['Hob base','750 wide drawer unit under the hob (reduced from 1000), moved left: corner unit, 200 oil pull-out, 750 hob base, then an 800 drawer unit before the sink. This gives more counter between the hob and the sink. A 750 base takes a 3-burner hob up to about 75 cm; a 4-burner 90 cm hob no longer fits.'],
   ['Chimney','T-shaped chimney, 75 cm, centred on the 750 hob base, bottom about 750 above the counter; duct cover up to the top row. Ducted, filterless auto-clean, BLDC recommended.'],
-  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it) and no partitions inside: one hollow space behind the shutters.'],
+  ['Uppers','First row 350 deep, 1450–2150, ivory. Clear glass shutters (aluminium profile, light inside, glass shelf) only on the two shutters beside the chimney, with a 50 gap each side of the chimney. Left-wall uppers meet the cooking-wall uppers in the corner (L corner, no gap). Hinged top row 2150–2900, 600 deep, flush with the tall unit, running to the ceiling with no top panel (the ceiling closes it) and no partitions or dividers inside: the tall-unit loft, the left-wall top row and the cooking-wall top row form one connected hollow space behind the shutters.'],
   ['Tall unit','600 wide, to the ceiling, on the left wall right after the washbasin.'],
   ['Edges','Only the outer corners of each run of units are rounded. Where units touch, side by side or stacked, they meet square and read as one block.'],
   ['Oil pull-out','200 wide pull-out for oil bottles and spices, left of the hob, next to the corner unit.'],
@@ -523,7 +523,12 @@ let build3D=()=>{};
             wbox(R,it,u0+18,uw-36,y0+h/2-6,12,12,td-40,MAT.glass,false);      // glass shelf
           } else if(y0+h>=CEIL-60){                                          // runs to the ceiling: no top panel, the ceiling closes it (open from above in 3D)
             wbox(R,it,u0,uw,y0,h,0,12,m,false);                               // back
-            wbox(R,it,u0,18,y0,h,0,td-18,m,false); wbox(R,it,u0+uw-18,18,y0,h,0,td-18,m,false); // sides
+            // end panels only at free ends: none where another ceiling-height run continues (same wall or round the corner), so the loft is one connected space (Aravindh 28 Nov)
+            const hol=b=>b!==it&&b.kind==='unit'&&!b.loose&&b.y0+b.h>=CEIL-60, WL=wlen(R,it.wall);
+            const corner=e=>R.items.some(b=>hol(b)&&b.wall!==it.wall&&(b.u0<=12||b.u0+b.uw>=wlen(R,b.wall)-12))&&(e<=620||e>=WL-620);
+            const openL=R.items.some(b=>hol(b)&&b.wall===it.wall&&Math.abs(b.u0+b.uw-u0)<=12)||(u0>12&&corner(u0));
+            const openR=R.items.some(b=>hol(b)&&b.wall===it.wall&&Math.abs(b.u0-(u0+uw))<=12)||(u0+uw<WL-12&&corner(u0+uw));
+            if(!openL)wbox(R,it,u0,18,y0,h,0,td-18,m,false); if(!openR)wbox(R,it,u0+uw-18,18,y0,h,0,td-18,m,false); // sides
             wbox(R,it,u0,uw,y0,18,0,td-18,m,false);                           // bottom
             // no partitions: one hollow space behind the shutters (Aravindh 23 Nov)
           } else rbox(R,it,u0,uw,y0,h,0,td-18,m,[oc.tl,oc.tr,oc.br,oc.bl].map(v=>v?60:0));
